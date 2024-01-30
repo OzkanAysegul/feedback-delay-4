@@ -1,0 +1,9 @@
+trial,pair,stim_id_1,stim_id_2,stim_1,stim_2,choice_stim_1,choice_stim_2,leftright_counter,longdelay,random
+1,2,7,1,7,1,images/choice_trial_7.png,images/choice_trial_1.png,0,1,0.515618272
+2,7,6,12,6,12,images/choice_trial_6.png,images/choice_trial_12.png,0,0,0.139820411
+3,4,15,9,9,15,images/choice_trial_9.png,images/choice_trial_15.png,1,1,0.919661218
+4,6,16,3,3,16,images/choice_trial_3.png,images/choice_trial_16.png,1,0,0.324090561
+5,5,11,2,2,11,images/choice_trial_2.png,images/choice_trial_11.png,1,0,0.289312563
+6,3,13,10,13,10,images/choice_trial_13.png,images/choice_trial_10.png,0,1,0.441561795
+7,1,14,8,8,14,images/choice_trial_8.png,images/choice_trial_14.png,1,1,0.285349825
+8,8,4,5,4,5,images/choice_trial_4.png,images/choice_trial_5.png,0,0,0.218526544

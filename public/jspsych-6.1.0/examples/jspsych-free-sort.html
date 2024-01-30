@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../jspsych.js"></script>
+    <script src="../plugins/jspsych-free-sort.js"></script>
+    <link rel="stylesheet" href="../css/jspsych.css"></link>
+  </head>
+  <body></body>
+  <script>
+
+  var trials = {
+    type: 'free-sort',
+
+		final_locations: "[{\"src\":\"img/happy_face_1.jpg\",\"x\":296,\"y\":247},{\"src\":\"img/happy_face_2.jpg\",\"x\":409,\"y\":97},{\"src\":\"img/happy_face_3.jpg\",\"x\":330,\"y\":8},{\"src\":\"img/happy_face_4.jpg\",\"x\":411,\"y\":291}]",
+    stimuli: ['img/happy_face_1.jpg','img/happy_face_2.jpg','img/happy_face_3.jpg','img/happy_face_4.jpg']
+  };
+
+
+  jsPsych.init({
+    timeline: [trials],
+    on_finish: function(){jsPsych.data.displayData();}
+  });
+
+
+  </script>
+</html>

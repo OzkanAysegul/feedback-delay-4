@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Decision Making Experiment</title>
+    <!-- <script type="text/javascript" src="lib/vendors/jspsych-6.1.0/jspsych.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-6.1.0/css/jspsych.css"/> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="jspsych-6.3.1/jspsych.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-preload.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-call-function.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-slider-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-html-form.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+
+    <script src="js/lmdlab_plugins/lmdlab-option-scale-rating.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-evan-quiz.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-survey-text.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-fullscreen.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-html-vas-response.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-rest-trial-limit.js"></script>
+
+    <script src="./json/learnlist1.js" type="text/javascript"></script>
+    <script src="./json/learnlist2.js" type="text/javascript"></script>
+    <script src="./json/learnlist3.js" type="text/javascript"></script>
+    <script src="./json/learnlist4.js" type="text/javascript"></script>
+    <script src="./json/learnlist5.js" type="text/javascript"></script>
+
+    <script src="./json/rewardconfidencelist1.js" type="text/javascript"></script>
+    <script src="./json/rewardconfidencelist2.js" type="text/javascript"></script>
+    <script src="./json/rewardconfidencelist3.js" type="text/javascript"></script>
+    <script src="./json/rewardconfidencelist4.js" type="text/javascript"></script>
+    <script src="./json/rewardconfidencelist5.js" type="text/javascript"></script>
+
+    <script src="./json/rewardratelist1.js" type="text/javascript"></script>
+    <script src="./json/rewardratelist2.js" type="text/javascript"></script>
+    <script src="./json/rewardratelist3.js" type="text/javascript"></script>
+    <script src="./json/rewardratelist4.js" type="text/javascript"></script>
+    <script src="./json/rewardratelist5.js" type="text/javascript"></script>
+
+    <script src="./json/timinglist1.js" type="text/javascript"></script>
+    <script src="./json/timinglist2.js" type="text/javascript"></script>
+    <script src="./json/timinglist3.js" type="text/javascript"></script>
+    <script src="./json/timinglist4.js" type="text/javascript"></script>
+    <script src="./json/timinglist5.js" type="text/javascript"></script>
+
+    <script src="./json/demodescribedshorter.js" type="text/javascript"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first: USE 6.6.2 not 8.X!!! -->
+    <script src="https://www.gstatic.com/firebasejs/6.6.2/firebase-app.js"></script>
+    <!-- Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-auth.js"></script>
+    <script src="firestore.js"></script>
+
+    <script src="main_page_support.js"></script>
+    <script src="fullscreen_checker.js"></script>
+    <!-- <script src="index_fwdspan.js"></script> -->
+
+<!--     <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"> --> <!--NOT NECESSARY --> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
+    </link>
+    <link href="css/style-fwdspan.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="jspsych-pavlovia-2020.4-custom.js"></script>
+
+</head>
+
+<style type="text/css">
+    #myLabelBox {
+        height: 45px;
+        line-height: 45px;
+        width: auto;
+        background: #F5F5F5;
+        text-align: center;
+        border-style: solid;
+        border-width: 2px;
+        border-color: #1F1C1C;
+        font-size: 38;
+        margin: auto;
+    }
+
+    @media screen and (min-width: 900px) {
+        .myTxtBox {
+            width: 900px;
+            text-align: left;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .myTxtBox {
+            width: auto;
+            text-align: left;
+        }
+    }
+
+    .fullscreen-dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 200px;
+        border: 4px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .fullscreen-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0px;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.4;
+        color: blue;
+        font-family: 'Open Sans', 'Arial', sans-serif;
+        border: 2px solid transparent;
+        border-radius: 6px;
+        border-color: #ccc;
+    }
+
+    .lmdlab-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0px;
+        font-size: 22px;
+        font-weight: 400;
+        font-family: 'Open Sans', 'Arial', sans-serif;
+        cursor: pointer;
+        line-height: 1.4;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-image: none;
+        border: 2px solid transparent;
+        border-radius: 6px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .left_align {
+        text-align: left;
+    }
+
+    .center_align {
+        text-align: center;
+    }
+</style>
+
+<style>
+    .custom-stimulus-class {
+        width: 10px;
+        height: 200px;
+    }
+</style>
+
+<body>
+    <script type='text/javascript'>
+        // <script>
+        var rating_section;
+        const rat1_bool = true;
+        var pav = true;
+
+        var timeline = [];
+
+        if (pav) {
+            var pavlovia_init = {
+                type: "pavlovia",
+                command: "init"
+            };
+            timeline.push(pavlovia_init);
+            var prolificID = jsPsych.data.getURLVariable('subject');
+            var subject_code = "PARTICIPANT" + '_';
+            if (prolificID)
+                subject_code = subject_code + prolificID;
+            else {
+                var d = new Date();
+                subject_code = subject_code + d.getTime();
+            }
+            var pavlovia_finish = {
+                type: "pavlovia",
+                command: "finish",
+                participantId: subject_code
+            };
+        };
+
+        var currTime = function () {
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date + ' ' + time;
+            return dateTime;
+        }
+        var push_currTime = {
+            type: 'call-function',
+            func: currTime
+        }
+
+        var wait1sec = {
+            type: 'html-keyboard-response',
+            stimulus: "<p style='font-size: 38px;'>Wait while your data is being saved.</p> <p style='font-size: 38px;'><b>Don't press any button, please.</b></p> <br/><img src='https://media.tenor.com/images/d6cd5151c04765d1992edfde14483068/tenor.gif' width='100' height='100'>",
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 3000
+        };
+
+
+        var full_screen = { // this plugin will prompt the full screen
+            type: 'lmdlab-fullscreen',
+            data: {
+                exp_name: 'delaylearn',
+                exp_stage: 'fullscreen',
+                subjectID: subjectID,
+                databaseID: uid,
+            },
+            fullscreen_mode: true,
+			on_start: function () {
+				document.querySelector('body').style.backgroundColor = '#D3D3D3'; // #D3D3D3
+			},
+        };
+
+        var preload = {
+            type: 'preload',
+            images: loaded_images,
+            message: '<p>Loading images, please wait...</p>',
+        };
+
+        /** counterbal variable **/
+        /*********************/
+        counterbal = getCounterBal(subjectID);
+        console.log("counterbal,", counterbal)
+
+        function getCounterBal(subjectID) {
+            var lastchar = subjectID.charAt(subjectID.length - 1);
+            lastchar = lastchar.charCodeAt(0);
+            lastchar = lastchar % 5 + 1;
+            var counterbal = lastchar;
+            return counterbal
+        }
+        /*********************/
+
+        timeline.push(preload);
+
+        timeline.push(full_screen);
+
+        timeline.push(
+            welcome,
+            information_sheet,
+            consent_form,
+            demogr,
+            start_1,
+            start_2,
+            start_3,
+        );
+
+        timeline.push(
+            trial_example_1,
+            trial_example_2,
+            trial_example_3,
+            trial_example_4,
+            trial_example_5,
+            general_intro,
+            mood_instructions,
+            demo_instruction,
+        );
+
+        var jsonFileName;
+        var learnlist;
+
+        if (counterbal === 1) {
+            var learnlist = JSON.parse(learnlist1);
+        } else if (counterbal === 2) {
+            var learnlist = JSON.parse(learnlist2);
+        } else if (counterbal === 3) {
+            var learnlist = JSON.parse(learnlist3);
+        } else if (counterbal === 4) {
+            var learnlist = JSON.parse(learnlist4);
+        } else if (counterbal === 5) {
+            var learnlist = JSON.parse(learnlist5);
+        } else {
+            console.error('Invalid counterbalancing value:', counterbal);
+        }
+
+        jsPsych.init({
+            timeline: timeline,
+
+            fullscreen: true,
+
+            on_interaction_data_update: function (data) {
+
+                interaction = data.event;
+
+                // pause experiment if blur
+                if (data.event == 'blur') {
+                    jsPsych.pauseExperiment(); // unclear if this condition is useful
+                }
+                if (data.event == 'focus') {
+                    jsPsych.resumeExperiment(); // unclear if this condition is useful
+                }
+                if (data.event == 'fullscreenexit') {}
+                if (data.event == 'fullscreenenter') {}
+            },
+            on_finish: function () {
+                var prolificID = jsPsych.data.getURLVariable('subject');
+                jsPsych.data.addProperties({
+                    'participant': prolificID
+                });
+
+                // let ntrials // leave here to allow searching and skipping task phases
+                First_Section()
+                //                 Second_Section() // debugging only!
+
+            }
+        });
+
+        function First_Section() {
+
+            var timeline = [];
+
+            timeline.push(pavlovia_init);
+
+            timeline.push(pre_fix_learn); // includes saveTaskData_learnintro
+
+            let ntrials_learn = 150; // 144 + 6 = 150
+//             let ntrials_learn = 1;
+
+            var ntrials_break = 24;
+            var block_number = 0;
+            var block_total = Math.floor(ntrials_learn / ntrials_break);
+
+            for (i = 0; i < ntrials_learn; i++) {
+
+                var factors = {
+                    image1: [learnlist.choice_stimuli_1],
+                    image2: [learnlist.choice_stimuli_2],
+                    rewardedAns: [learnlist.rewarded_answer],
+                    feedback_duration: [learnlist.feedback_time_duration],
+                    mood_rating: [learnlist.mood_rating],
+                    correctAns: [learnlist.correct_answer],
+                    stim_left: [learnlist.stim_left],
+                    stim_right: [learnlist.stim_right],
+                };
+
+                var trial = {
+                    type: 'html-keyboard-response',
+                    stimulus: '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
+                        '<img src="' + learnlist[i].pattern_stimuli + 
+                        '" style="width: 234px; height: 230px; margin-top: -50px;">' +
+                        '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
+                        '<img src="' + learnlist[i].choice_stimuli_1 +
+                        '" style="width: 408px; height: 417px; margin-right: 200px;">' +
+                        '<img src="' + learnlist[i].choice_stimuli_2 + '" style="width: 408px; height: 417px;">' +
+                        '</div>' + '</div>',
+                    choices: ['f', 'j'],
+                    trial_duration: 3000,
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'learning',
+                        test_part: 'trial',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        counterbal: counterbal,
+                        choice_stimuli_1: learnlist[i].choice_stimuli_1,
+                        choice_stimuli_2: learnlist[i].choice_stimuli_2,
+                        pattern_stimuli: learnlist[i].pattern_stimuli,
+                        rewarded_answer: learnlist[i].rewarded_answer,
+                        correct_answer: learnlist[i].correct_answer,
+                        feedback_duration_times: learnlist[i].feedback_time_duration,
+                        stim_left: learnlist[i].stim_left,
+                        stim_right: learnlist[i].stim_right,
+                        pair: learnlist[i].pair,
+                        trial: i + 1,
+                    },
+                    on_finish: function (data) {
+
+                        var response = data.response;
+                        var response_correct = 0;
+                        var response_rewarded = 0;
+                        var chosen_stim = 0;
+                        if (response == data.correct_answer) {
+                            response_correct = 1;
+                        }
+                        if (response == data.rewarded_answer) {
+                            response_rewarded = 1;
+                        }
+                        if (response == 'f') {
+                            var chosen_stim = data.stim_left;
+                        } else if (response == 'j') {
+                            var chosen_stim = data.stim_right;
+                        }
+                        var responseData = {
+                            response_correct: response_correct,
+                            response_rewarded: response_rewarded,
+                            chosen_stim: chosen_stim,
+                        };
+                        jsPsych.data.addDataToLastTrial(responseData);
+
+                        saveTaskData_learn();
+                    }
+                };
+
+                var display_response = {
+                    type: 'html-keyboard-response',
+                    stimulus: function () {
+                        var last_trial = jsPsych.data.getLastTrialData().values()[0];
+
+                        var response = last_trial.response;
+
+                        if (response == 'f') {
+                            return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
+		                        '<img src="' + last_trial.pattern_stimuli + 
+        		                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
+                                '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
+                                '<img src="' + last_trial.choice_stimuli_1 +
+                                '" style="width: 408px; height: 417px; margin-right: 608px;">' +
+                                '</div>' + '</div>';
+                        } else if (response == 'j') {
+                            return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
+		                        '<img src="' + last_trial.pattern_stimuli + 
+        		                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
+                                '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
+                                '<img src="' + last_trial.choice_stimuli_2 +
+                                '" style="width: 408px; height: 417px; margin-left:608px;">' +
+                                '</div>' + '</div>';
+                        } else(response == 'NaN')
+                        return "<div style='font-weight: bold; font-size: 75px; color: red;'>" +
+                            "Missed Trial <br><br><br><br> Please respond faster" +
+                            "</div>";
+                    },
+                    choices: jsPsych.NO_KEYS,
+                    trial_duration: 1000,
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'learning',
+                        test_part: 'display_response',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        displayed_choice: function () {
+                            var last_trial = jsPsych.data.getLastTrialData().values()[0];
+                            if (last_trial.response == 'f') {
+                                return "chosen stimuli: " + last_trial.choice_stimuli_1;
+                            } else if (last_trial.response == 'j') {
+                                return "chosen stimuli: " + last_trial.choice_stimuli_2;
+                            } else(last_trial.response == 'NaN')
+                            return 'Missed trial';
+                        }
+                    },
+                    on_finish: function () {
+                        saveTaskData_learn()
+                    }
+                };
+
+                var feedback_window = {
+                    type: 'html-keyboard-response',
+                    stimulus: '',
+                    choices: jsPsych.NO_KEYS,
+                    trial_duration: function () {
+                        var last_trial_response = jsPsych.data.get().last(2).values()[0];
+
+                        if (last_trial_response.rt == null) {
+                            return 0;
+                        } else {
+                            return last_trial_response.feedback_duration_times;
+                        }
+                    },
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'learning',
+                        test_part: 'feedback_duration_window',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        feedback_durations: function () {
+                            var last_trial_response = jsPsych.data.get().last(2).values()[0];
+                            if (last_trial_response.rt !== null) {
+                                return last_trial_response.feedback_duration_times;
+                            } else(last_trial_response.rt == null)
+                            return 0;
+                        }
+                    },
+                };
+
+                var pointCounter = 0;
+                var feedback_image_window = {
+                    type: 'html-keyboard-response',
+                    stimulus: function () {
+
+                        var data_window = jsPsych.data.get().last(3).values()[0];
+                        var data_window_response = data_window.response;
+
+                        if ((data_window_response != 'f') && (data_window_response != 'j') && (
+                                data_window_response == null)) {
+                            data_window.counter = pointCounter;
+                            return "";
+                        } else if (data_window_response == data_window.rewarded_answer[0]) {
+                            pointCounter = pointCounter + 10;
+                            data_window.counter = pointCounter;
+                            return "<div style='margin:auto;width: auto; font-size: 150%'>" +
+                                "<span style='font-weight: bold; font-size: 100px; color: green;'>+10 points!</span><br><br>" +
+                                '</div>';
+                        } else if (data_window_response != data_window.rewarded_answer[0]) {
+                            data_window.counter = pointCounter;
+                            return "<div style='margin:auto;width: auto; font-size: 150%'>" +
+                                "<span style='font-weight: bold; font-size: 100px; color: red;'>0 points!</span><br><br>" +
+                                '</div>';
+                        }
+                    },
+                    choices: jsPsych.NO_KEYS,
+                    trial_duration: function () {
+                        var last_trial_response = jsPsych.data.get().last(3).values()[0];
+                        return last_trial_response.rt !== null ? 1500 : 0;
+                    },
+                    data: function () {
+                        var data_window = jsPsych.data.get().last(3).values()[0];
+                        var data_window_response = data_window.response;
+                        var data = {
+                            exp_name: 'delaylearn',
+                            exp_stage: 'learning',
+                            test_part: 'feedback_image_window',
+                            subjectID: subjectID,
+                            databaseID: uid,
+                        };
+                        return data;
+                    },
+                };
+
+
+                var test_procedure = {
+                    timeline: [trial, display_response, feedback_window,
+                        feedback_image_window
+                    ],
+                    timeline_variables: factors,
+                }
+                timeline.push(test_procedure);
+
+
+                if (i == 5) { // after trial 6, which is 5 when zero-indexed
+                    timeline.push(demo_instruction_finish);
+                    timeline.push(trial_example_6);
+                    timeline.push(pre_fix_learn);
+                };
+
+
+                // mood rating part
+                if (!i == 0 && learnlist[i].mood_rating == 1) {
+
+                    var mood_trial = {
+                        type: 'lmdlab-html-vas-response',
+                        data: {
+                            exp_name: 'delaylearn',
+                            exp_stage: 'learning',
+                            test_part: 'mood_trial',
+                            subjectID: subjectID,
+                            databaseID: uid,
+                        },
+                        stimulus: 'How happy are you right now?',
+                        labels: ['Very unhappy', 'Very happy'],
+                        trial_duration: 20000,
+                        slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-10 points!',
+                        scale_colour: 'gray',
+                        scale_width: 60,
+                        on_finish: function () {
+                            saveTaskData_learn()
+                        }
+                    };
+
+                    var mood_trial_fixation = {
+                        type: 'html-keyboard-response',
+                        stimulus: '',
+                        choices: jsPsych.NO_KEYS,
+                        trial_duration: function () {
+                            return 500;
+                        },
+                        data: {
+                            test_part: 'mood_trial_fixation'
+                        }
+                    };
+
+                    var mood_trial_procedure = {
+                        timeline: [mood_trial_fixation, mood_trial],
+                    }
+                    timeline.push(mood_trial_procedure);
+                };
+
+
+                // if (!i == 0 && i % ntrials_break == 0) { // start break
+                if (learnlist[i].break_trial == 1) { // start break
+
+                    var accuracy_performance = {
+                        type: 'lmdlab-rest-trial-limit',
+						data: {
+                            exp_name: 'delaylearn',
+                            exp_stage: 'learning',
+                            test_part: 'break',
+                            subjectID: subjectID,
+                            databaseID: uid,
+						},
+						stimulus: function () {
+                            var correct_count = jsPsych.data.get().last(4).values()[0].counter; // 4 values now jan16 2024
+                            var data_performance = correct_count;
+                            block_number += 1;
+                            return '<div style="font-size:40px;"><b>Please take a break!</b><br><br><br><br>' +
+                                "<p>Great work: you earned " + data_performance + " points." +
+                                "<br><br><br>" +
+                                "<p>You have completed part(s) " + block_number + " of " + block_total +
+                                ".<br><br><br><br>" +
+                                "When you are ready to continue" + "<br><br><br>" +
+                                "please click the button.</p>" + "<br><br>";
+                        },
+						choices: ['<font size="+2.5">Continue</font>'],
+						pre_iti: 1500,
+						post_iti: 1500,
+                    }
+
+                    var mood_baseline = {
+                        type: 'lmdlab-html-vas-response',
+                        data: {
+                            exp_name: 'delaylearn',
+                            exp_stage: 'learning',
+                            test_part: 'mood_baseline',
+                            subjectID: subjectID,
+                            databaseID: uid,
+                        },
+                        stimulus: 'How happy are you right now?',
+                        trial_duration: 20000,
+                        slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-50 points!',
+                        scale_colour: 'gray',
+                        scale_width: 60,
+                        labels: ['Very unhappy', 'Very happy'],
+                        on_finish: function () {
+                            saveTaskData_learn()
+                        }
+                    };
+
+                    var mood_baseline_fixation = {
+                        type: 'html-keyboard-response',
+                        stimulus: '',
+                        choices: jsPsych.NO_KEYS,
+                        trial_duration: function () {
+                            return 1500;
+                        },
+                        data: {
+                            test_part: 'mood_baseline_fixation'
+                        }
+                    };
+
+                    var mood_baseline_procedure = {
+                       timeline: [mood_baseline, mood_baseline_fixation],
+                    }
+
+                    var accuracy_performance_procedure = {
+                        timeline: [accuracy_performance, pre_fix_learn, mood_baseline_procedure],
+                    }
+
+                    timeline.push(accuracy_performance_procedure);
+
+                }; // end break
+
+                var ITI_duration_time = 1500 + Math.floor(Math.random() * 1001);
+                var ITI = {
+                    type: 'html-keyboard-response',
+                    stimulus: '<div style="font-size:100px;">+</div>',
+                    choices: jsPsych.NO_KEYS,
+                    trial_duration: ITI_duration_time,
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'learning',
+                        test_part: 'ITI',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        ITI_duration: ITI_duration_time
+                    },
+                    on_finish: function () {
+                        saveTaskData_learn()
+                    }
+                };
+                timeline.push(ITI);
+
+            }
+
+            if (pav) timeline.push(pavlovia_finish);
+
+            timeline.push(wait1sec);
+
+            jsPsych.init({
+                timeline: timeline,
+                on_trial_finish: function (data) {
+
+                },
+                on_finish: function (data) {
+                    var prolificID = jsPsych.data.getURLVariable('subject');
+                    jsPsych.data.addProperties({
+                        'participant': prolificID
+                    });
+
+                    Second_Section();
+                }
+            });
+        }
+
+        function Second_Section() {
+
+            if (pav) timeline.push(pavlovia_init);
+            // timeline.push(pavlovia_init);
+
+            timeline = [];
+            timeline.push(inst_main_finish);
+
+			var rest_text = 
+				"<p style='font-size: 4.4rem; color: white;'>Great work on that part! Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
+            var rest_trial = {
+                type: 'lmdlab-rest-trial-limit',
+                data: {
+                    exp_name: 'delaylearn',
+                    exp_stage: 'rest',
+                    subjectID: subjectID,
+                    databaseID: uid,
+                },
+                stimulus: rest_text,
+                choices: ['<font size="+2.5">Continue</font>'],
+                pre_iti: 1500,
+                post_iti: 1500,
+                on_finish: function () {
+                    saveTaskData_testintro()
+                }
+            };
+
+            timeline.push(rest_trial);
+
+
+            var pre_task_trigger = {
+                type: "html-keyboard-response",
+                data: {
+                    exp_name: 'delaylearn',
+                    exp_stage: 'TRIGGER',
+                    subjectID: subjectID,
+                    databaseID: uid,
+                },
+                stimulus: "<p style='font-size: 2.4rem; line-height: 1.3'>Please get ready to start.<br><br></p><p style='font-size: 2.0rem; line-height: 1.3; color: blue;'><br><br>*Press the space bar to begin*</p>",
+                choices: [' '],
+            };
+
+            /*********************/
+            /** Confidence Test Procedures **/
+            /*********************/
+
+            let ntrials_confidence = 8; // 8 trials (8 pairs)
+//             let ntrials_confidence = 0;
+
+            if (ntrials_confidence > 0) {
+
+                timeline.push(inst_rew_conf_1, inst_rew_conf_2, inst_rew_conf_3);
+                // TRIGGER
+                timeline.push(pre_task_trigger);
+                timeline.push(pre_fix_test);
+
+                var jsonFileName;
+                var rewconflist;
+
+                if (counterbal === 1) {
+                    rewconflist = JSON.parse(rewardconfidencelist1);
+                } else if (counterbal === 2) {
+                    rewconflist = JSON.parse(rewardconfidencelist2);
+                } else if (counterbal === 3) {
+                    rewconflist = JSON.parse(rewardconfidencelist3);
+                } else if (counterbal === 4) {
+                    rewconflist = JSON.parse(rewardconfidencelist4);
+                } else if (counterbal === 5) {
+                    rewconflist = JSON.parse(rewardconfidencelist5);
+                } else {
+                    console.error('Invalid counterbalancing value:', counterbal_rewcon);
+                }
+
+                var reward_confidence = {
+                    type: 'html-keyboard-response',
+                    stimulus: function () {
+                        var stim_left = jsPsych.timelineVariable('choice_stim_left');
+                        var stim_right = jsPsych.timelineVariable('choice_stim_right');
+
+                        return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
+                            '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
+                            '<img src="' + stim_left +
+                            '" style="width: 408px; height: 417px; margin-right: 200px;">' +
+                            '<img src="' + stim_right + '" style="width: 408px; height: 417px;">' +
+                            '</div>' + '</div><br><br><br><br>';
+                    },
+                    choices: ['f', 'j'],
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'test',
+                        test_part: 'memory_choice',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        counterbal: counterbal,
+                        stim1: jsPsych.timelineVariable('stim1'),
+                        stim2: jsPsych.timelineVariable('stim2'),
+                        stim_left: jsPsych.timelineVariable('stim_left'),
+                        stim_right: jsPsych.timelineVariable('stim_right'),
+                        chosen_stim_left: jsPsych.timelineVariable('choice_stim_left'),
+                        chosen_stim_right: jsPsych.timelineVariable('choice_stim_right'),
+                        leftright_counter: jsPsych.timelineVariable('leftright_counter'),
+                        pair: jsPsych.timelineVariable('leftright_counter'),
+                        delay: jsPsych.timelineVariable('longdelay'),
+                    },
+                    on_finish: function (data) {
+                        var chosen_stim = 0;
+                        var response_correct = 0;
+                        var response = data.response;
+
+                        if ((data.leftright_counter == 0) && (response == 'f')) {
+                            response_correct = 1;
+                        } else if ((data.leftright_counter == 1) && (response == 'j')) {
+                            response_correct = 1;
+                        }
+                        if (response == 'f') {
+                            var chosen_stim = data.stim_left;
+                        } else if (response == 'j') {
+                            var chosen_stim = data.stim_right;
+                        }
+
+                        var responseData = {
+                            response_correct: response_correct,
+                            chosen_stim: chosen_stim,
+                        };
+                        jsPsych.data.addDataToLastTrial(responseData);
+                        saveTaskData_test();
+                    }
+                };
+
+                var rewconf_button_resp = {
+                    type: 'html-keyboard-response',
+                    stimulus: function () {
+                        var confidenceText =
+                            '<div class="center_prompt" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Confidence</div>' +
+                            '<br><br><br><br>' +
+                            '<div class="center_prompt2" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Guess (1) –––– Low (2)  –––– Medium (3) –––– High (4)</div>';
+                        return confidenceText;
+
+                    },
+                    choices: ['1', '2', '3', '4'],
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'test',
+                        test_part: 'memory_choice_confidence',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        counterbal: counterbal,
+                    },
+                    on_finish: function (data) {
+                        var confidence = data.response;
+                        var responseData = {
+                            confidence: confidence,
+                        };
+                        jsPsych.data.addDataToLastTrial(responseData);
+
+                        saveTaskData_test();
+                    }
+                };
+
+                var confidence_procedure = {
+                    timeline: [reward_confidence, isi_test, rewconf_button_resp, pre_fix_test],
+                    timeline_variables: rewconflist,
+                    randomize_order: false
+                };
+                timeline.push(confidence_procedure);
+
+            }
+
+            /*********************/
+            /** Reward Rating Test Procedures **/
+            /*********************/
+
+            let ntrials_rate = 16; // 16 trials (16 individual stimuli)
+//             let ntrials_rate = 2;
+
+            if (ntrials_rate > 0) {
+                timeline.push(pre_fix_test);
+                timeline.push(inst_rew_rate_1, inst_rew_rate_2);
+                // TRIGGER
+                timeline.push(pre_task_trigger);
+                // pre-fix already built into trial
+            }
+
+            // 	// load rating list
+            if (counterbal == 1) {
+                var ratelist = JSON.parse(rewardratelist1);
+            } else if (counterbal == 2) {
+                var ratelist = JSON.parse(rewardratelist2);
+            } else if (counterbal == 3) {
+                var ratelist = JSON.parse(rewardratelist3);
+            } else if (counterbal == 4) {
+                var ratelist = JSON.parse(rewardratelist4);
+            } else if (counterbal == 5) {
+                var ratelist = JSON.parse(rewardratelist5);
+            }
+
+            for (var i = 0; i < ntrials_rate; i++) {
+                blocknum_sel = 3;
+
+                var rate_trial = { // call option-scale-rating.js
+                    type: 'option-scale-rating',
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'test',
+                        test_part: 'memory_rating',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        counterbal: counterbal,
+                        pair: ratelist[i].pair,
+                        delay: ratelist[i].delay,
+                        stim: ratelist[i].stimid,
+                    },
+                    block_number: blocknum_sel,
+                    trial_number: i + 1,
+                    stimulus: ratelist[i].stimulus,
+                    prob_true: ratelist[i].prob_true,
+                    header_size: '2.4rem',
+                    text: 'What percent of the time did you win when choosing this option?',
+                    labels: ['0%<br>(Never)', '50', '100%<br>(Always)'],
+                    pre_iti: 3000,
+                    scale_colour: 'black', // 'gray'
+                    tick_colour: 'black',
+                    scale_width: 60,
+                    label_size: '2rem',
+                }
+                rate_trial.on_finish = function () {
+                    saveTaskData_test()
+                };
+                timeline.push(rate_trial);
+            }
+
+            /*********************/
+            /** Time Estimate Procedures **/
+            /*********************/
+
+            let ntrials_time = 8; // 8 trials (8 pairs)
+//             let ntrials_time = 1;
+
+            if (ntrials_time > 0) {
+
+                timeline.push(pre_fix_test);
+
+                timeline.push(inst_timing_est_1, inst_timing_est_2);
+                // TRIGGER
+                timeline.push(pre_task_trigger);
+                timeline.push(pre_fix_test);
+
+                var jsonFileName;
+                var timinglist;
+
+                // 	load timing list
+                if (counterbal === 1) {
+                    timinglist = JSON.parse(timinglist1);
+                } else if (counterbal === 2) {
+                    timinglist = JSON.parse(timinglist2);
+                } else if (counterbal === 3) {
+                    timinglist = JSON.parse(timinglist3);
+                } else if (counterbal === 4) {
+                    timinglist = JSON.parse(timinglist4);
+                } else if (counterbal === 5) {
+                    timinglist = JSON.parse(timinglist5);
+                } else {
+                    console.error('Invalid counterbalancing value:', counterbal_timing);
+                }
+
+                var timing_rating = {
+                    type: 'html-slider-response',
+                    stimulus: function () {
+                        var stim_1 = jsPsych.timelineVariable('choice_stim_1');
+                        var stim_2 = jsPsych.timelineVariable('choice_stim_2');
+
+                        return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
+                            '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
+                            '<img src="' + stim_1 +
+                            '" style="width: 408px; height: 417px; margin-right: 200px;">' +
+                            '<img src="' + stim_2 + '" style="width: 408px; height: 417px;">' +
+                            '</div>' + '</div><br><br><br><br>';
+                    },
+                    prompt: "<div style='margin:auto;width: 900px; font-size: 150%'>" +
+                        "<p>Time in seconds from your choice until feedback?</p>" + "<br>" + "<br>" +
+                        "</div>",
+                    labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    stimulus_width: 400,
+                    slider_width: 1000,
+                    step: 0.1,
+                    min: 0,
+                    max: 12,
+                    slider_start: 0,
+                    require_movement: true,
+                    data: {
+                        exp_name: 'delaylearn',
+                        exp_stage: 'test',
+                        test_part: 'memory_time',
+                        subjectID: subjectID,
+                        databaseID: uid,
+                        counterbal: counterbal,
+                        stim1: jsPsych.timelineVariable('stim_1'),
+                        stim2: jsPsych.timelineVariable('stim_2'),
+                        leftright_counter: jsPsych.timelineVariable('leftright_counter'),
+                        pair: jsPsych.timelineVariable('pair'),
+                        delay: jsPsych.timelineVariable('longdelay'),
+                    },
+                    on_finish: function (data) {
+                        saveTaskData_test();
+                    }
+                };
+
+                var timing_estimate_procedure = {
+                    timeline: [timing_rating, pre_fix_test],
+                    timeline_variables: timinglist,
+                    randomize_order: false
+                };
+                timeline.push(timing_estimate_procedure);
+            }
+
+            /*********************/
+            /** Post-learning-experiment questions **/
+            /*********************/
+
+            // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
+            timeline.push(
+            	post_stress_sleep_intro,
+            	stressquestion,
+            	sleepquestion1,
+            	sleepquestion2,
+            	sleepquestion3,
+                post_question_instruct,
+                post_question1, post_question2,
+                post_question3,
+                post_question4, 
+                post_question5,
+                engagement_question1,
+                engagement_question2,
+                engagement_question3,
+                comment_question1
+            );
+
+
+            // end
+            timeline.push(end_instructions);
+
+            if (pav) timeline.push(pavlovia_finish);
+            timeline.push(wait1sec);
+
+            jsPsych.init({
+                timeline: timeline,
+                fullscreen: true,
+                on_finish: function () {
+                    var prolificID = jsPsych.data.getURLVariable('subject');
+                    jsPsych.data.addProperties({
+                        'participant': prolificID
+                    });
+                }
+            });
+
+
+        };
+    </script>
+
+</body>
+
+</html>
