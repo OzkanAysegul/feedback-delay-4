@@ -65,7 +65,8 @@
     <script src="fullscreen_checker.js"></script>
     <!-- <script src="index_fwdspan.js"></script> -->
 
-<!--     <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"> --> <!--NOT NECESSARY --> 
+    <!--     <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"> -->
+    <!--NOT NECESSARY -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
@@ -226,9 +227,9 @@
                 databaseID: uid,
             },
             fullscreen_mode: true,
-			on_start: function () {
-				document.querySelector('body').style.backgroundColor = '#D3D3D3'; // #D3D3D3
-			},
+            on_start: function () {
+                document.querySelector('body').style.backgroundColor = '#D3D3D3'; // #D3D3D3
+            },
         };
 
         var preload = {
@@ -334,7 +335,7 @@
             timeline.push(pre_fix_learn); // includes saveTaskData_learnintro
 
             let ntrials_learn = 150; // 144 + 6 = 150
-//             let ntrials_learn = 1;
+            //             let ntrials_learn = 1;
 
             var ntrials_break = 24;
             var block_number = 0;
@@ -356,7 +357,7 @@
                 var trial = {
                     type: 'html-keyboard-response',
                     stimulus: '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
-                        '<img src="' + learnlist[i].pattern_stimuli + 
+                        '<img src="' + learnlist[i].pattern_stimuli +
                         '" style="width: 234px; height: 230px; margin-top: -50px;">' +
                         '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
                         '<img src="' + learnlist[i].choice_stimuli_1 +
@@ -420,16 +421,16 @@
 
                         if (response == 'f') {
                             return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
-		                        '<img src="' + last_trial.pattern_stimuli + 
-        		                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
+                                '<img src="' + last_trial.pattern_stimuli +
+                                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
                                 '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
                                 '<img src="' + last_trial.choice_stimuli_1 +
                                 '" style="width: 408px; height: 417px; margin-right: 608px;">' +
                                 '</div>' + '</div>';
                         } else if (response == 'j') {
                             return '<div style="display: flex; flex-direction: column; align-items: center; margin-top: -40px;">' +
-		                        '<img src="' + last_trial.pattern_stimuli + 
-        		                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
+                                '<img src="' + last_trial.pattern_stimuli +
+                                '" style="width: 234px; height: 230px; margin-top: -50px;">' +
                                 '<div style="display: flex; justify-content: space-between; margin-top: 33px;">' +
                                 '<img src="' + last_trial.choice_stimuli_2 +
                                 '" style="width: 408px; height: 417px; margin-left:608px;">' +
@@ -597,17 +598,34 @@
                 // if (!i == 0 && i % ntrials_break == 0) { // start break
                 if (learnlist[i].break_trial == 1) { // start break
 
+                    var rateconfidence_trial = {
+                        type: 'lmdlab-html-vas-response',
+                        data: {
+                            exp_name: 'rewlearn',
+                            exp_stage: 'rate_confidence',
+                        },
+                        stimulus: '*How <b><u>confident</u></b> are you feeling about your answers at this moment?*',
+                        scale_colour: 'gray',
+                        scale_width: 60,
+                        labels: ['No confidence', 'Complete confidence'],
+                        pre_iti: 0,
+                        post_iti: 1500,
+                        trial_duration: 20000,
+                        slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-£0.50!',
+                    };
+
                     var accuracy_performance = {
                         type: 'lmdlab-rest-trial-limit',
-						data: {
+                        data: {
                             exp_name: 'delaylearn',
                             exp_stage: 'learning',
                             test_part: 'break',
                             subjectID: subjectID,
                             databaseID: uid,
-						},
-						stimulus: function () {
-                            var correct_count = jsPsych.data.get().last(4).values()[0].counter; // 4 values now jan16 2024
+                        },
+                        stimulus: function () {
+                            var correct_count = jsPsych.data.get().last(4).values()[0]
+                            .counter; // 4 values now jan16 2024
                             var data_performance = correct_count;
                             block_number += 1;
                             return '<div style="font-size:40px;"><b>Please take a break!</b><br><br><br><br>' +
@@ -618,9 +636,9 @@
                                 "When you are ready to continue" + "<br><br><br>" +
                                 "please click the button.</p>" + "<br><br>";
                         },
-						choices: ['<font size="+2.5">Continue</font>'],
-						pre_iti: 1500,
-						post_iti: 1500,
+                        choices: ['<font size="+2.5">Continue</font>'],
+                        pre_iti: 1500,
+                        post_iti: 1500,
                     }
 
                     var mood_baseline = {
@@ -656,11 +674,11 @@
                     };
 
                     var mood_baseline_procedure = {
-                       timeline: [mood_baseline, mood_baseline_fixation],
+                        timeline: [mood_baseline, mood_baseline_fixation],
                     }
 
                     var accuracy_performance_procedure = {
-                        timeline: [accuracy_performance, pre_fix_learn, mood_baseline_procedure],
+                        timeline: [rateconfidence_trial, accuracy_performance, pre_fix_learn, mood_baseline_procedure],
                     }
 
                     timeline.push(accuracy_performance_procedure);
@@ -717,8 +735,8 @@
             timeline = [];
             timeline.push(inst_main_finish);
 
-			var rest_text = 
-				"<p style='font-size: 4.4rem; color: white;'>Great work on that part! Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
+            var rest_text =
+                "<p style='font-size: 4.4rem; color: white;'>Great work on that part! Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
             var rest_trial = {
                 type: 'lmdlab-rest-trial-limit',
                 data: {
@@ -756,7 +774,7 @@
             /*********************/
 
             let ntrials_confidence = 8; // 8 trials (8 pairs)
-//             let ntrials_confidence = 0;
+            //             let ntrials_confidence = 0;
 
             if (ntrials_confidence > 0) {
 
@@ -882,7 +900,7 @@
             /*********************/
 
             let ntrials_rate = 16; // 16 trials (16 individual stimuli)
-//             let ntrials_rate = 2;
+            //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
                 timeline.push(pre_fix_test);
@@ -945,7 +963,7 @@
             /*********************/
 
             let ntrials_time = 8; // 8 trials (8 pairs)
-//             let ntrials_time = 1;
+            //             let ntrials_time = 1;
 
             if (ntrials_time > 0) {
 
@@ -1031,15 +1049,15 @@
 
             // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
             timeline.push(
-            	post_stress_sleep_intro,
-            	stressquestion,
-            	sleepquestion1,
-            	sleepquestion2,
-            	sleepquestion3,
+                post_stress_sleep_intro,
+                stressquestion,
+                sleepquestion1,
+                sleepquestion2,
+                sleepquestion3,
                 post_question_instruct,
                 post_question1, post_question2,
                 post_question3,
-                post_question4, 
+                post_question4,
                 post_question5,
                 engagement_question1,
                 engagement_question2,
