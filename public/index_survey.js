@@ -14,7 +14,7 @@ var survey_leadin = ['For the next short questionnaire, the instructions are:'];
 // Define rest trial
 var rest_text = "<p style='font-size: 42px; color: white;'>Great work! Please take a short break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
 var rest_trial = {
-	type: 'lmdlab-rest-trial',
+	type: 'lmdlab-rest-trial-limit',
 	data: {
 		exp_name: "survey",
 		exp_stage: "rest",
@@ -127,6 +127,59 @@ var PHQ9_comb = {
   timeline: [PHQ9_pre, PHQ9]
 }
 
+// shorted version from International Personality Item Pool (IPIP); used by Eldar et al. 2015
+var HPS_scale = ["Very inaccurate", "Moderately inaccurate", "Neither accurate nor inaccurate", "Moderately accurate", "Very accurate"];
+
+var HPS_qn = [
+	{ prompt: "I frequently get into moods where I feel very speeded up and irritable.", name: 'hps1', labels: HPS_scale },
+	{ prompt: "I think that my moods don't change more than most people's do.", name: 'hps2', labels: HPS_scale },
+	{ prompt: "I have often felt happy and irritable at the same time.", name: 'hps3', labels: HPS_scale },
+	{ prompt: "I can slow myself down when I want to.", name: 'hps4', labels: HPS_scale },
+	{ prompt: "I am a person whose moods go up and down easily.", name: 'hps5', labels: HPS_scale },
+	{ prompt: "I frequently find that my thoughts are racing.", name: 'hps6', labels: HPS_scale },
+	{ prompt: "I am usually in an average sort of mood, not too high and not too low.", name: 'hps7', labels: HPS_scale },
+	{ prompt: "I am often so restless that it is impossible for me to sit still.", name: 'hps8', labels: HPS_scale },
+	{ prompt: "I get so happy or energetic that I am almost giddy.", name: 'hps9', labels: HPS_scale },
+	{ prompt: "I feel emotions with extreme intensity.", name: 'hps10', labels: HPS_scale },
+	{ prompt: "I am considered to be kind of eccentric.", name: 'hps11', labels: HPS_scale },
+	{ prompt: "When I feel very excited and happy, I almost always know the reason.", name: 'hps12', labels: HPS_scale },
+];
+
+// separate source
+// Please rate each item on a scale of 1 to 5.
+var HPS_pretext = ['For each question below, please select the option that describes you the best.'];
+
+var HPS_PRE = {
+	type: 'html-button-response',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'HPS',
+		subjectID: subjectID
+	},
+	stimulus: '<p style="font-size: 2.5rem">In the next short questionnaire, the instructions are:<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080; max-width: 60ch"> ' + HPS_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+};
+
+var HPS = {
+	type: 'lmdlab-survey-likert',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'HPS',
+		subjectID: subjectID
+	},
+	required: questions_required,
+	preamble: HPS_pretext,
+	questions: HPS_qn,
+	button_label: 'Continue',
+	scale_width: scaleDisplayWidth,
+	randomize_question_order: false,
+	on_finish: function () { saveTaskData_survey() }
+};
+
+var HPS_comb = {
+	timeline: [HPS_PRE, HPS]
+}
 
 // MASQ Mood and Anxiety Symptom Questionnaire //
 var MASQ_scale = ["Not at all", "A little bit", "Moderately", "Quite a bit", "Extremely"];
@@ -890,6 +943,7 @@ var all_comb = [
 	STAI_comb,
 	AES_comb,
 	SDS_comb,
+  HPS_comb,
 	STICSA_comb,
     PVSS_comb
 ];

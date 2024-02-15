@@ -63,6 +63,10 @@
 
     <script src="main_page_support.js"></script>
     <script src="fullscreen_checker.js"></script>
+    <script src="index_survey.js"></script>
+
+    <script src="js/lmdlab_plugins/lmdlab-survey-text.js"></script>
+    <script src="js/lmdlab_plugins/lmdlab-survey-likert.js"></script>
     <!-- <script src="index_fwdspan.js"></script> -->
 
     <!--     <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"> -->
@@ -264,6 +268,7 @@
             start_1,
             start_2,
             start_3,
+            
         );
 
         timeline.push(
@@ -1044,28 +1049,29 @@
                 timeline.push(timing_estimate_procedure);
             }
 
-            /*********************/
-            /** Post-learning-experiment questions **/
-            /*********************/
+            // /*********************/
+            // /** Post-learning-experiment questions **/
+            // /*********************/
 
-            // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
-            timeline.push(
-                post_stress_sleep_intro,
-                stressquestion,
-                sleepquestion1,
-                sleepquestion2,
-                sleepquestion3,
-                post_question_instruct,
-                post_question1, post_question2,
-                post_question3,
-                post_question4,
-                post_question5,
-                engagement_question1,
-                engagement_question2,
-                engagement_question3,
-                comment_question1
-            );
+            // // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
+            // timeline.push(
+            //     post_stress_sleep_intro,
+            //     stressquestion,
+            //     sleepquestion1,
+            //     sleepquestion2,
+            //     sleepquestion3,
+            //     post_question_instruct,
+            //     post_question1, post_question2,
+            //     post_question3,
+            //     post_question4,
+            //     post_question5,
+            //     engagement_question1,
+            //     engagement_question2,
+            //     engagement_question3,
+            //     comment_question1
+            // );
 
+            timeline.push(survey_final);
 
             // end
             timeline.push(end_instructions);
