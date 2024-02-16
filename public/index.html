@@ -616,9 +616,10 @@
                         labels: ['No confidence', 'Complete confidence'],
                         pre_iti: 0,
                         post_iti: 1500,
-                        trial_duration: 20000,
+                        trial_duration: 40000,
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-£0.50!',
                     };
+                    rateconfidence_trial.on_finish = function () { saveTaskData_rewlearn() };
 
                     var accuracy_performance = {
                         type: 'lmdlab-rest-trial-limit',
