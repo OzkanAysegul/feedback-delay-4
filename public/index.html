@@ -262,25 +262,25 @@
 
         timeline.push(
             welcome,
-            information_sheet,
-            consent_form,
-            demogr,
-            start_1,
-            start_2,
-            start_3,
-            
+            // information_sheet,
+            // consent_form,
+            // demogr,
+            // start_1,
+            // start_2,
+            // start_3,
+
         );
 
-        timeline.push(
-            trial_example_1,
-            trial_example_2,
-            trial_example_3,
-            trial_example_4,
-            trial_example_5,
-            general_intro,
-            mood_instructions,
-            demo_instruction,
-        );
+        // timeline.push(
+        //     trial_example_1,
+        //     trial_example_2,
+        //     trial_example_3,
+        //     trial_example_4,
+        //     trial_example_5,
+        //     general_intro,
+        //     mood_instructions,
+        //     demo_instruction,
+        // );
 
         var jsonFileName;
         var learnlist;
@@ -315,8 +315,8 @@
                 if (data.event == 'focus') {
                     jsPsych.resumeExperiment(); // unclear if this condition is useful
                 }
-                if (data.event == 'fullscreenexit') {}
-                if (data.event == 'fullscreenenter') {}
+                if (data.event == 'fullscreenexit') { }
+                if (data.event == 'fullscreenenter') { }
             },
             on_finish: function () {
                 var prolificID = jsPsych.data.getURLVariable('subject');
@@ -339,7 +339,7 @@
 
             timeline.push(pre_fix_learn); // includes saveTaskData_learnintro
 
-            let ntrials_learn = 1; 
+            let ntrials_learn = 0;
             // let ntrials_learn = 114; // 144 + 6 = 150
             //             let ntrials_learn = 1;
 
@@ -441,7 +441,7 @@
                                 '<img src="' + last_trial.choice_stimuli_2 +
                                 '" style="width: 408px; height: 417px; margin-left:608px;">' +
                                 '</div>' + '</div>';
-                        } else(response == 'NaN')
+                        } else (response == 'NaN')
                         return "<div style='font-weight: bold; font-size: 75px; color: red;'>" +
                             "Missed Trial <br><br><br><br> Please respond faster" +
                             "</div>";
@@ -460,7 +460,7 @@
                                 return "chosen stimuli: " + last_trial.choice_stimuli_1;
                             } else if (last_trial.response == 'j') {
                                 return "chosen stimuli: " + last_trial.choice_stimuli_2;
-                            } else(last_trial.response == 'NaN')
+                            } else (last_trial.response == 'NaN')
                             return 'Missed trial';
                         }
                     },
@@ -492,7 +492,7 @@
                             var last_trial_response = jsPsych.data.get().last(2).values()[0];
                             if (last_trial_response.rt !== null) {
                                 return last_trial_response.feedback_duration_times;
-                            } else(last_trial_response.rt == null)
+                            } else (last_trial_response.rt == null)
                             return 0;
                         }
                     },
@@ -507,7 +507,7 @@
                         var data_window_response = data_window.response;
 
                         if ((data_window_response != 'f') && (data_window_response != 'j') && (
-                                data_window_response == null)) {
+                            data_window_response == null)) {
                             data_window.counter = pointCounter;
                             return "";
                         } else if (data_window_response == data_window.rewarded_answer[0]) {
@@ -632,7 +632,7 @@
                         },
                         stimulus: function () {
                             var correct_count = jsPsych.data.get().last(4).values()[0]
-                            .counter; // 4 values now jan16 2024
+                                .counter; // 4 values now jan16 2024
                             var data_performance = correct_count;
                             block_number += 1;
                             return '<div style="font-size:40px;"><b>Please take a break!</b><br><br><br><br>' +
@@ -780,7 +780,7 @@
             /** Confidence Test Procedures **/
             /*********************/
 
-            let ntrials_confidence = 8; // 8 trials (8 pairs)
+            let ntrials_confidence = 0; // 8 trials (8 pairs)
             //             let ntrials_confidence = 0;
 
             if (ntrials_confidence > 0) {
@@ -864,6 +864,7 @@
                 };
 
                 var rewconf_button_resp = {
+
                     type: 'html-keyboard-response',
                     stimulus: function () {
                         var confidenceText =
@@ -906,7 +907,7 @@
             /** Reward Rating Test Procedures **/
             /*********************/
 
-            let ntrials_rate = 16; // 16 trials (16 individual stimuli)
+            let ntrials_rate = 0; // 16 trials (16 individual stimuli)
             //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
@@ -999,8 +1000,14 @@
                     console.error('Invalid counterbalancing value:', counterbal_timing);
                 }
 
-                var timing_rating = {
-                    type: 'html-slider-response',
+                var timing_button_labels = [' &nbsp; &nbsp; &nbsp; Yes &nbsp; &nbsp; &nbsp; ', ' &nbsp; &nbsp; &nbsp; No &nbsp; &nbsp;  &nbsp; '
+                ];
+
+                var timing_est = {
+                    type: 'html-button-response',
+                    prompt: "<div style='margin:auto;width: 900px; font-size: 150%; margin-bottom: 20px; margin-top: 20px;'>" +
+                        "<p>Did you wait a while after this trial?</p>" +
+                        "</div>",
                     stimulus: function () {
                         var stim_1 = jsPsych.timelineVariable('choice_stim_1');
                         var stim_2 = jsPsych.timelineVariable('choice_stim_2');
@@ -1012,11 +1019,9 @@
                             '<img src="' + stim_2 + '" style="width: 408px; height: 417px;">' +
                             '</div>' + '</div><br><br><br><br>';
                     },
-                    prompt: "<div style='margin:auto;width: 900px; font-size: 150%'>" +
-                        "<p>Please estimate the duration of the delay</p>" + "<br>" + "<br>" +
-                        "</div>",
-                    labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-                    choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+
+                    choices: timing_button_labels,
+                    button_html: '<button class="lmdlab-btn">%choice%</button>',
                     stimulus_width: 400,
                     slider_width: 1000,
                     step: 0.1,
@@ -1038,17 +1043,58 @@
                         delay: jsPsych.timelineVariable('longdelay'),
                     },
                     on_finish: function (data) {
-                        saveTaskData_test();
+                        if (data.response === 0) { // If "Yes" button pressed
+                            console.log("button", data.response)
+                            var time_est_button_resp = {
+                                type: 'html-keyboard-response',
+                                stimulus: function () {
+                                    var time_est_text =
+                                        '<div class="center_prompt" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Time Estimate</div>' +
+                                        '<br><br><br><br>' +
+                                        '<div class="center_prompt2" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Very Short Delay (1) –––– Short Delay (2)  –––– Long Delay (3) –––– Very Long Delay (4)</div>';
+                                    return time_est_text;
+
+                                },
+                                choices: ['1', '2', '3', '4'],
+                                data: {
+                                    exp_name: 'delaylearn',
+                                    exp_stage: 'test',
+                                    test_part: 'memory_rate_confidence',
+                                    subjectID: subjectID,
+                                    databaseID: uid,
+                                    counterbal: counterbal,
+                                },
+                                on_finish: function (confData) {
+                                    var confidence = confData.response;
+                                    var responseData = {
+                                        confidence: confidence,
+                                    };
+                                    jsPsych.data.addDataToLastTrial(responseData);
+
+                                    saveTaskData_test();
+                                }
+                            };
+
+                            jsPsych.pauseExperiment();
+                            jsPsych.addNodeToEndOfTimeline(time_est_button_resp, function () {
+                                jsPsych.resumeExperiment();
+                            });
+                        } else { // If "No" button pressed
+                            saveTaskData_test(); // Save data
+                        }
                     }
+
+
                 };
 
                 var timing_estimate_procedure = {
-                    timeline: [timing_rating, pre_fix_test],
+                    timeline: [timing_est, pre_fix_test],
                     timeline_variables: timinglist,
                     randomize_order: false
                 };
                 timeline.push(timing_estimate_procedure);
-            }
+            };
+
 
             // /*********************/
             // /** Post-learning-experiment questions **/
