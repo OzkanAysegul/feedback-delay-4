@@ -262,25 +262,25 @@
 
         timeline.push(
             welcome,
-            // information_sheet,
-            // consent_form,
-            // demogr,
-            // start_1,
-            // start_2,
-            // start_3,
+            information_sheet,
+            consent_form,
+            demogr,
+            start_1,
+            start_2,
+            start_3,
 
         );
 
-        // timeline.push(
-        //     trial_example_1,
-        //     trial_example_2,
-        //     trial_example_3,
-        //     trial_example_4,
-        //     trial_example_5,
-        //     general_intro,
-        //     mood_instructions,
-        //     demo_instruction,
-        // );
+        timeline.push(
+            trial_example_1,
+            trial_example_2,
+            trial_example_3,
+            trial_example_4,
+            trial_example_5,
+            general_intro,
+            mood_instructions,
+            demo_instruction,
+        );
 
         var jsonFileName;
         var learnlist;
@@ -339,7 +339,7 @@
 
             timeline.push(pre_fix_learn); // includes saveTaskData_learnintro
 
-            let ntrials_learn = 0;
+            let ntrials_learn = 114;
             // let ntrials_learn = 114; // 144 + 6 = 150
             //             let ntrials_learn = 1;
 
@@ -780,7 +780,7 @@
             /** Confidence Test Procedures **/
             /*********************/
 
-            let ntrials_confidence = 0; // 8 trials (8 pairs)
+            let ntrials_confidence = 8; // 8 trials (8 pairs)
             //             let ntrials_confidence = 0;
 
             if (ntrials_confidence > 0) {
@@ -907,7 +907,7 @@
             /** Reward Rating Test Procedures **/
             /*********************/
 
-            let ntrials_rate = 0; // 16 trials (16 individual stimuli)
+            let ntrials_rate = 16; // 16 trials (16 individual stimuli)
             //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
@@ -1000,13 +1000,13 @@
                     console.error('Invalid counterbalancing value:', counterbal_timing);
                 }
 
-                var timing_button_labels = [' &nbsp; &nbsp; &nbsp; Yes &nbsp; &nbsp; &nbsp; ', ' &nbsp; &nbsp; &nbsp; No &nbsp; &nbsp;  &nbsp; '
+                var timing_button_labels = [' &nbsp; &nbsp; &nbsp; Short Delay &nbsp; &nbsp; &nbsp; ', ' &nbsp; &nbsp; &nbsp; Long Delay &nbsp; &nbsp;  &nbsp; '
                 ];
 
                 var timing_est = {
                     type: 'html-button-response',
                     prompt: "<div style='margin:auto;width: 900px; font-size: 150%; margin-bottom: 20px; margin-top: 20px;'>" +
-                        "<p>Did you wait a while after this trial?</p>" +
+                        "<p>How long was the delay between this trial and the feedback point?</p>" +
                         "</div>",
                     stimulus: function () {
                         var stim_1 = jsPsych.timelineVariable('choice_stim_1');
@@ -1043,49 +1043,10 @@
                         delay: jsPsych.timelineVariable('longdelay'),
                     },
                     on_finish: function (data) {
-                        if (data.response === 0) { // If "Yes" button pressed
-                            console.log("button", data.response)
-                            var time_est_button_resp = {
-                                type: 'html-keyboard-response',
-                                stimulus: function () {
-                                    var time_est_text =
-                                        '<div class="center_prompt" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Time Estimate</div>' +
-                                        '<br><br><br><br>' +
-                                        '<div class="center_prompt2" style="font-family: Helvetica; font-weight: light; font-size: 48px; text-anchor: middle; color: white; opacity: 1;">Very Short Delay (1) –––– Short Delay (2)  –––– Long Delay (3) –––– Very Long Delay (4)</div>';
-                                    return time_est_text;
-
-                                },
-                                choices: ['1', '2', '3', '4'],
-                                data: {
-                                    exp_name: 'delaylearn',
-                                    exp_stage: 'test',
-                                    test_part: 'memory_rate_confidence',
-                                    subjectID: subjectID,
-                                    databaseID: uid,
-                                    counterbal: counterbal,
-                                },
-                                on_finish: function (confData) {
-                                    var confidence = confData.response;
-                                    var responseData = {
-                                        confidence: confidence,
-                                    };
-                                    jsPsych.data.addDataToLastTrial(responseData);
-
-                                    saveTaskData_test();
-                                }
-                            };
-
-                            jsPsych.pauseExperiment();
-                            jsPsych.addNodeToEndOfTimeline(time_est_button_resp, function () {
-                                jsPsych.resumeExperiment();
-                            });
-                        } else { // If "No" button pressed
-                            saveTaskData_test(); // Save data
-                        }
+                        saveTaskData_test();
                     }
-
-
                 };
+
 
                 var timing_estimate_procedure = {
                     timeline: [timing_est, pre_fix_test],
