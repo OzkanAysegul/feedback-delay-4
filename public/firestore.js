@@ -83,80 +83,79 @@ else {
 
 
 // learning
-function saveTaskData_learnintro() {
-	console.log("saving intro");
+async function saveTaskData_learnintro() {
+	console.log("saving learn intro");
 	// record subject id, new date, and start time
-	db.collection('delaylearntaskv3').doc('exp_learn').collection('subjects').doc(uid).set({
+	await db.collection('delaylearntaskv4').doc('exp_learn').collection('subjects').doc(uid).set({
 		subjectID: subjectID,  // this refers to the subject's ID from prolific
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 	// record subject id in 'start'
-	db.collection('delaylearntaskv3').doc('exp_learn').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
+	await db.collection('delaylearntaskv4').doc('exp_learn').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 }
-function saveTaskData_learn() {
-	console.log("saving data");
-	var task_data = jsPsych.data.get().json();
-	//var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "learning"}).json();
-	db.collection('delaylearntaskv3').doc('exp_learn').collection('subjects').doc(uid)
+async function saveTaskData_learn() {
+	console.log("saving learn data");
+	// var old stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "learning"}).json();
+	// var task_data = jsPsych.data.get().json();
+	await db.collection('delaylearntaskv4').doc('exp_learn').collection('subjects').doc(uid)
 	.collection('taskdata').doc('data').set({
-		data: task_data,
+		data: jsPsych.data.get().json()
 	})
 }
 
 
 // test
-function saveTaskData_testintro() {
-	console.log("saving intro");
+async function saveTaskData_testintro() {
+	console.log("saving test intro");
 	// record subject id, new date, and start time
-	db.collection('delaylearntaskv3').doc('exp_test').collection('subjects').doc(uid).set({
+	await db.collection('delaylearntaskv4').doc('exp_test').collection('subjects').doc(uid).set({
 		subjectID: subjectID,  // this refers to the subject's ID from prolific
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 	// record subject id in 'start'
-	db.collection('delaylearntaskv3').doc('exp_test').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
+	await db.collection('delaylearntaskv4').doc('exp_test').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 }
-function saveTaskData_test() {
-	console.log("saving data");
-	var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "test"}).json();
-	db.collection('delaylearntaskv3').doc('exp_test').collection('subjects').doc(uid)
+async function saveTaskData_test() {
+	console.log("saving test data");
+	// var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "test"}).json();
+	await db.collection('delaylearntaskv4').doc('exp_test').collection('subjects').doc(uid)
 	.collection('taskdata').doc('data').set({
-		data: stringifydata,
+		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "test"}).json()
 	})
 }
 
 
 // post-questions
-function saveTaskData_postquestionsintro() {
+async function saveTaskData_postquestionsintro() {
 	console.log("saving intro");
 	// record subject id, new date, and start time
-	db.collection('delaylearntaskv3').doc('exp_post_survey').collection('subjects').doc(uid).set({
+	await db.collection('delaylearntaskv4').doc('exp_post_survey').collection('subjects').doc(uid).set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 	// record subject id in 'start'
-	db.collection('delaylearntaskv3').doc('exp_post_survey').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
+	await db.collection('delaylearntaskv4').doc('exp_post_survey').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
 		subjectID: subjectID,  // this refers to the subject's ID from prolific
 		date: timestamp_day,
 		start_time: timestamp_time,
 	})
 }
-function saveTaskData_postquestions() {
+async function saveTaskData_postquestions() {
 	console.log("saving data");
-	//var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "delaylearn" && trial.exp_stage == "survey"}).json()
-	var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "survey"}).json()
-	db.collection('delaylearntaskv3').doc('exp_post_survey').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
-		data: stringifydata
+	// var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "survey"}).json()
+	await db.collection('delaylearntaskv4').doc('exp_post_survey').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
+		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_stage == "survey"}).json()
 	})
 }
 
@@ -164,51 +163,50 @@ function saveTaskData_postquestions() {
 
 
 // self-report surveys
-function saveTaskData_surveyintro() {
-	console.log("saving intro");
+async function saveTaskData_surveyintro() {
+	console.log("saving survey intro");
 	// record subject id, new date, and start time
-	db.collection('delaylearntaskv3').doc('exp_survey').collection('subjects').doc(uid).set({
+	await db.collection('delaylearntaskv4').doc('exp_survey').collection('subjects').doc(uid).set({
 		subjectID: subjectID,  // this refers to the subject's ID from prolific
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 	// record subject id in 'start'
-	db.collection('delaylearntaskv3').doc('exp_survey').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
+	await db.collection('delaylearntaskv4').doc('exp_survey').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 }
-function saveTaskData_survey() {
-	//console.log("saving data");
-	var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey" && trial.exp_stage == "survey"}).json();
-	db.collection('delaylearntaskv3').doc('exp_survey').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
-		data: stringifydata,
+async function saveTaskData_survey() {
+	console.log("saving survey data");
+	// var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey" && trial.exp_stage == "survey"}).json();
+	await db.collection('delaylearntaskv4').doc('exp_survey').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
+		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey" && trial.exp_stage == "survey"}).json()
 	})
 }
 
 
 /// forwardspan
-function saveTaskData_fwdspanintro() {
-	console.log("saving intro");
+async function saveTaskData_fwdspanintro() {
+	console.log("saving fwdspan intro");
 	// record subject id in 'start'
-	db.collection('delaylearntaskv3').doc('exp_fwdspan').collection('subjects').doc(uid).set({
+	await db.collection('delaylearntaskv4').doc('exp_fwdspan').collection('subjects').doc(uid).set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 	// record subject id, new date, and start time
-	db.collection('delaylearntaskv3').doc('exp_fwdspan').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
+	await db.collection('delaylearntaskv4').doc('exp_fwdspan').collection('subjects').doc(uid).collection('taskdata').doc('start').set({
 		subjectID: subjectID,
 		date: timestamp_day,
 		start_time: timestamp_time
 	})
 }
-function saveTaskData_fwdspan() {
-	console.log("saving data");
-	var task_data = jsPsych.data.get().json();
-	var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "fwdspan"}).json();
-	db.collection('delaylearntaskv3').doc('exp_fwdspan').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
-		data: stringifydata
+async function saveTaskData_fwdspan() {
+	console.log("saving fwdspan data");
+	// var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "fwdspan"}).json();
+	await db.collection('delaylearntaskv4').doc('exp_fwdspan').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
+		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "fwdspan"}).json()
 	})
 }
