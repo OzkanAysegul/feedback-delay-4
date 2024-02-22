@@ -47,7 +47,7 @@ var GAD7_pre = {
     exp_stage: 'GAD7',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + GAD7_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + GAD7_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -101,7 +101,7 @@ var PHQ9_pre = {
     exp_stage: 'PHQ9',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + PHQ9_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + PHQ9_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -158,7 +158,7 @@ var HPS_PRE = {
 		exp_stage: 'HPS',
 		subjectID: subjectID
 	},
-	stimulus: '<p style="font-size: 2.5rem">In the next short questionnaire, the instructions are:<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080; max-width: 60ch"> ' + HPS_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+	stimulus: '<p style="font-size: 2.5rem">In the next short questionnaire, the instructions are:<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + HPS_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
 	choices: ['Continue'],
 	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -228,7 +228,7 @@ var MASQ_pre = {
     exp_stage: 'MASQ_7',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + MASQ_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + MASQ_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -303,7 +303,7 @@ var STAI_pre = {
     exp_stage: 'STAI',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + STAI_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + STAI_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };  
@@ -367,7 +367,7 @@ var AES_PRE = {
     exp_stage: 'AES',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + AES_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + AES_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -441,7 +441,7 @@ var SDS_pre = {
     exp_stage: 'SDS',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + SDS_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + SDS_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -513,7 +513,7 @@ var STICSA_pre = {
     exp_stage: 'STICSA',
     subjectID: subjectID
   },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + STICSA_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + STICSA_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -565,7 +565,7 @@ var PVSS_qn = [
 	{ prompt: "I <u>worked hard</u> to earn positive feedback on my projects.", name: 'PVSS15', labels: PVSS_scale },
 	{ prompt: "I <u>looked forward</u> to an upcoming meal.", name: 'PVSS16', labels: PVSS_scale },
 	{ prompt: "I <u>felt pleased</u> when I reached a goal I set for myself.", name: 'PVSS17', labels: PVSS_scale },
-	{ prompt: "Getting a hug from someone close to me made me happy <u>even after</u> we parted .", name: 'PVSS18', labels: PVSS_scale },
+	{ prompt: "Getting a hug from someone close to me made me happy <u>even after</u> we parted.", name: 'PVSS18', labels: PVSS_scale },
 	{ prompt: "I <u>expected</u> to master the tasks I undertook.", name: 'PVSS19', labels: PVSS_scale },
 	{ prompt: "I <u>actively pursued</u> activities I thought would be fun.", name: 'PVSS20', labels: PVSS_scale },
 	{ prompt: "I <u>went out of my way</u> to admire the beauty around me.", name: 'PVSS21', labels: PVSS_scale },
@@ -592,7 +592,7 @@ var PVSS_PRE = {
 		exp_stage: 'PVSS',
 		subjectID: subjectID
 	},
-	stimulus: '<p style="font-size: 2.5rem">In the next short questionnaire, the instructions are:<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080; max-width: 60ch"> ' + PVSS_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+	stimulus: '<p style="font-size: 2.5rem">In the next short questionnaire, the instructions are:<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + PVSS_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
 	choices: ['Continue'],
 	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
@@ -634,7 +634,7 @@ var survey_start_trial = {
 		subjectID: subjectID
 	},
 
-  stimulus: '<p style="font-size: 3rem; line-height: 1.3">The study involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
+  stimulus: '<p style="font-size: 2rem; line-height: 1.3">This part involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
   on_finish: function () { saveTaskData_surveyintro() }
@@ -693,14 +693,14 @@ var survey_question = {
 // All the _comb items
 var all_comb = [
 	PHQ9_comb,
-// 	GAD7_comb,
-// 	MASQ_comb,
-// 	STAI_comb,
-// 	AES_comb,
-// 	SDS_comb,
-//     HPS_comb,
-	STICSA_comb,
-//     PVSS_comb
+	GAD7_comb,
+	MASQ_comb,
+	STAI_comb,
+// 	AES_comb, //
+// 	SDS_comb, //
+//     HPS_comb, //
+// 	STICSA_comb,// 
+//     PVSS_comb //
 ];
 
 
