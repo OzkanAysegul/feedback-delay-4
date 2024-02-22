@@ -4,7 +4,7 @@
 
 // set variables
 var scaleDisplayWidth = 800; // in px
-var questions_required = true;
+var questions_required = false; // true;
 
 
 var survey_leadin = ['For the next short questionnaire, the instructions are:'];
@@ -127,6 +127,8 @@ var PHQ9_comb = {
   timeline: [PHQ9_pre, PHQ9]
 }
 
+
+
 // shorted version from International Personality Item Pool (IPIP); used by Eldar et al. 2015
 var HPS_scale = ["Very inaccurate", "Moderately inaccurate", "Neither accurate nor inaccurate", "Moderately accurate", "Very accurate"];
 
@@ -180,6 +182,8 @@ var HPS = {
 var HPS_comb = {
 	timeline: [HPS_PRE, HPS]
 }
+
+
 
 // MASQ Mood and Anxiety Symptom Questionnaire //
 var MASQ_scale = ["Not at all", "A little bit", "Moderately", "Quite a bit", "Extremely"];
@@ -457,6 +461,8 @@ var SDS = {
 var SDS_comb = {
   timeline: [SDS_pre, SDS]
 }
+
+
 
 // STIC-SA
 // State-Trait Inventory of Cognitive and Somatic Anxiety – Somatic Anxiety
@@ -879,7 +885,7 @@ var survey_start_trial = {
 		subjectID: subjectID
 	},
 
-  stimulus: '<p style="font-size: 3rem">The study involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
+  stimulus: '<p style="font-size: 3rem; line-height: 1.3">The study involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 //   on_finish: function () { saveTaskData_surveyintro() }
@@ -943,7 +949,7 @@ var all_comb = [
 	STAI_comb,
 	AES_comb,
 	SDS_comb,
-  HPS_comb,
+    HPS_comb,
 	STICSA_comb,
     PVSS_comb
 ];
@@ -976,7 +982,6 @@ var survey_all = {
 var survey_final = {
 	timeline: [
 		survey_start,
-// 		Sociodem_comb, // NOT HERE Socio-dem here
 	    survey_rand1,
 	    rest_trial,
 	    survey_rand2,

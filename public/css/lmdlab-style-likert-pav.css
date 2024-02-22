@@ -1,0 +1,102 @@
+/* css for likert scale */
+
+
+/* preamble text */
+.jspsych-survey-likert-preamble {
+	color: #000080;
+/*     max-width: 50ch; */
+    max-width: 65ch;
+    word-wrap: break-word;
+/*     font-size: 2.6rem; */
+    font-size: 2.0rem;
+	line-height: 1.3;	
+	text-align: center;
+	padding-left: 7%; /* Push it a bit to the right (adjust the percentage as needed) */
+}
+
+.jspsych-survey-likert-wide-preamble {
+	color: #000080;
+/*     max-width: 65ch; */
+    max-width: 80ch;
+    word-wrap: break-word;
+/*     font-size: 2.6rem; */
+    font-size: 2.0rem;
+	line-height: 1.3;	
+	text-align: center;
+	padding-left: 7%; /* Push it a bit to the right (adjust the percentage as needed) */
+}
+
+.jspsych-survey-likert-statement{
+/* 	font-size: 2.8rem; */
+	font-size: 1.6rem;
+}
+
+
+/* redundant */
+/* 
+.limit_word_heading{
+    max-width: 60ch;
+    word-wrap: break-word;
+    font-size: 2.6rem;
+	line-height: 1.3;
+}
+ */
+
+
+.question-prompt{
+    /* width: 40vw; */
+    max-width: 50ch;
+    word-wrap: break-word;
+/*     font-size: 2.4rem; */
+    font-size: 1.4rem;
+	line-height: 1.3;
+	text-align: center;
+	padding-left: 8%; /* Push it a bit to the right (adjust the percentage as needed) */
+}
+
+.question-wide-prompt{
+    max-width: 80ch;
+    word-wrap: break-word;
+    font-size: 2.4rem;
+	line-height: 1.3;
+	text-align: center;
+	padding-left: 2%; /* Push it a bit to the right (adjust the percentage as needed) */
+}
+
+/* button labels */
+.limit-word{
+    max-width: 14ch;
+    word-wrap: break-word;
+    font-weight: 500;
+    font-size: 2rem;
+	line-height: 1.3;
+/*     color: grey; */
+	color: #4a4a4a; /* #5c5c5c = 64% dark; #4a4a4a = 71% dark */
+}
+
+
+
+
+
+ /* Input style */
+/* 
+input[type="radio"] {
+     opacity: 0;
+     width: 0;
+     height: 0;
+ }
+ */
+ 
+/* 
+input[type=radio] {
+    border: 0px;
+    width: 0%;
+    height: 1em;
+}
+ */
+
+input[type="radio"] {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+  transform: scale(1.5);
+}
