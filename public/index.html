@@ -782,11 +782,11 @@
             /*********************/
 
             let ntrials_confidence = 6; // 6 trials (6 pairs)
-            //             let ntrials_confidence = 0;
+            // let ntrials_confidence = 0;
 
             if (ntrials_confidence > 0) {
 
-//                 timeline.push(inst_rew_conf_1, inst_rew_conf_2, inst_rew_conf_3);
+                // timeline.push(inst_rew_conf_1, inst_rew_conf_2, inst_rew_conf_3);
                 timeline.push(instructions_rewconf);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
@@ -914,7 +914,7 @@
 
             if (ntrials_rate > 0) {
                 timeline.push(pre_fix_test);
-//                 timeline.push(inst_rew_rate_1, inst_rew_rate_2);
+				// timeline.push(inst_rew_rate_1, inst_rew_rate_2);
                 timeline.push(instructions_rewrate);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
@@ -974,14 +974,13 @@
             /*********************/
 
             let ntrials_time = 6; // 6 trials (6 pairs)
-            //             let ntrials_time = 1;
+            // let ntrials_time = 1;
 
             if (ntrials_time > 0) {
 
                 timeline.push(pre_fix_test);
 
-//                 timeline.push(inst_timing_est_1);
-                // inst_timing_est_2);
+				// timeline.push(inst_timing_est_1);
                 timeline.push(instructions_timing);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
