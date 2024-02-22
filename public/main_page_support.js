@@ -158,13 +158,6 @@ var start_3 = {
 };
 
 
-
-var instruct_images_start = [
-		'images/inst_start1_edited.png',
-		'images/inst_start2_edited.png',
-		'images/inst_start3_edited.png',
-		];
-
 var instruct_images_all = [
 		'images/inst_start1_edited.png',
 		'images/inst_start2_edited.png',
@@ -342,6 +335,29 @@ var demo_instruction_finish = {
   choices: ['<div style="font-size: 120%;">Continue</div>'],
 };
 
+
+
+// instructions rewconf
+var instruct_images_rewconf = [
+		'images/inst_rew_conf_1.png',
+		'images/inst_rew_conf_2.png',
+		'images/inst_rew_conf_3.png',
+		];
+var pages_rewconf = [];
+for (var i = 0; i < instruct_images_rewconf.length; i++) {
+	pages_rewconf.push('<div style="display: flex; justify-content: center; align-items: center; width: 110vh;">  <img src="' + instruct_images_rewconf[i] + '" style="width: 100%;"> </div>')
+}
+var instructions_rewconf = {
+	type: 'lmdlab-instructions',
+	data: {
+		exp_name: "delaylearn",
+		exp_stage: "instructions",
+		subjectID: subjectID
+	},
+	pages: pages_rewconf,
+	show_clickable_nav: true,
+}
+
 var inst_rew_conf_1 = {
   type: "html-button-response",
   stimulus: `
@@ -381,6 +397,29 @@ var inst_rew_conf_3 = {
   choices: ['<div style="font-size: 120%;">Continue</div>'],
 };
 
+
+
+// instructions rewrate
+var instruct_images_rewrate = [
+		'images/inst_rew_rate_1.png',
+		'images/inst_rew_rate_2.png',
+		];
+var pages_rewrate = [];
+for (var i = 0; i < instruct_images_rewrate.length; i++) {
+	pages_rewrate.push('<div style="display: flex; justify-content: center; align-items: center; width: 110vh;">  <img src="' + instruct_images_rewrate[i] + '" style="width: 100%;"> </div>')
+}
+var instructions_rewrate = {
+	type: 'lmdlab-instructions',
+	data: {
+		exp_name: "delaylearn",
+		exp_stage: "instructions",
+		subjectID: subjectID
+	},
+	pages: pages_rewrate,
+	show_clickable_nav: true,
+}
+
+
 var inst_rew_rate_1 = {
   type: "html-button-response",
   stimulus: `
@@ -406,6 +445,29 @@ var inst_rew_rate_2 = {
   </div>`,
   choices: ['<div style="font-size: 120%;">Continue</div>'],
 };
+
+
+
+// instructions timing
+var instruct_images_timing = [
+		'images/inst_timing_est_1.png',
+		];
+var pages_timing = [];
+for (var i = 0; i < instruct_images_timing.length; i++) {
+	pages_timing.push('<div style="display: flex; justify-content: center; align-items: center; width: 110vh;">  <img src="' + instruct_images_timing[i] + '" style="width: 100%;"> </div>')
+}
+var instructions_timing = {
+	type: 'lmdlab-instructions',
+	data: {
+		exp_name: "delaylearn",
+		exp_stage: "instructions",
+		subjectID: subjectID
+	},
+	pages: pages_timing,
+	show_clickable_nav: true,
+}
+
+
 
 var inst_timing_est_1 = {
   type: "html-button-response",

@@ -269,7 +269,7 @@
 //             start_1,
 //             start_2,
 //             start_3,
-			instructions_all,
+// 			instructions_all,
         );
 
         timeline.push(
@@ -326,8 +326,8 @@
                 });
 
                 // let ntrials // leave here to allow searching and skipping task phases
-                First_Section()
-                //                 Second_Section() // debugging only!
+//                 First_Section()
+                Second_Section() // debugging only!
 
             }
         });
@@ -786,7 +786,8 @@
 
             if (ntrials_confidence > 0) {
 
-                timeline.push(inst_rew_conf_1, inst_rew_conf_2, inst_rew_conf_3);
+//                 timeline.push(inst_rew_conf_1, inst_rew_conf_2, inst_rew_conf_3);
+                timeline.push(instructions_rewconf);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
                 timeline.push(pre_fix_test);
@@ -908,12 +909,13 @@
             /** Reward Rating Test Procedures **/
             /*********************/
 
-            let ntrials_rate = 16; // 16 trials (16 individual stimuli)
+            let ntrials_rate = 0; // 16 trials (16 individual stimuli)
             //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
                 timeline.push(pre_fix_test);
-                timeline.push(inst_rew_rate_1, inst_rew_rate_2);
+//                 timeline.push(inst_rew_rate_1, inst_rew_rate_2);
+                timeline.push(instructions_rewrate);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
                 // pre-fix already built into trial
@@ -978,8 +980,9 @@
 
                 timeline.push(pre_fix_test);
 
-                timeline.push(inst_timing_est_1);
+//                 timeline.push(inst_timing_est_1);
                 // inst_timing_est_2);
+                timeline.push(instructions_timing);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
                 timeline.push(pre_fix_test);
