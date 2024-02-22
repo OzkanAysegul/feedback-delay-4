@@ -158,6 +158,43 @@ var start_3 = {
 };
 
 
+
+var instruct_images_start = [
+		'images/inst_start1_edited.png',
+		'images/inst_start2_edited.png',
+		'images/inst_start3_edited.png',
+		];
+
+var instruct_images_all = [
+		'images/inst_start1_edited.png',
+		'images/inst_start2_edited.png',
+		'images/inst_start3_edited.png',
+		'images/inst_1.png',
+		'images/inst_2.png',
+		'images/inst_3.png',
+		'images/inst_4.png',
+		'images/inst_5.png',
+		'images/inst_general_edited.png',
+		'images/inst_mood_rating.png',
+		'images/inst_demo.png',
+		];
+
+var pages_all = [];
+for (var i = 0; i < instruct_images_all.length; i++) {
+	pages_all.push('<div style="display: flex; justify-content: center; align-items: center; width: 110vh;">  <img src="' + instruct_images_all[i] + '" style="width: 100%;"> </div>')
+}
+var instructions_all = {
+	type: 'lmdlab-instructions',
+	data: {
+		exp_name: "delaylearn",
+		exp_stage: "instructions",
+		subjectID: subjectID
+	},
+	pages: pages_all,
+	show_clickable_nav: true,
+}
+
+
 var general_intro = {
   type: "html-button-response",
   stimulus: `
