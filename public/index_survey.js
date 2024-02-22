@@ -3,7 +3,7 @@
 // questionnaires
 
 // set variables
-var scaleDisplayWidth = 800; // in px
+var scaleDisplayWidth = '60%';
 var questions_required = false; // true;
 
 
@@ -38,8 +38,7 @@ var GAD7_qn = [
   { prompt: "Feeling afraid, as if something awful might happen.", name: 'GAD7_7', labels: GAD7_scale },
 ];
 
-var GAD7_pretext = ['Over the <u>last two weeks</u>, how often have you been bothered by the following problems?'
-];
+var GAD7_pretext = ['Over the <u>last two weeks</u>, how often have you been bothered by the following problems?'];
 
 var GAD7_pre = {
   type: 'html-button-response',
@@ -65,6 +64,7 @@ var GAD7 = {
   questions: GAD7_qn,
   button_label: 'Continue',
   scale_width: scaleDisplayWidth,
+  num_answers: GAD7_scale.length,
   randomize_question_order: false,
   on_finish: function () { saveTaskData_survey() }
 };
@@ -91,8 +91,7 @@ var PHQ9_qn = [
 
 ];
 
-var PHQ9_pretext = ['Over the <u>last two weeks</u>, how often have you been bothered by any of the following problems?'
-];
+var PHQ9_pretext = ['Over the <u>last two weeks</u>, how often have you been bothered by any of the following problems?'];
 
 
 var PHQ9_pre = {
@@ -119,6 +118,7 @@ var PHQ9 = {
   questions: PHQ9_qn,
   button_label: 'Continue',
   scale_width: scaleDisplayWidth,
+  num_answers: PHQ9_scale.length,
   randomize_question_order: false,
   on_finish: function () { saveTaskData_survey() }
 };
@@ -175,6 +175,7 @@ var HPS = {
 	questions: HPS_qn,
 	button_label: 'Continue',
 	scale_width: scaleDisplayWidth,
+	num_answers: HPS_scale.length,
 	randomize_question_order: false,
 	on_finish: function () { saveTaskData_survey() }
 };
@@ -216,10 +217,9 @@ var MASQ_7_qn = [
 // ];
 
 // used orignial pretext
-var MASQ_pretext = ['Below is a list of feelings, sensations, problems, and experiences that people<br>' +
-  									'sometimes have. Read each item and then choose the response that best<br>' +
-									  'describes how much you have felt or experienced things this way during the<br>' +
-									  '<b>past week, including today</b>.'];
+var MASQ_pretext = ['Below is a list of feelings, sensations, problems, and experiences that people sometimes have.\n' +
+							'Read each item and then choose the response that best describes how much you have felt or\n' +
+							'experienced things this way during the <b>past week, including today</b>.'];
 
 var MASQ_pre = {
   type: 'html-button-response',
@@ -233,20 +233,22 @@ var MASQ_pre = {
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
+
 var MASQ_7 = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'MASQ_7',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: MASQ_pretext,
-  questions: MASQ_7_qn,
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth,
-  randomize_question_order: false,
-  on_finish: function () { saveTaskData_survey() }
+	type: 'lmdlab-survey-likert',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'MASQ_7',
+		subjectID: subjectID,
+	},
+	required: questions_required,
+	preamble: MASQ_pretext,
+	questions: MASQ_7_qn,
+	button_label: 'Continue',
+	scale_width: '80%',
+	num_answers: MASQ_scale.length,
+	randomize_question_order: false,
+	on_finish: function () { saveTaskData_survey() }
 };
 
 var MASQ_comb = {
@@ -288,11 +290,11 @@ var STAI_qn = [
   { prompt: "I tend to 'ruminate' or dwell over things that happen to me for a really long time afterward.", name: 'RRQ3', labels: STAI_scale }, // RRQ questionnaire !! //
 ];
 
-var STAI_pretext = ['A number of statements which people have used to describe themselves are<br>' +
-  									'given below. Read each statement and then rate according to the labels to<br>' +
-									  'indicate <b>how you generally feel</b>.<br><br>' +
-									  'There are no right or wrong answers. Do not spend too much time on any one<br>' +
-									  'statement but give the answer which seems to describe how you generally feel.'];
+var STAI_pretext = ['A number of statements which people have used to describe themselves are\n' +
+								'given below. Read each statement and then rate according to the labels to\n' +
+								'indicate <b>how you generally feel</b>.<br>\n' +
+								'There are no right or wrong answers. Do not spend too much time on any one\n' +
+								'statement but give the answer which seems to describe how you generally feel.'];
 
 var STAI_pre = {
   type: 'html-button-response',
@@ -355,7 +357,7 @@ var AES_qn = [
 ];
 
 //AES separate source
-var AES_pretext = ['For each question, choose the answer that best describes your<br>' +
+var AES_pretext = ['For each question, choose the answer that best describes your' +
   								 'thoughts, feelings, and actions during the <b>past 4 weeks</b>.'];
 
 var AES_PRE = {
@@ -371,19 +373,20 @@ var AES_PRE = {
 };
 
 var AES = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'AES',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: AES_pretext,
-  questions: AES_qn,
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth,
-  randomize_question_order: false,
-  on_finish: function () { saveTaskData_survey() }
+	type: 'lmdlab-survey-likert',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'AES',
+		subjectID: subjectID
+	},
+	required: questions_required,
+	preamble: AES_pretext,
+	questions: AES_qn,
+	button_label: 'Continue',
+	scale_width: '80%', // scaleDisplayWidth,
+	num_answers: AES_scale.length,
+	randomize_question_order: false,
+	on_finish: function () { saveTaskData_survey() }
 };
 
 var AES_comb = {
@@ -396,8 +399,9 @@ var AES_comb = {
 // var SDS_scale_original = ["A little of the time", "Some of the time", "Good part of the time", "Most of the time"];
 
 // ADAPTED based on ZZZZ (add citation from version that shifted the options)
+// NOTE Feb 2024:
+// this is different than the usage in navrisk task, which went to "Rarely or none of the time" etc
 var SDS_scale = ["None of the time", "A little of the time", "Some of the time", "Most of the time"];
-
 
 var zung_qn = [
 //   { prompt: "I feel down-hearted and blue.", name: 'SDS1', labels: SDS_scale }, // excluding because PHQ overlap: PHQ item_2
@@ -426,8 +430,8 @@ var zung_qn = [
 // separate source
 // For each item below, please place a check mark in the column which best describes how often you 
 // felt or behaved this way during the past several days
-var SDS_pretext = ['Please read each statement and decide <b>how much</b> of the <br>' +
-									 'time the statement describes how you have been feeling<br>' +
+var SDS_pretext = ['Please read each statement and decide <b>how much</b> of the' +
+									 'time the statement describes how you have been feeling' +
 									 'during the <b>past several days</b>.'];
 
 var SDS_pre = {
@@ -496,12 +500,11 @@ var STICSA_qn = [
 // ];
 
 
-var STICSA_pretext = ['You will see a list of statements which can be used to describe how people feel.<br>'+
-									  	'Below each statement are four options which indicate how often each statement<br>' +
-									  	'is true of you.<br><br>' +
-										  'Please read each statement carefully and select the option which best indicates<br>'+
-										  'how often, <b>in general</b>, the statement is true of you.'
-];
+var STICSA_pretext = ['You will see a list of statements which can be used to describe how people feel.\n' +
+									  	'Below each statement are four options which indicate how often each statement\n' +
+									  	'is true of you. Please read each statement carefully and select the option which best indicates\n' +
+										'how often, <b>in general</b>, the statement is true of you.'];
+
 
 var STICSA_pre = {
   type: 'html-button-response',
@@ -577,7 +580,7 @@ var PVSS_pretext = ['Please indicate to what extent these statements describe yo
                     'Did you <b>not</b> have this experience? No problem. Please indicate how you <u>would have responded</u>\n' +
                     'if you had experienced the situation over the last two weeks.</b><br>\n' +
                     'Please consider only the aspect of the situation that is described, paying particular attention to\n' +
-                    'the <u>underlined text</u>. For example, if the statement says, "<u>I wanted</u> to meet new people,” rate\n' +
+                    'the <u>underlined text</u>. For example, if the statement says, "<u>I wanted</u> to meet new people," rate\n' +
   					'how much you wanted or would have wanted to meet new people over the last two weeks,\n' +
                     'assuming that the opportunity presented itself. Do not consider what the situation would have\n' +
                     'required of you or whether it would have been possible for you to meet people.'];
@@ -599,15 +602,15 @@ var PVSS = {
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'PVSS',
-		subjectID: subjectID
+		subjectID: subjectID,
 	},
 	required: questions_required,
 	preamble: PVSS_pretext,
 	questions: PVSS_qn,
 	button_label: 'Continue',
-	scale_width: '70%',
+	scale_width: '90%',
 	randomize_question_order: false,
-	num_answers: 11, // need wider width here
+	num_answers: PVSS_scale.length,
 	on_finish: function () { saveTaskData_survey() }
 };
 
@@ -616,263 +619,9 @@ var PVSS_comb = {
 }
 
 // ****************************************************************************************************************
-//  We're using questionnaires until here. (Our surveys: PHQ9, GAD7, AES, MASQ7, SDS, STICSA, STAI, PVSS)
+//  We're using questionnaires until here. (Our surveys: PHQ9, GAD7, HPS, AES, MASQ7, SDS, STICSA, STAI, PVSS)
 // ****************************************************************************************************************
 
-
-// PSWQ Penn State Worry Questionnaire //
-var PSWQ_scale = [" Not at all typical", "Rarely typical of me", "Somewhat typical of me", "Often typical of me", "Very typical of me"];
-
-var PSWQ_8_qn = [
-  { prompt: "My worries overwhelm me.", name: 'pswq1', labels: PSWQ_scale },
-  { prompt: "Many situations make me worry.", name: 'pswq2', labels: PSWQ_scale },
-  { prompt: "I know I shouldn't worry about things, but I just cannot help it.", name: 'pswq3', labels: PSWQ_scale },
-  { prompt: "When I am under pressure I worry a lot.", name: 'pswq4', labels: PSWQ_scale },
-  { prompt: "I am always worrying about something.", name: 'pswq5', labels: PSWQ_scale },
-  { prompt: "As soon as I finish one task, I start to worry about everything else I have to do.", name: 'pswq6', labels: PSWQ_scale },
-  { prompt: "I notice that I have been worrying about things.", name: 'pswq7', labels: PSWQ_scale },
-  { prompt: "Once I start worrying, I can't stop.", name: 'pswq8', labels: PSWQ_scale },
-];
-
-// original pretext 
-// Choose the response that best describes how typical or characteristic each item is of you.
-var PSWQ_pretext = ['Rate each of the following statements on the scale ranging from<br>' +
-                    '“not at all typical of me” to “very typical of me”.'];
-
-var PSWQ_pre = {
-  type: 'html-button-response',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'PSWQ_8',
-    subjectID: subjectID
-  },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + PSWQ_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-
-};
-
-var PSWQ_8 = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'PSWQ_8',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: PSWQ_pretext,
-  questions: PSWQ_8_qn,
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth,
-  randomize_question_order: false,
-  on_finish: function () { saveTaskData_survey() }
-};
-
-var PSWQ_comb = {
-  timeline: [PSWQ_pre, PSWQ_8]
-}
-
-
-// LSAS
-// L Social Anxiety Scale
-var lebsocial_scale = ["None", "Mild", "Moderate", "Severe"];
-
-var lebsocial_qn = [
-  { prompt: "Participating in small groups", name: 'lebsocial1', labels: lebsocial_scale },
-  { prompt: "Talking to people in authority", name: 'lebsocial2', labels: lebsocial_scale },
-  { prompt: "Going to a party", name: 'lebsocial3', labels: lebsocial_scale },
-  { prompt: "Writing while being observed", name: 'lebsocial4', labels: lebsocial_scale },
-  { prompt: "Calling someone you don't know very well.", name: 'lebsocial5', labels: lebsocial_scale },
-  { prompt: "Talking with people you don't know very well", name: 'lebsocial6', labels: lebsocial_scale },
-  { prompt: "Meeting strangers", name: 'lebsocial7', labels: lebsocial_scale },
-  { prompt: "Entering a room when others are already seated", name: 'lebsocial8', labels: lebsocial_scale },
-  { prompt: "Speaking up at a meeting", name: 'lebsocial9', labels: lebsocial_scale },
-  { prompt: "Expressing a disagreement or disapproval to people you don't know very well", name: 'lebsocial10', labels: lebsocial_scale },
-  { prompt: "Looking at people you don't know very well in the eyes", name: 'lebsocial11', labels: lebsocial_scale },
-  { prompt: "Giving a report to a group", name: 'lebsocial12', labels: lebsocial_scale },
-  { prompt: "Returning goods to a store", name: 'lebsocial13', labels: lebsocial_scale },
-];
-
-// original source: no introduction there
-// separate source
-// var LSAS_pretext = ['This measure assesses the way that social phobia plays a role in your life across a variety of situations.<br>'+
-// 										'Read each situation carefully and answer two questions about it; the first question asks <br>' +
-// 										'how anxious or fearful you feel in the situation; the second question asks how often you avoid it. <br>'+
-// 										'If you come across a situation that you ordinarily do not experience, we ask that you imagine<br>' +
-// 										'“<i>what if you were faced with that situation</i>”, and then rate the degree to which you would fear <br>'+
-// 										'this hypothetical situation and how often you would tend to avoid it (using the 0 to 3 scales below). <br>'+ 
-// 										'Please base your ratings on the way that situations have affected you in the last week (or other agreed time period).'
-// ];
-// adapted for only anxious/fearful response
-var LSAS_pretext = ['This measure assesses the way that social phobia plays a role in your life across a<br>'+
-										'variety of situations. Read each situation carefully and answer how <b>anxious</b> or<br>' +
-										'<b>fearful</b> lyou feel in the situation.<br><br>'+
-										'If you come across a situation that you ordinarily do not experience, we ask that you<br>' +
-										'imagine “<i>what if you were faced with that situation</i>”, and then rate the degree to which<br>'+
-										'you would be anxious or fearful in this hypothetical situation.<br><br>'+ 
-										'Please base your ratings on the way that situations have affected you <b>in the last week</b>.'
-];
-
-// 		Seow_preamble: ['<strong>Read each bolded statement carefully and answer two questions about that statement. The first question asks how ANXIOUS or FEARFUL you feel in that situation. The second question asks how often you AVOID that situation.
-// 										'Please base your ratings on the way that the situations have affected you in the LAST WEEK.</strong>'],
-
-var LSAS_pre = {
-  type: 'html-button-response',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'LSAS',
-    subjectID: subjectID
-  },
-  stimulus: '<p style="font-size: 2.5rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 3rem; line-height: 1.3; color: #000080"> ' + LSAS_pretext + '</p><br><br><br><p style="font-size: 2.5rem"> Thank you for your continued attention and focus!</p><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-};
-
-var LSAS = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'LSAS',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: LSAS_pretext,
-  questions: lebsocial_qn,
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth,
-  randomize_question_order: false,
-  on_finish: function () { saveTaskData_survey() }
-};
-
-var LSAS_comb = {
-  timeline: [LSAS_pre, LSAS]
-}
-
-
-// Sociodem
-// Demographic and sociological questions
-
-var Sociodem_scale1 = ["College or University degree","A levels/AS levels or equivalent", "O levels/GCSEs or equivalent","CSEs or equivalent","NVQ or HND or HNC or equivalent", 
-	"Other professional qualifications eg: nursing, teaching","None of the above","Prefer not to answer"];
-var Sociodem_scale2 = ["Never/rarely","Sometimes", "Often","Most of the time","Do not drive on the motorway",
-	"Do not know","Prefer not to answer"];
-var Sociodem_scale3 = ["Prefer not to answer","Never", "Previous","Current"];
-var Sociodem_scale4 = ["Daily or almost daily","Three or four times a week", "Once or twice a week","One to three times a month",
-  "Special occasions only","Never","Prefer not to answer"
-];
-
-// var Sociodem_pretext = ['  preamble: "Please answer the question using the response options below:\n ",.<br><br>'+
-// 										 'Please carefully consider and respond to each of the items below.<br>'
-// ];
-
-var Sociodem_pre = {
-  type: 'html-button-response',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'Sociodem',
-	subjectID: subjectID
-  },
-  required: questions_required,
-  stimulus: '<p style="font-size: 2.5rem">Next, we have a short questionnaire on demographics and behaviour.<br><br>Thank you for your continued attention and focus!</p><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-};
-
-var Sociodem_age = {
-	type: 'lmdlab-survey-text',
-	data: {
-		exp_name: "survey",
-		exp_stage: "Sociodem",
-		subjectID: subjectID
-	},
-  required: questions_required,
-	questions: [
-		{ prompt: "<p style='font-size: 30px; line-height: 1.3'>Age:</p><br><br><br>", rows: 1, colums: 5, numbers: 1 },
-	],
-};
-
-var Sociodem_education = {
-  type: 'lmdlab-multi-select',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'Sociodem',
-	subjectID: subjectID
-  },
-  required: questions_required,
-  questions: [
-    {
-      prompt:  '<font size="+3">Which of the following qualifications do you have?<br><br>(You can select more than one.)<br><br></font>', 
-      options: Sociodem_scale1, 
-      horizontal: false,
-      name: 'Sociodem_education'
-    }, 
-  ], 
-  randomize_question_order: true,
-  font_size_choice: "+2",
-  on_finish: function () { saveTaskData_survey() }
-};
-
-var Sociodem_drive = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'Sociodem',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: '', //Sociodem_pretext,
-  questions:[
-    { prompt: '<font size="+3">How often do you drive faster than the speed limit on the motorway?<br><br></font>', name: 'Sociodem_drive', labels: Sociodem_scale2 },
-  ],
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth*1.3,
-  randomize_question_order: false,
-  num_answers: 7,
-  on_finish: function () { saveTaskData_survey() }
-};
-
-var Sociodem_smoke = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'Sociodem',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: '', //Sociodem_pretext,
-  questions:[
-    { prompt: '<font size="+3">Are you or have you been a smoker (a user of nicotine cigarettes, vapes, etc.)?<br><br></font>', name: 'Sociodem_smoke', labels: Sociodem_scale3 },
-  ],
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth*1,
-  randomize_question_order: false,
-  num_answers: 4,
-  on_finish: function () { saveTaskData_survey() }
-};
-
-var Sociodem_alcohol = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'Sociodem',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: '', //Sociodem_pretext,
-  questions:[
-    { prompt: '<font size="+3">How often do you drink alcohol?<br><br></font>', name: 'Sociodem_alcohol', labels: Sociodem_scale4 },
-  ],
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth*1.3,
-  randomize_question_order: false,
-  num_answers: 7,
-  on_finish: function () { saveTaskData_survey() }
-};
-
-
-var Sociodem_comb = {
-  timeline: [Sociodem_pre, Sociodem_age, Sociodem_education, Sociodem_drive, Sociodem_smoke, Sociodem_alcohol]
-}
 
 
 
@@ -944,14 +693,14 @@ var survey_question = {
 // All the _comb items
 var all_comb = [
 	PHQ9_comb,
-	GAD7_comb,
-	MASQ_comb,
-	STAI_comb,
-	AES_comb,
-	SDS_comb,
-    HPS_comb,
+// 	GAD7_comb,
+// 	MASQ_comb,
+// 	STAI_comb,
+// 	AES_comb,
+// 	SDS_comb,
+//     HPS_comb,
 	STICSA_comb,
-    PVSS_comb
+//     PVSS_comb
 ];
 
 
