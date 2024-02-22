@@ -185,6 +185,9 @@ var instructions_all = {
 	},
 	pages: pages_all,
 	show_clickable_nav: true,
+	on_finish: function () {
+		saveTaskData_learnintro()
+	}
 }
 
 
@@ -356,6 +359,9 @@ var instructions_rewconf = {
 	},
 	pages: pages_rewconf,
 	show_clickable_nav: true,
+	on_finish: function (data) {
+		saveTaskData_testintro();
+	}
 }
 
 var inst_rew_conf_1 = {
@@ -417,6 +423,9 @@ var instructions_rewrate = {
 	},
 	pages: pages_rewrate,
 	show_clickable_nav: true,
+	on_finish: function (data) {
+		saveTaskData_testintro();
+	}
 }
 
 
@@ -465,6 +474,9 @@ var instructions_timing = {
 	},
 	pages: pages_timing,
 	show_clickable_nav: true,
+	on_finish: function (data) {
+		saveTaskData_testintro();
+	}
 }
 
 

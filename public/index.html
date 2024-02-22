@@ -259,7 +259,9 @@
 
         timeline.push(full_screen);
 
-        timeline.push(
+		timeline.push(instructions_all);
+
+        // timeline.push(
             //             welcome,
             //             information_sheet,
             //             consent_form,
@@ -267,10 +269,10 @@
             //             start_1,
             //             start_2,
             //             start_3,
-            // 			instructions_all,
-        );
+            //			   instructions_all,
+        // );
 
-        timeline.push(
+        // timeline.push(
             //             trial_example_1,
             //             trial_example_2,
             //             trial_example_3,
@@ -279,7 +281,7 @@
             //             general_intro,
             //             mood_instructions,
             //             demo_instruction,
-        );
+        // );
 
         var jsonFileName;
         var learnlist;
@@ -893,7 +895,6 @@
                             confidence: confidence,
                         };
                         jsPsych.data.addDataToLastTrial(responseData);
-
                         saveTaskData_test();
                     }
                 };
@@ -911,7 +912,7 @@
             /** Reward Rating Test Procedures **/
             /*********************/
 
-            let ntrials_rate = 0; // 12 trials (12 individual stimuli)
+            let ntrials_rate = 1; // 12 trials (12 individual stimuli)
             //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
@@ -976,7 +977,7 @@
             /*********************/
 
             // let ntrials_time = 6; // 6 trials (6 pairs)
-            let ntrials_time = 0;
+            let ntrials_time = 1;
 
             if (ntrials_time > 0) {
 

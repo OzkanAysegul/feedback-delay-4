@@ -182,7 +182,7 @@ async function saveTaskData_survey() {
 	console.log("saving survey data");
 	// var stringifydata = jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey" && trial.exp_stage == "survey"}).json();
 	await db.collection('delaylearntaskv4').doc('exp_survey').collection('subjects').doc(uid).collection('taskdata').doc('data').set({
-		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey" && trial.exp_stage == "survey"}).json()
+		data: jsPsych.data.get().filterCustom(function(trial){ return trial.exp_name == "survey"}).json()
 	})
 }
 

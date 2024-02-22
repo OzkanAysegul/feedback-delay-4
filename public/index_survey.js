@@ -888,7 +888,7 @@ var survey_start_trial = {
   stimulus: '<p style="font-size: 3rem; line-height: 1.3">The study involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-//   on_finish: function () { saveTaskData_surveyintro() }
+  on_finish: function () { saveTaskData_surveyintro() }
 };
 
 var survey_start = {
