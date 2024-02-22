@@ -262,25 +262,25 @@
         timeline.push(full_screen);
 
         timeline.push(
-//             welcome,
-//             information_sheet,
-//             consent_form,
-//             demogr,
-//             start_1,
-//             start_2,
-//             start_3,
-// 			instructions_all,
+            //             welcome,
+            //             information_sheet,
+            //             consent_form,
+            //             demogr,
+            //             start_1,
+            //             start_2,
+            //             start_3,
+            // 			instructions_all,
         );
 
         timeline.push(
-//             trial_example_1,
-//             trial_example_2,
-//             trial_example_3,
-//             trial_example_4,
-//             trial_example_5,
-//             general_intro,
-//             mood_instructions,
-//             demo_instruction,
+            //             trial_example_1,
+            //             trial_example_2,
+            //             trial_example_3,
+            //             trial_example_4,
+            //             trial_example_5,
+            //             general_intro,
+            //             mood_instructions,
+            //             demo_instruction,
         );
 
         var jsonFileName;
@@ -316,8 +316,8 @@
                 if (data.event == 'focus') {
                     jsPsych.resumeExperiment(); // unclear if this condition is useful
                 }
-                if (data.event == 'fullscreenexit') { }
-                if (data.event == 'fullscreenenter') { }
+                if (data.event == 'fullscreenexit') {}
+                if (data.event == 'fullscreenenter') {}
             },
             on_finish: function () {
                 var prolificID = jsPsych.data.getURLVariable('subject');
@@ -326,7 +326,7 @@
                 });
 
                 // let ntrials // leave here to allow searching and skipping task phases
-//                 First_Section()
+                //                 First_Section()
                 Second_Section() // debugging only!
 
             }
@@ -442,7 +442,7 @@
                                 '<img src="' + last_trial.choice_stimuli_2 +
                                 '" style="width: 408px; height: 417px; margin-left:608px;">' +
                                 '</div>' + '</div>';
-                        } else (response == 'NaN')
+                        } else(response == 'NaN')
                         return "<div style='font-weight: bold; font-size: 75px; color: red;'>" +
                             "Missed Trial <br><br><br><br> Please respond faster" +
                             "</div>";
@@ -461,7 +461,7 @@
                                 return "chosen stimuli: " + last_trial.choice_stimuli_1;
                             } else if (last_trial.response == 'j') {
                                 return "chosen stimuli: " + last_trial.choice_stimuli_2;
-                            } else (last_trial.response == 'NaN')
+                            } else(last_trial.response == 'NaN')
                             return 'Missed trial';
                         }
                     },
@@ -493,7 +493,7 @@
                             var last_trial_response = jsPsych.data.get().last(2).values()[0];
                             if (last_trial_response.rt !== null) {
                                 return last_trial_response.feedback_duration_times;
-                            } else (last_trial_response.rt == null)
+                            } else(last_trial_response.rt == null)
                             return 0;
                         }
                     },
@@ -508,7 +508,7 @@
                         var data_window_response = data_window.response;
 
                         if ((data_window_response != 'f') && (data_window_response != 'j') && (
-                            data_window_response == null)) {
+                                data_window_response == null)) {
                             data_window.counter = pointCounter;
                             return "";
                         } else if (data_window_response == data_window.rewarded_answer[0]) {
@@ -620,7 +620,9 @@
                         trial_duration: 40000,
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-£0.50!',
                     };
-                    rateconfidence_trial.on_finish = function () { saveTaskData_rewlearn() };
+                    rateconfidence_trial.on_finish = function () {
+                        saveTaskData_rewlearn()
+                    };
 
                     var accuracy_performance = {
                         type: 'lmdlab-rest-trial-limit',
@@ -686,7 +688,9 @@
                     }
 
                     var accuracy_performance_procedure = {
-                        timeline: [rateconfidence_trial, accuracy_performance, pre_fix_learn, mood_baseline_procedure],
+                        timeline: [rateconfidence_trial, accuracy_performance, pre_fix_learn,
+                            mood_baseline_procedure
+                        ],
                     }
 
                     timeline.push(accuracy_performance_procedure);
@@ -914,7 +918,7 @@
 
             if (ntrials_rate > 0) {
                 timeline.push(pre_fix_test);
-				// timeline.push(inst_rew_rate_1, inst_rew_rate_2);
+                // timeline.push(inst_rew_rate_1, inst_rew_rate_2);
                 timeline.push(instructions_rewrate);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
@@ -980,7 +984,7 @@
 
                 timeline.push(pre_fix_test);
 
-				// timeline.push(inst_timing_est_1);
+                // timeline.push(inst_timing_est_1);
                 timeline.push(instructions_timing);
                 // TRIGGER
                 timeline.push(pre_task_trigger);
@@ -1004,12 +1008,10 @@
                     console.error('Invalid counterbalancing value:', counterbal_timing);
                 }
 
-                var timing_button_labels = [' &nbsp; &nbsp; &nbsp; Short Delay &nbsp; &nbsp; &nbsp; ', ' &nbsp; &nbsp; &nbsp; Long Delay &nbsp; &nbsp;  &nbsp; '
-                ];
-
                 var timing_est = {
-                    type: 'html-button-response',
+                    type: 'html-keyboard-response',
                     prompt: "<div style='margin:auto;width: 900px; font-size: 150%; margin-bottom: 20px; margin-top: 20px;'>" +
+                        "<img src='images/short_long_arrows.png' style='width: 100%; max-height: 300px; object-fit: contain; margin-bottom: 20px;'/>" +
                         "<p>How long was the delay between this trial and the feedback point?</p>" +
                         "</div>",
                     stimulus: function () {
@@ -1024,15 +1026,9 @@
                             '</div>' + '</div><br><br><br><br>';
                     },
 
-                    choices: timing_button_labels,
+                    choices: ['ArrowUp', 'ArrowDown'],
                     button_html: '<button class="lmdlab-btn">%choice%</button>',
                     stimulus_width: 400,
-//                     slider_width: 1000,
-//                     step: 0.1,
-//                     min: 0,
-//                     max: 12,
-//                     slider_start: 0,
-//                     require_movement: true,
                     data: {
                         exp_name: 'delaylearn',
                         exp_stage: 'test',
