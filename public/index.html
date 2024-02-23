@@ -259,29 +259,14 @@
 
         timeline.push(full_screen);
 
-		// timeline.push(instructions_all);
+        timeline.push(
+                        welcome,
+                        information_sheet,
+                        consent_form,
+                        demogr
+        );
 
-        // timeline.push(
-        //                 welcome,
-        //                 information_sheet,
-        //                 consent_form,
-        //                 demogr,
-        //                 start_1,
-        //                 start_2,
-        //                 start_3,
-        //     			   instructions_all,
-        // );
-
-        // timeline.push(
-        //                 trial_example_1,
-        //                 trial_example_2,
-        //                 trial_example_3,
-        //                 trial_example_4,
-        //                 trial_example_5,
-        //                 general_intro,
-        //                 mood_instructions,
-        //                 demo_instruction,
-        // );
+		timeline.push(instructions_all);
 
         var jsonFileName;
         var learnlist;
@@ -327,8 +312,7 @@
 
                 // let ntrials // leave here to allow searching and skipping task phases
                 //                 First_Section()
-                Second_Section() // debugging only!
-
+                First_Section() // debugging only!
             }
         });
 
@@ -768,7 +752,6 @@
 
 //             timeline.push(rest_trial);
 
-
             var pre_task_trigger = {
                 type: "html-keyboard-response",
                 data: {
@@ -785,7 +768,7 @@
             /** Confidence Test Procedures **/
             /*********************/
 
-            let ntrials_confidence = 0; // 6 trials (6 pairs)
+            let ntrials_confidence = 6; // 6 trials (6 pairs)
             // let ntrials_confidence = 0;
 
             if (ntrials_confidence > 0) {
@@ -912,7 +895,7 @@
             /** Reward Rating Test Procedures **/
             /*********************/
 
-            let ntrials_rate = 0; // 12 trials (12 individual stimuli)
+            let ntrials_rate = 12; // 12 trials (12 individual stimuli)
             //             let ntrials_rate = 2;
 
             if (ntrials_rate > 0) {
@@ -977,7 +960,7 @@
             /*********************/
 
             // let ntrials_time = 6; // 6 trials (6 pairs)
-            let ntrials_time = 0;
+            let ntrials_time = 6;
 
             if (ntrials_time > 0) {
 
@@ -1058,26 +1041,8 @@
 
 
             // /*********************/
-            // /** Post-learning-experiment questions **/
+            // /** Survey questions **/
             // /*********************/
-
-            // // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
-            // timeline.push(
-            //     post_stress_sleep_intro,
-            //     stressquestion,
-            //     sleepquestion1,
-            //     sleepquestion2,
-            //     sleepquestion3,
-            //     post_question_instruct,
-            //     post_question1, post_question2,
-            //     post_question3,
-            //     post_question4,
-            //     post_question5,
-            //     engagement_question1,
-            //     engagement_question2,
-            //     engagement_question3,
-            //     comment_question1
-            // );
 
             timeline.push(survey_final);
 
