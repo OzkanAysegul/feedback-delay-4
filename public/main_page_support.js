@@ -460,6 +460,7 @@ var inst_rew_rate_2 = {
 // instructions timing
 var instruct_images_timing = [
 		'images/inst_timing_est_1.png',
+    'images/inst_timing_est_2.png',
 		];
 var pages_timing = [];
 for (var i = 0; i < instruct_images_timing.length; i++) {
