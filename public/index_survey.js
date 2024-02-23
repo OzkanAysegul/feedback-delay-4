@@ -4,7 +4,7 @@
 
 // set variables
 var scaleDisplayWidth = '60%';
-var questions_required = false; // true;
+var questions_required = true; // true;
 
 
 var survey_leadin = ['For the next short questionnaire, the instructions are:'];
@@ -696,11 +696,11 @@ var all_comb = [
 	GAD7_comb,
 	MASQ_comb,
 	STAI_comb,
-// 	AES_comb, //
-// 	SDS_comb, //
-//     HPS_comb, //
-// 	STICSA_comb,// 
-//     PVSS_comb //
+	AES_comb,
+	SDS_comb,
+    HPS_comb,
+	STICSA_comb,
+    PVSS_comb
 ];
 
 
