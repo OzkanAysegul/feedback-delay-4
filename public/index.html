@@ -399,7 +399,7 @@
                         };
                         jsPsych.data.addDataToLastTrial(responseData);
 
-                        saveTaskData_learn();
+//                         saveTaskData_learn();
                     }
                 };
 
@@ -449,9 +449,9 @@
                             return 'Missed trial';
                         }
                     },
-                    on_finish: function () {
-                        saveTaskData_learn()
-                    }
+//                     on_finish: function () {
+//                         saveTaskData_learn()
+//                     }
                 };
 
                 var feedback_window = {
@@ -562,9 +562,9 @@
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-10 points!',
                         scale_colour: 'gray',
                         scale_width: 60,
-                        on_finish: function () {
-                            saveTaskData_learn()
-                        }
+//                         on_finish: function () {
+//                             saveTaskData_learn()
+//                         }
                     };
 
                     var mood_trial_fixation = {
@@ -605,7 +605,7 @@
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-£0.50!',
                     };
                     rateconfidence_trial.on_finish = function () {
-                        saveTaskData_rewlearn()
+//                         saveTaskData_learn()
                     };
 
                     var accuracy_performance = {
@@ -650,9 +650,9 @@
                         scale_colour: 'gray',
                         scale_width: 60,
                         labels: ['Very unhappy', 'Very happy'],
-                        on_finish: function () {
-                            saveTaskData_learn()
-                        }
+//                         on_finish: function () {
+//                             saveTaskData_learn()
+//                         }
                     };
 
                     var mood_baseline_fixation = {
@@ -729,7 +729,7 @@
             // timeline.push(pavlovia_init);
 
             timeline = [];
-//             timeline.push(inst_main_finish);
+            timeline.push(inst_main_finish);
 
             var rest_text =
                 "<p style='font-size: 4.4rem; color: white;'>Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
@@ -750,7 +750,7 @@
                 }
             };
 
-//             timeline.push(rest_trial);
+            timeline.push(rest_trial);
 
             var pre_task_trigger = {
                 type: "html-keyboard-response",
