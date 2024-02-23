@@ -79,7 +79,7 @@ const demo_txt =
 
 
 var loaded_images = [
-  'images/inst_welcome.png', 'images/inst_start1.png', 'images/inst_start2.png', 'images/inst_start3.png', 'images/inst_general.png', 
+  'images/inst_welcome_edited.png', 'images/inst_start1_edited.png', 'images/inst_start2_edited.png', 'images/inst_start3_edited.png', 'images/inst_general_edited.png', 
   'images/inst_1.png', 'images/inst_2.png', 'images/inst_3.png', 'images/inst_4.png', 'images/inst_5.png', 
   'images/inst_break_2.png', 'images/inst_break_short.png', 'images/inst_mood_rating.png', 'images/inst_demo.png', 'images/inst_demo_finish.png',
   'images/inst_main_finish.png', 
