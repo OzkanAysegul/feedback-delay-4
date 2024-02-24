@@ -191,30 +191,16 @@ var MASQ_scale = ["Not at all", "A little bit", "Moderately", "Quite a bit", "Ex
 
 var MASQ_7_qn = [
   { prompt: "I felt really happy.", name: 'masq1', labels: MASQ_scale },
-  { prompt: "I felt withdrawn from other people.", name: 'masq2', labels: MASQ_scale },
-  { prompt: "I felt like I had a lot to look forward to.", name: 'masq3', labels: MASQ_scale },
-  { prompt: "I felt like I had a lot of interesting things to do.", name: 'masq4', labels: MASQ_scale },
-  { prompt: "I felt really lively, “up”.", name: 'masq5', labels: MASQ_scale },
-  { prompt: "I felt like I had a lot of energy.", name: 'masq6', labels: MASQ_scale },
-  { prompt: "I felt like I was having a lot of fun.", name: 'masq7', labels: MASQ_scale },
-  { prompt: "I feel as if I am slowed down.", name: 'hads2', labels: MASQ_scale }, // HADS question!! //
-  { prompt: "I have lost interest in my appearance.", name: 'hads6', labels: MASQ_scale }, // HADS question!! //
+  { prompt: "I felt withdrawn from other people.", name: 'masq5', labels: MASQ_scale },
+  { prompt: "I felt like I had a lot to look forward to.", name: 'masq9', labels: MASQ_scale },
+  { prompt: "I felt like nothing was very enjoyable.", name: 'masq11', labels: MASQ_scale }, // (re-added feb 2024???)
+  { prompt: "I felt like I had a lot of interesting things to do.", name: 'masq15', labels: MASQ_scale },
+  { prompt: "I felt really lively, “up”.", name: 'masq19', labels: MASQ_scale },
+  { prompt: "I felt like I had a lot of energy.", name: 'masq23', labels: MASQ_scale },
+  { prompt: "I felt like I was having a lot of fun.", name: 'masq25', labels: MASQ_scale },
+  { prompt: "I feel as if I am slowed down.", name: 'hads2', labels: MASQ_scale }, // HADS item 2!! //
+  { prompt: "I have lost interest in my appearance.", name: 'hads6', labels: MASQ_scale }, // HADS item 6!! //
 ];
-
-
-// the version of the script is below.
-// var MASQ_7_qn = [
-// 	{ prompt: "I felt really happy.", name: 'masq1', labels: MASQ_scale },
-// 	{ prompt: "I felt withdrawn from other people.", name: 'masq5', labels: MASQ_scale },
-// 	{ prompt: "I felt like I had a lot to look forward to.", name: 'masq9', labels: MASQ_scale },
-// 	{ prompt: "I felt like nothing was very enjoyable.", name: 'masq11', labels: MASQ_scale }, // (including because we are not getting DASS)
-// 	{ prompt: "I felt like I had a lot of interesting things to do.", name: 'masq15', labels: MASQ_scale },
-// 	{ prompt: "I felt really lively, “up”.", name: 'masq19', labels: MASQ_scale },
-// 	{ prompt: "I felt like I had a lot of energy.", name: 'masq23', labels: MASQ_scale },
-// 	{ prompt: "I felt like I was having a lot of fun.", name: 'masq25', labels: MASQ_scale },
-// 	{ prompt: "I feel as if I am slowed down.", name: 'hads2', labels: MASQ_scale }, // HADS item 2!! //
-// 	{ prompt: "I have lost interest in my appearance.", name: 'hads6', labels: MASQ_scale }, // HADS item 6!! //
-// ];
 
 // used orignial pretext
 var MASQ_pretext = ['Below is a list of feelings, sensations, problems, and experiences that people sometimes have.\n' +
@@ -278,13 +264,13 @@ var STAI_qn = [
   { prompt: "I lack self-confidence.", name: 'STAI12', labels: STAI_scale },
   { prompt: "I feel secure.", name: 'STAI13', labels: STAI_scale },
   { prompt: "I make decisions easily.", name: 'STAI14', labels: STAI_scale },
+  { prompt: "I know the months of the year.", name: 'Catch', labels: STAI_scale }, // frequency item / catch item (feb 2024)
   { prompt: "I feel inadequate.", name: 'STAI15', labels: STAI_scale },
   { prompt: "I am content.", name: 'STAI16', labels: STAI_scale },
   { prompt: "Some unimportant thought runs through my mind and bothers me.", name: 'STAI17', labels: STAI_scale },
   { prompt: "I take disappointments so keenly that I can not put them out of my mind.", name: 'STAI18', labels: STAI_scale },
   { prompt: "I am a steady person.", name: 'STAI19', labels: STAI_scale },
   { prompt: "I get in a state of tension or turmoil as I think over my recent concerns and interests.", name: 'STAI20', labels: STAI_scale },
-  { prompt: "I feel afraid, as if something awful might happen.", name: 'GAD7', labels: STAI_scale }, // GAD question !! // accidental GAD question - dropped in later summer 2023 subjects // removed from analysis
   { prompt: "I do not feel particularly guilty.", name: 'BDI5', labels: STAI_scale }, // BDI questionnaire !! //
   { prompt: "In uncertain times, I usually expect the best.", name: 'LOTR1', labels: STAI_scale }, // LOT-R questionnaire !! //
   { prompt: "I tend to 'ruminate' or dwell over things that happen to me for a really long time afterward.", name: 'RRQ3', labels: STAI_scale }, // RRQ questionnaire !! //
@@ -343,7 +329,8 @@ var AES_qn = [
   { prompt: "I put little effort into anything.", name: 'AES6', labels: AES_scale },
   { prompt: "I approach life with intensity.", name: 'AES7', labels: AES_scale },
   { prompt: "Seeing a job through to the end is important to me.", name: 'AES8', labels: AES_scale },
-  { prompt: "I am someone who is reading this question; if so, please select the second option.", name: 'AES_catch', labels: AES_scale }, // trap question / it is different in the new version: 	{ prompt: "I have never seen the sun rise or set in my life.", name: 'Catch', labels: AES_scale }, // infrequency item / catch item
+//  { prompt: "I am someone who is reading this question; if so, please select the second option.", name: 'AES_catch', labels: AES_scale }, // trap question / it is different in the new version: 	{ prompt: "I have never seen the sun rise or set in my life.", name: 'Catch', labels: AES_scale }, // infrequency item / catch item
+  { prompt: "I have been to the moon.", name: 'Catch', labels: AES_scale }, // infrequency item / catch item (Feb 2024)
   { prompt: "I spend time doing things that interest me. ", name: 'AES9', labels: AES_scale },
   { prompt: "Someone has to tell me what to do each day.", name: 'AES10', labels: AES_scale },
   { prompt: "I am less concerned about my problems than I should be.", name: 'AES11', labels: AES_scale },
@@ -412,7 +399,8 @@ var zung_qn = [
   { prompt: "I still enjoy sex.", name: 'SDS6', labels: SDS_scale },
   { prompt: "I notice that I am losing weight.", name: 'SDS7', labels: SDS_scale },
   { prompt: "I have trouble with constipation.", name: 'SDS8', labels: SDS_scale },
-  { prompt: "Right now, please respond with: Some of the time.", name: 'SDS_catch', labels: SDS_scale }, // infrequency item / catch item / it is different in new version of the script/ { prompt: "I think about how I was feeling one hundred years ago.", name: 'Catch', labels: SDS_scale }, // infrequency item / catch item
+//  { prompt: "Right now, please respond with: Some of the time.", name: 'SDS_catch', labels: SDS_scale }, // infrequency item / catch item / it is different in new version of the script/ { prompt: "I think about how I was feeling one hundred years ago.", name: 'Catch', labels: SDS_scale }, // infrequency item / catch item
+  { prompt: "I engage in recollection about what I was doing one hundred years ago.", name: 'Catch', labels: SDS_scale }, // infrequency item / catch item (Feb 2024)
   { prompt: "My heart beats faster than usual.", name: 'SDS9', labels: SDS_scale },
   { prompt: "I get tired for no reason.", name: 'SDS10', labels: SDS_scale },
   { prompt: "My mind is as clear as it used to be.", name: 'SDS11', labels: SDS_scale },
@@ -473,13 +461,17 @@ var SDS_comb = {
 var STICSA_scale = ["Not at All", "A Little", "Moderately", "Very Much So"];
 
 var STICSA_qn = [
-  { prompt: "My muscles are tense.", name: 'STICSA_1', labels: STICSA_scale },
-  { prompt: "I feel dizzy.", name: 'STICSA_2', labels: STICSA_scale },
-  { prompt: "My muscles feel weak.", name: 'STICSA_3', labels: STICSA_scale },
-  { prompt: "My face feels hot.", name: 'STICSA_4', labels: STICSA_scale },
-  { prompt: "My arms and legs feel stiff.", name: 'STICSA_5', labels: STICSA_scale },
-  { prompt: "I have butterflies in my stomach (a nervous or fluttery feeling in my stomach).", name: 'STICSA_6', labels: STICSA_scale },
-  { prompt: "My palms feel clammy.", name: 'STICSA_7', labels: STICSA_scale },
+// { prompt: "My heart beats fast.", name: 'STICSA_1', labels: STICSA_scale }, // excluding because SDS overlap:  SDS item_9
+  { prompt: "My muscles are tense.", name: 'STICSA_2', labels: STICSA_scale },
+  { prompt: "I feel dizzy.", name: 'STICSA_6', labels: STICSA_scale },
+  { prompt: "My muscles feel weak.", name: 'STICSA_7', labels: STICSA_scale },
+  { prompt: "I feel trembly and shaky.", name: 'STICSA_8', labels: STICSA_scale }, // (including because we are not getting DASS)
+  { prompt: "My face feels hot.", name: 'STICSA_12', labels: STICSA_scale },
+  { prompt: "My arms and legs feel stiff.", name: 'STICSA_14', labels: STICSA_scale },
+  { prompt: "My throat feels dry.", name: 'STICSA_15', labels: STICSA_scale }, // (including because we are not getting DASS)
+  { prompt: "My breathing is fast and shallow.", name: 'STICSA_18', labels: STICSA_scale }, // (including because we are not getting DASS)
+  { prompt: "I have butterflies in my stomach (a nervous or fluttery feeling in my stomach).", name: 'STICSA_20', labels: STICSA_scale },
+  { prompt: "My palms feel clammy (damp).", name: 'STICSA_21', labels: STICSA_scale },
 ];
 
 // the version of the script is below.
@@ -555,7 +547,8 @@ var PVSS_qn = [
 	{ prompt: "I <u>expected</u> to enjoy a brief moment outdoors.", name: 'PVSS7', labels: PVSS_scale },
 	{ prompt: "I <u>looked forward</u> to hearing feedback on my work.", name: 'PVSS8', labels: PVSS_scale },
 // 	{ prompt: "I <u>enjoyed</u> my natural ability to turn completely invisible at will.", name: 'Catch', labels: PVSS_scale }, // infrequency item / catch item (Aug etc 2023)
-	{ prompt: "I <u>enjoyed</u> the constant and extremely loud construction noise outside my bedroom.", name: 'Catch', labels: PVSS_scale }, // infrequency item / catch item (26 Sept 2023)
+//	{ prompt: "I <u>enjoyed</u> the constant and extremely loud construction noise outside my bedroom.", name: 'Catch', labels: PVSS_scale }, // infrequency item / catch item (26 Sept 2023)
+	{ prompt: "I know how to count to ten.", name: 'Catch', labels: PVSS_scale }, // frequency item / catch item (Feb 2024)
 	{ prompt: "I <u>expected</u> to enjoy my meals.", name: 'PVSS9', labels: PVSS_scale },
 	{ prompt: "Receiving praise about my work made me feel pleased <u>for the rest of the day</u>.", name: 'PVSS10', labels: PVSS_scale },
 	{ prompt: "I <u>looked forward</u> to spending time with others.", name: 'PVSS11', labels: PVSS_scale },
@@ -626,7 +619,7 @@ var PVSS_comb = {
 
 
 // General intro and conclusion //
-var survey_start_trial = {
+var survey_start = {
   type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
@@ -634,17 +627,60 @@ var survey_start_trial = {
 		subjectID: subjectID
 	},
 
-  stimulus: '<p style="font-size: 2rem; line-height: 1.3">This part involves the completion of several questionnaires<br> about mood and personality.<br><br><br>Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
+  stimulus: '<p style="font-size: 3rem; line-height: 1.3">Great work!<br><br>The final part today involves the completion of several questionnaires.<br>There is a rest break half way through.</b><br><br><br>',
   choices: ['Continue'],
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
   on_finish: function () { saveTaskData_surveyintro() }
 };
 
-var survey_start = {
-	timeline: [survey_start_trial]
+var survey_start_two = {
+  type: 'html-button-response',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'introduction',
+		subjectID: subjectID
+	},
+
+  stimulus: '<p style="font-size: 3rem; line-height: 1.3">Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
+  choices: ['Continue'],
+  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
-var survey_end_trial = {
+var survey_question = {
+	type: 'lmdlab-survey-text',
+	data: {
+		exp_name: "survey",
+		exp_stage: "feedback",
+		subjectID: subjectID
+	},
+	required: questions_required,
+	questions: [
+		{ prompt: "<p style='font-size: 1.8rem; line-height: 1.3'> Some feedback would help! Did you find anything unclear or need to be improved in this part? <br><br> If so, please describe them briefly.</p><br><br><br>", rows: 6 },
+	],
+	on_finish: function () { saveTaskData_survey() }
+};
+
+var survey_resources = {
+  type: 'html-button-response',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'resources',
+		subjectID: subjectID,
+		databaseID: uid,
+	},
+  stimulus: '<p style="font-size: 2.0rem; line-height: 1.5">' +
+  				'If you feel affected by the issues raised by these questions and<br>' +
+				'wish to access any further support with regards to your mental<br>' +
+				'health you can find more information on this website:<br><br>' +
+				'https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/<br><br><br>' +
+				'Should you wish to talk, any time of day or night, you can call<br>' +
+				'116 123 to talk to the Samaritans you can also text "SHOUT"<br>' +
+				'to 85258 to contact the Shout Crisis Text Line.<br><br><br><br></p>',
+  choices: ['Continue'],
+  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+};
+
+var survey_end = {
   type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
@@ -656,39 +692,8 @@ var survey_end_trial = {
   button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
-var survey_end = {
-	timeline: [survey_end_trial]
-};
-
-
-// Preload icar images //
-var preload = {
-		type: 'lmdlab-preload',
-		data: {
-			exp_name: "survey",
-			exp_stage: "preload",
-		    subjectID: subjectID
-		},
-		images: ["Stimuli/img/mx46_q_new.svg","Stimuli/img/mx46_a_new.svg","Stimuli/img/rsd8_q_new.svg"]
-}
-
-var survey_question = {
-	type: 'lmdlab-survey-text',
-	data: {
-		exp_name: "survey",
-		exp_stage: "feedback",
-		subjectID: subjectID
-	},
-	required: questions_required,
-	questions: [
-		{ prompt: "<p style='font-size: 30px; line-height: 1.3'> Some feedback would help! Did you find anything unclear or need to be improved in this part? <br><br> If so, please describe them briefly.</p><br><br><br>", rows: 6 },
-	],
-	on_finish: function () { saveTaskData_survey() }
-};
-
 
 // randomize and add to timeline
-
 
 // All the _comb items
 var all_comb = [
@@ -722,20 +727,21 @@ var survey_rand2 = {
   timeline: second_half
 }
 
-
-var survey_all = {
-  timeline: all_comb
-}
+// var survey_all = {
+//   timeline: all_comb
+// }
 
 // Create final survey timeline //
 var survey_final = {
 	timeline: [
 		survey_start,
+		survey_start_two,
 	    survey_rand1,
 	    rest_trial,
 	    survey_rand2,
-// 		survey_question, // NOT HERE
-//     	survey_end, // NOT HERE
+		survey_question,
+		survey_resources,
+    	survey_end,
   	]
 };
 

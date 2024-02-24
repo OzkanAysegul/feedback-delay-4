@@ -259,14 +259,14 @@
 
         timeline.push(full_screen);
 
-//         timeline.push(
-// 			welcome,
-// 			information_sheet,
-// 			consent_form,
-// 			demogr
-//         );
-// 
-// 		timeline.push(instructions_all);
+        timeline.push(
+			welcome,
+			information_sheet,
+			consent_form,
+			demogr
+        );
+
+		timeline.push(instructions_all);
 
         var jsonFileName;
         var learnlist;
@@ -965,6 +965,9 @@
 
                 timeline.push(pre_fix_test);
 
+				// add timing post-survey questions
+				timeline.push(post_question1);
+
                 // timeline.push(inst_timing_est_1);
                 timeline.push(instructions_timing);
                 // TRIGGER
@@ -1034,10 +1037,8 @@
                         }
                         if (data.delay==response_longshort) {
                         	response_correct = 1;
-                        	console.log('rcorr',response_correct)
                         } else {
                         	response_correct = 0;
-                        	console.log('rcorr',response_correct)
 						};
                         var responseData = {
                             response_longshort: response_longshort,
@@ -1058,6 +1059,28 @@
                 timeline.push(timing_estimate_procedure);
             };
 
+            /*********************/
+            /** Post-learning-experiment questions **/
+            /*********************/
+
+            // post-task questions about stress, sleep, and task engagement ('let ntrials' for searching)
+            timeline.push(
+            	post_stress_sleep_intro,
+            	stressquestion,
+            	sleepquestion1,
+            	sleepquestion2,
+            	sleepquestion3,
+                post_question_instruct,
+                // // post_question1, // asking this before timing phase
+                post_question2,
+                post_question3,
+                post_question4, 
+                // // post_question5, // not likely to need anymore; asks about experience of mood ratings
+                engagement_question1,
+                engagement_question2,
+                engagement_question3,
+                comment_question1
+            );
 
             // /*********************/
             // /** Survey questions **/
