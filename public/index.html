@@ -259,14 +259,14 @@
 
         timeline.push(full_screen);
 
-        timeline.push(
-                        welcome,
-                        information_sheet,
-                        consent_form,
-                        demogr
-        );
-
-		timeline.push(instructions_all);
+//         timeline.push(
+// 			welcome,
+// 			information_sheet,
+// 			consent_form,
+// 			demogr
+//         );
+// 
+// 		timeline.push(instructions_all);
 
         var jsonFileName;
         var learnlist;
@@ -324,9 +324,8 @@
 
             timeline.push(pre_fix_learn); // includes saveTaskData_learnintro
 
-            let ntrials_learn = 114;
-            // let ntrials_learn = 114; // 144 + 6 = 150
-            //             let ntrials_learn = 1;
+            let ntrials_learn = 114; // 108 + 6 = 114
+            // let ntrials_learn = 1;
 
             var ntrials_break = 18;
             var block_number = 0;
@@ -732,7 +731,7 @@
             timeline.push(inst_main_finish);
 
             var rest_text =
-                "<p style='font-size: 4.4rem; color: white;'>Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
+                "<p style='font-size: 3.0rem; color: white;'>Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
             var rest_trial = {
                 type: 'lmdlab-rest-trial-limit',
                 data: {
@@ -896,7 +895,7 @@
             /*********************/
 
             let ntrials_rate = 12; // 12 trials (12 individual stimuli)
-            //             let ntrials_rate = 2;
+            // let ntrials_rate = 0;
 
             if (ntrials_rate > 0) {
                 timeline.push(pre_fix_test);
@@ -959,8 +958,8 @@
             /** Time Estimate Procedures **/
             /*********************/
 
-            // let ntrials_time = 6; // 6 trials (6 pairs)
-            let ntrials_time = 6;
+            let ntrials_time = 6; // 6 trials (6 pairs)
+            // let ntrials_time = 0;
 
             if (ntrials_time > 0) {
 
@@ -1026,6 +1025,26 @@
                         delay: jsPsych.timelineVariable('longdelay'),
                     },
                     on_finish: function (data) {
+
+                        var response = data.response;
+                        if (response == 'arrowdown') {
+                            response_longshort = 1;
+						} else {
+							response_longshort = 0;
+                        }
+                        if (data.delay==response_longshort) {
+                        	response_correct = 1;
+                        	console.log('rcorr',response_correct)
+                        } else {
+                        	response_correct = 0;
+                        	console.log('rcorr',response_correct)
+						};
+                        var responseData = {
+                            response_longshort: response_longshort,
+                            response_correct: response_correct,
+                        };
+                        jsPsych.data.addDataToLastTrial(responseData);
+
                         saveTaskData_test();
                     }
                 };
