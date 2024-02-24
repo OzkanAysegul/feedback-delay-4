@@ -7,12 +7,12 @@ var scaleDisplayWidth = '60%';
 var questions_required = true; // true;
 
 
-var survey_leadin = ['For the next short questionnaire, the instructions are:'];
+var survey_leadin = ['In the next short questionnaire, the instructions are:'];
 
 
 
 // Define rest trial
-var rest_text = "<p style='font-size: 42px; color: white;'>Great work! Please take a short break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
+var rest_text = "<p style='font-size: 42px; color: white;'>Great work! Please take a break.<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
 var rest_trial = {
 	type: 'lmdlab-rest-trial-limit',
 	data: {
@@ -22,8 +22,10 @@ var rest_trial = {
 	},
 	stimulus: rest_text,
 	choices: ['<font size="+2.5">Continue</font>'],
-	background_color: 'DarkGray',
+	pre_iti: 500,
+	post_iti: 1500,
 };
+
 
 
 // PHQ-9 Patient Health Questionnaire-9
@@ -45,37 +47,38 @@ var PHQ9_qn = [
 var PHQ9_pretext = ['Over the <u>last two weeks</u>, how often have you been bothered by any of the following problems?'];
 
 var PHQ9_pre = {
-  type: 'html-button-response',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'PHQ9',
-    subjectID: subjectID
-  },
-  stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + PHQ9_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	type: 'html-button-response',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'PHQ9',
+		subjectID: subjectID
+	},
+	stimulus: '<p style="font-size: 2.0rem">' + survey_leadin + '<br><br><br></p><p style="font-size: 2.2rem; line-height: 1.3; color: #000080"> ' + PHQ9_pretext + '</p><br><br><br><p style="font-size: 2.0rem"> Thank you for your continued attention and focus!</p><br><br><br>',
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
 var PHQ9 = {
-  type: 'lmdlab-survey-likert',
-  data: {
-    exp_name: 'survey',
-    exp_stage: 'PHQ9',
-    subjectID: subjectID
-  },
-  required: questions_required,
-  preamble: PHQ9_pretext,
-  questions: PHQ9_qn,
-  button_label: 'Continue',
-  scale_width: scaleDisplayWidth,
-  num_answers: PHQ9_scale.length,
-  randomize_question_order: false,
-  on_finish: function () { saveTaskData_survey() }
+	type: 'lmdlab-survey-likert',
+	data: {
+		exp_name: 'survey',
+		exp_stage: 'PHQ9',
+		subjectID: subjectID
+	},
+	required: questions_required,
+	preamble: PHQ9_pretext,
+	questions: PHQ9_qn,
+	button_label: 'Continue',
+	scale_width: scaleDisplayWidth,
+	num_answers: PHQ9_scale.length,
+	randomize_question_order: false,
+	on_finish: function () { saveTaskData_survey() }
 };
 
 var PHQ9_comb = {
-  timeline: [PHQ9_pre, PHQ9]
+	timeline: [PHQ9_pre, PHQ9]
 }
+
 
 
 
@@ -124,7 +127,7 @@ var GAD7 = {
 };
 
 var GAD7_comb = {
-  timeline: [GAD7_pre, GAD7]
+	timeline: [GAD7_pre, GAD7]
 }
 
 
@@ -186,7 +189,7 @@ var HPS_comb = {
 
 
 
-// MASQ Mood and Anxiety Symptom Questionnaire //
+// MASQ Mood and Anxiety Symptom Questionnaire // Anhedonic depression subscale
 // 
 // reverse-coded items:  1, 9, 15, 19, 23, 25
 // 
@@ -241,8 +244,9 @@ var MASQ_7 = {
 };
 
 var MASQ_comb = {
-  timeline: [MASQ_pre, MASQ_7]
+	timeline: [MASQ_pre, MASQ_7]
 }
+
 
 
 
@@ -256,10 +260,10 @@ var STAI_scale = ["Almost never", "Sometimes", "Often", "Almost always"];
 
 var STAI_qn = [
 	{ prompt: "I feel pleasant.", name: 'STAI1', labels: STAI_scale},
-//   { prompt: "I feel nervous and restless.", name: 'STAI2', labels: STAI_scale}, // excluding because GAD overlap: GAD item_1 + item_5 (average these scores)
+	// { prompt: "I feel nervous and restless.", name: 'STAI2', labels: STAI_scale}, // excluding because GAD overlap: GAD item_1 + item_5 (average these scores)
 	{ prompt: "I feel satisfied with myself.", name: 'STAI3', labels: STAI_scale},
 	{ prompt: "I wish I could be as happy as others seem to be.", name: 'STAI4', labels: STAI_scale},
-//   { prompt: "I feel like a failure.", name: 'STAI5', labels: STAI_scale}, // excluding because PHQ overlap:  PHQ item_6
+	// { prompt: "I feel like a failure.", name: 'STAI5', labels: STAI_scale}, // excluding because PHQ overlap:  PHQ item_6
 	{ prompt: "I feel rested.", name: 'STAI6', labels: STAI_scale},
 	{ prompt: "I am 'calm, cool, and collected'.", name: 'STAI7', labels: STAI_scale},
 	{ prompt: "I feel that difficulties are piling up so that I cannot overcome them.", name: 'STAI8', labels: STAI_scale},
@@ -311,13 +315,15 @@ var STAI = {
 	questions: STAI_qn,
 	button_label: 'Continue',
 	scale_width: scaleDisplayWidth,
+	num_answers: STAI_scale.length,
 	randomize_question_order: false,
 	on_finish: function () { saveTaskData_survey() }
 };
 
 var STAI_comb = {
-  timeline: [STAI_pre, STAI]
+	timeline: [STAI_pre, STAI]
 }
+
 
 
 
@@ -386,8 +392,10 @@ var AES = {
 };
 
 var AES_comb = {
-  timeline: [AES_PRE, AES]
+	timeline: [AES_PRE, AES]
 }
+
+
 
 
 // SDS_Zung
@@ -414,7 +422,7 @@ var zung_qn = [
 	{ prompt: "I still enjoy sex.", name: 'SDS6', labels: SDS_scale},
 	{ prompt: "I notice that I am losing weight.", name: 'SDS7', labels: SDS_scale},
 	{ prompt: "I have trouble with constipation.", name: 'SDS8', labels: SDS_scale},
-	{ prompt: "I engage in recollection about what I was doing one hundred years ago.", name: 'Catch', labels: SDS_scale}, // infrequency item / catch item (Feb 2024)
+	{ prompt: "I engage in recollection about what I was doing one hundred years ago.", name: 'Catch', labels: SDS_scale}, // infrequency item / catch item (updated Nov 22 2023)
 	{ prompt: "My heart beats faster than usual.", name: 'SDS9', labels: SDS_scale},
 	{ prompt: "I get tired for no reason.", name: 'SDS10', labels: SDS_scale},
 	{ prompt: "My mind is as clear as it used to be.", name: 'SDS11', labels: SDS_scale},
@@ -460,6 +468,7 @@ var SDS = {
 	questions: zung_qn,
 	button_label: 'Continue',
 	scale_width: scaleDisplayWidth,
+	num_answers: SDS_scale.length,
 	randomize_question_order: false,
 	on_finish: function () { saveTaskData_survey() }
 };
@@ -467,6 +476,7 @@ var SDS = {
 var SDS_comb = {
   timeline: [SDS_pre, SDS]
 }
+
 
 
 
@@ -521,6 +531,7 @@ var STICSA = {
 	questions: STICSA_qn,
 	button_label: 'Continue',
 	scale_width: scaleDisplayWidth,
+	num_answers: STICSA_scale.length,
 	randomize_question_order: false,
 	on_finish: function () { saveTaskData_survey() }
 };
@@ -528,6 +539,8 @@ var STICSA = {
 var STICSA_comb = {
   timeline: [STICSA_pre, STICSA]
 }
+
+
 
 
 // PVSS Positive Valence Systems Scale
@@ -617,32 +630,30 @@ var PVSS_comb = {
 
 
 
-// General intro and conclusion //
+// general intro and conclusion //
 var survey_start = {
-  type: 'html-button-response',
+	type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'introduction',
 		subjectID: subjectID
 	},
-
-  stimulus: '<p style="font-size: 3rem; line-height: 1.3">Great work!<br><br>The final part today involves the completion of several questionnaires.<br>There is a rest break half way through.</b><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-  on_finish: function () { saveTaskData_surveyintro() }
+	stimulus: '<p style="font-size: 3rem; line-height: 1.3">Great work!<br><br>The final part today involves the completion of several questionnaires.<br>There is a rest break half way through.</b><br><br><br>',
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	on_finish: function () { saveTaskData_surveyintro() }
 };
 
 var survey_start_two = {
-  type: 'html-button-response',
+	type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'introduction',
 		subjectID: subjectID
 	},
-
-  stimulus: '<p style="font-size: 3rem; line-height: 1.3">Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	stimulus: '<p style="font-size: 3rem; line-height: 1.3">Please read the instructions for <b>each set of questions</b>,<br>and then <b>carefully</b> answer each question.<br><br><br>Please note that the <b>instructions and options change</b><br>for different questionnaries.<br><br><br><br><b>Thank you for doing your best!</b><br><br><br>',
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
 var survey_question = {
@@ -660,14 +671,14 @@ var survey_question = {
 };
 
 var survey_resources = {
-  type: 'html-button-response',
+	type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'resources',
 		subjectID: subjectID,
 		databaseID: uid,
 	},
-  stimulus: '<p style="font-size: 2.0rem; line-height: 1.5">' +
+	stimulus: '<p style="font-size: 2.0rem; line-height: 1.5">' +
   				'If you feel affected by the issues raised by these questions and<br>' +
 				'wish to access any further support with regards to your mental<br>' +
 				'health you can find more information on this website:<br><br>' +
@@ -675,26 +686,27 @@ var survey_resources = {
 				'Should you wish to talk, any time of day or night, you can call<br>' +
 				'116 123 to talk to the Samaritans you can also text "SHOUT"<br>' +
 				'to 85258 to contact the Shout Crisis Text Line.<br><br><br><br></p>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
 };
 
 var survey_end = {
-  type: 'html-button-response',
+	type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'finish',
 		subjectID: subjectID
 	},
-  stimulus: '<p style="font-size: 3rem">Thank you!  You have finished this part of the experiment!<br><br><br>',
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	stimulus: '<p style="font-size: 3rem">Thank you!  You have finished this part of the experiment!<br><br><br>',
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	on_finish: function () { saveTaskData_survey() }
 };
 
 
 // randomize and add to timeline
 
-// All the _comb items
+// all the _comb items
 var all_comb = [
 	PHQ9_comb,
 	GAD7_comb,
@@ -708,16 +720,15 @@ var all_comb = [
 ];
 
 
-// Shuffle the array
+// shuffle the array
 var shuffled_comb = jsPsych.randomization.shuffle(all_comb);
 
-
-// Split the shuffled array into two halves
+// split the shuffled array into two halves
 var half_length = Math.ceil(shuffled_comb.length / 2); // We use Math.ceil() in case there is an odd number of items
 var first_half = shuffled_comb.slice(0, half_length);
 var second_half = shuffled_comb.slice(half_length);
 
-// Assign to timelines
+// assign to timelines
 var survey_rand1 = {
   timeline: first_half
 }
@@ -726,11 +737,7 @@ var survey_rand2 = {
   timeline: second_half
 }
 
-// var survey_all = {
-//   timeline: all_comb
-// }
-
-// Create final survey timeline //
+// create final survey timeline //
 var survey_final = {
 	timeline: [
 		survey_start,

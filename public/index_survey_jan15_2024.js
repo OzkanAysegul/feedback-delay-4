@@ -12,7 +12,7 @@ var survey_leadin = ['In the next short questionnaire, the instructions are:'];
 
 
 // define rest trial
-var rest_text = "<p style='font-size: 4.2rem; color: white;'>Great work!<br><br>You have half of the surveys.<br><br>Please take a break!<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
+var rest_text = "<p style='font-size: 4.2rem; color: white;'>Great work!<br><br>You have completed half of the surveys.<br><br>Please take a break!<br><br><br><br><i>(For example, stand up, stretch, get some water)</i><br><br><br><br><br>When you are ready, press the button<br><br>to start the next section.</p><br><br><br><br>";
 var rest_trial = {
 	type: 'lmdlab-rest-trial-limit',
 	data: {
@@ -25,11 +25,6 @@ var rest_trial = {
 	choices: ['<font size="+2.5">Continue</font>'],
 	pre_iti: 500,
 	post_iti: 500,
-	backcolor_input: backcolor_global,
-	backcolor_darker: '#5d5d5d',
-	on_finish: function () {
-		document.querySelector('body').style.backgroundColor = backcolor_global;
-	},
 };
 
 
@@ -84,7 +79,7 @@ var PHQ9 = {
 };
 
 var PHQ9_comb = {
-  timeline: [PHQ9_pre, PHQ9]
+	timeline: [PHQ9_pre, PHQ9]
 }
 
 
@@ -803,26 +798,24 @@ var survey_start = {
 
 
 var survey_resources_trial = {
-  type: 'html-button-response',
+	type: 'html-button-response',
 	data: {
 		exp_name: 'survey',
 		exp_stage: 'resources',
 		subjectID: subjectID,
 		databaseID: uid,
 	},
-
-  stimulus: '<p style="font-size: 3.5rem; line-height: 1.5">' +
-  				'If you feel affected by the issues raised by these questions and<br>' +
+	stimulus: '<p style="font-size: 3.5rem; line-height: 1.5">' +
+				'If you feel affected by the issues raised by these questions and<br>' +
 				'wish to access any further support with regards to your mental<br>' +
 				'health you can find more information on this website:<br><br>' +
 				'<b>https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/</b><br><br><br>' +
 				'Should you wish to talk, any time of day or night, you can call<br>' +
 				'116 123 to talk to the Samaritans you can also text "SHOUT"<br>' +
 				'to 85258 to contact the Shout Crisis Text Line.<br><br><br><br></p>',
-
-  choices: ['Continue'],
-  button_html: ['<button class="lmdlab-btn">%choice%</button>'],
-  on_finish: function () { saveTaskData_survey() }
+	choices: ['Continue'],
+	button_html: ['<button class="lmdlab-btn">%choice%</button>'],
+	on_finish: function () { saveTaskData_survey() }
 };
 
 var survey_resources = {

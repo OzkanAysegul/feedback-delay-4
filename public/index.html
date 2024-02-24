@@ -397,8 +397,6 @@
                             chosen_stim: chosen_stim,
                         };
                         jsPsych.data.addDataToLastTrial(responseData);
-
-//                         saveTaskData_learn();
                     }
                 };
 
@@ -448,9 +446,6 @@
                             return 'Missed trial';
                         }
                     },
-//                     on_finish: function () {
-//                         saveTaskData_learn()
-//                     }
                 };
 
                 var feedback_window = {
@@ -561,9 +556,6 @@
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-10 points!',
                         scale_colour: 'gray',
                         scale_width: 60,
-//                         on_finish: function () {
-//                             saveTaskData_learn()
-//                         }
                     };
 
                     var mood_trial_fixation = {
@@ -602,9 +594,6 @@
                         post_iti: 1500,
                         trial_duration: 40000,
                         slow_response_text: 'Too slow!<br><br>Please respond faster!<br><br>-£0.50!',
-                    };
-                    rateconfidence_trial.on_finish = function () {
-//                         saveTaskData_learn()
                     };
 
                     var accuracy_performance = {
@@ -649,9 +638,6 @@
                         scale_colour: 'gray',
                         scale_width: 60,
                         labels: ['Very unhappy', 'Very happy'],
-//                         on_finish: function () {
-//                             saveTaskData_learn()
-//                         }
                     };
 
                     var mood_baseline_fixation = {
