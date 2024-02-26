@@ -30,6 +30,9 @@ learnList = sortrows(learnList,2);
 
 excludelist = {
 '6018260b22d0500008f32d1f' % in case ew data included
+'5e85f667db8aa41f74436a9f' % listc3 error
+'641373f8117053037093d10a' % listc3 error
+'60ec1dd7eaa54649ce2bdd3f' % listc3 error
 }
 
 if ~isempty(excludelist)
