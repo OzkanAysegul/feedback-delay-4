@@ -119,7 +119,7 @@ cred = credentials.Certificate('delaylearn-firebase-adminsdk-fz6vv-aefb0a1662.js
 
 
 ## commend-out if already run in session
-#default_app = firebase_admin.initialize_app(cred)
+default_app = firebase_admin.initialize_app(cred)
 ## ##
 
 
@@ -177,9 +177,9 @@ def save_data_to_csv(run_name):
 
     target_date = datetime.strptime('01/01/2023', '%d/%m/%Y')  # June 7th, 2023
 
-    for subj in client.collection('delaylearntaskv3').document(run_name).collection('subjects').stream():
+    for subj in client.collection('delaylearntaskv4').document(run_name).collection('subjects').stream():
         subjectID = subj.id
-        taskdata_collection = client.collection('delaylearntaskv3').document(run_name).collection('subjects').document(
+        taskdata_collection = client.collection('delaylearntaskv4').document(run_name).collection('subjects').document(
             subjectID).collection('taskdata').document('start')
 
         start_data = taskdata_collection.get().to_dict()
@@ -200,7 +200,7 @@ def save_data_to_csv(run_name):
                 start_time = start_data.get("start_time", "")
                 has_data = False
 
-                taskdata_collection = client.collection('delaylearntaskv3').document(run_name).collection('subjects').document(
+                taskdata_collection = client.collection('delaylearntaskv4').document(run_name).collection('subjects').document(
                     subjectID).collection('taskdata').stream()
 
                 for tc in taskdata_collection:
@@ -319,8 +319,8 @@ def save_data_to_csv(run_name):
 
 
 # Run the function for each run name
-run_names = ['exp_survey','exp_fwdspan']
-#run_names = ['exp_learn','exp_test','exp_post_survey']
+#run_names = ['exp_survey','exp_fwdspan']
+run_names = ['exp_learn','exp_test','exp_post_survey','exp_survey']
 #run_names = ['exp_learn']
 
 
