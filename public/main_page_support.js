@@ -91,7 +91,7 @@ var loaded_images = [
   'images/choice_trial_13.png', 'images/choice_trial_14.png', 'images/choice_trial_15.png', 'images/choice_trial_16.png', 'images/pattern_1.png', 
   'images/pattern_2.png', 'images/pattern_3.png', 'images/pattern_4.png',
   'images/pattern_5.png', 'images/pattern_6.png', 'images/pattern_7.png', 'images/pattern_8.png', 'images/demo_images/pattern_1.png', 
-  'images/demo_images/choice_trial_1.png', 'images/demo_images/choice_trial_2.png'
+  'images/demo_images/choice_trial_1.png', 'images/demo_images/choice_trial_2.png', 'images/short_long_arrows.png'
 
 ];
 
