@@ -886,7 +886,7 @@ var end_instructions = {
       </div>
       <br><br>
   </div>`,
-  choices: ["<a href='https://app.prolific.co/submissions/complete?cc=C2VLUFM3'>Click to finish</a></div>"] // updated C2VLUFM3
+  choices: ["<a href='https://app.prolific.co/submissions/complete?cc=C5953SA7'>Click to finish</a></div>"] // updated C2VLUFM3
 };
 
 var task_finish = {
