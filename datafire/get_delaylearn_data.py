@@ -119,7 +119,7 @@ cred = credentials.Certificate('delaylearn-firebase-adminsdk-fz6vv-aefb0a1662.js
 
 
 ## commend-out if already run in session
-default_app = firebase_admin.initialize_app(cred)
+#default_app = firebase_admin.initialize_app(cred)
 ## ##
 
 
