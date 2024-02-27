@@ -191,7 +191,7 @@ for i = 1:size(learnList,1)
     
     
     haslearn = 0;
-    if size(learnTable,1)>640 % learn ? lines currently
+    if size(learnTable,1)>640 % learn 645 lines currently
         haslearn = 1;
     end
     %elseif strcmp('63f8f2c2941d27adb3d9eb67',subjid) % case with last trial missing 63f8f2c2941d27adb3d9eb67
@@ -407,7 +407,7 @@ for i = 1:size(learnList,1)
         end
 
         
-        tempincrement = npairs;
+        tempincrement = 3;
         tempend = npairs;
         for iR = 1:ntrials
             if size(filt_learn,1)>=tempend
@@ -486,7 +486,7 @@ for i = 1:size(learnList,1)
             learn_perf(i,2:13) = NaN;
             learn_all_perf(i,:) = NaN;
             learn_slide_perf(i,:) = NaN;
-            learn_rep_perf(i,:) = NaN;
+            %learn_rep_perf(i,:) = NaN;
             learn_repdel_perf(i,:) = NaN;
             learn_repimm_perf(i,:) = NaN;
             learn_alltrials_perf(i,:) = NaN;
@@ -1029,7 +1029,7 @@ for i = 1:size(learnList,1)
         subj_gad = survey_extract(resp_gad,'GAD',7);
         survey_gad(i,1) = sum(subj_gad);
         
-
+        
         % STAI
         % 18 items
         %// reverse-coded items:  1, 3, 6, 7, 10, 13, 14, 16, 19
@@ -1069,7 +1069,7 @@ for i = 1:size(learnList,1)
         %subj_aes = survey_extract(resp_aes,'AES',18); % plus catch
         %survey_aes(i,1) = sum(subj_aes);
         
-
+        
         % STICSA
         % 10 items
         % catch
@@ -1078,7 +1078,7 @@ for i = 1:size(learnList,1)
         subj_sticsa = survey_extract(resp_sticsa,'STICSA',10); % plus catch
         survey_sticsa(i,1) = sum(subj_sticsa);
         
-
+        
         % PVSS
         % 21 items
         % catch
