@@ -328,7 +328,7 @@
             let ntrials_learn = 114; // 108 + 6 = 114
             // let ntrials_learn = 1;
 
-            var ntrials_break = 24; //4 breaks
+            var ntrials_break = 22; //4 breaks
             var block_number = 0;
             var block_total = Math.floor(ntrials_learn / ntrials_break);
 
@@ -580,7 +580,7 @@
 
 
                 // if (!i == 0 && i % ntrials_break == 0) { // start break
-                if (learnlist[i].break_trial == 1) { // start break
+                if (i == 113 || learnlist[i].break_trial == 1) { // start break
 
                     var rateconfidence_trial = {
                         type: 'lmdlab-html-vas-response',
