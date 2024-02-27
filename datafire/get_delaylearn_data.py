@@ -119,7 +119,7 @@ cred = credentials.Certificate('delaylearn-firebase-adminsdk-fz6vv-aefb0a1662.js
 
 
 ## commend-out if already run in session
-default_app = firebase_admin.initialize_app(cred)
+#default_app = firebase_admin.initialize_app(cred)
 ## ##
 
 
@@ -175,7 +175,7 @@ def save_data_to_csv(run_name):
     dfs = []
     start_data_list = []  # List to store 'start' data
 
-    target_date = datetime.strptime('01/01/2023', '%d/%m/%Y')  # June 7th, 2023
+    target_date = datetime.strptime('01/01/2024', '%d/%m/%Y')  # January 1 2024
 
     for subj in client.collection('delaylearntaskv4').document(run_name).collection('subjects').stream():
         subjectID = subj.id
