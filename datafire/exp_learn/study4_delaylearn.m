@@ -28,6 +28,10 @@ learnList(:,2) = temp.prolificID;
 learnList(:,3) = num2cell(b*1000000 + c*10000 + d*100 + e);
 learnList = sortrows(learnList,2);
 
+% first two subjects with error in surveys
+% 5e85f667db8aa41f74436a9f
+% 641373f8117053037093d10a
+
 excludelist = {
 '6018260b22d0500008f32d1f' % in case ew data included
 '5e85f667db8aa41f74436a9f' % listc3 error

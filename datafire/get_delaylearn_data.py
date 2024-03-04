@@ -320,8 +320,9 @@ def save_data_to_csv(run_name):
 
 # Run the function for each run name
 #run_names = ['exp_survey','exp_fwdspan']
-run_names = ['exp_learn','exp_test','exp_post_survey','exp_survey']
-#run_names = ['exp_survey'];
+#run_names = ['exp_learn','exp_test','exp_post_survey','exp_survey']
+run_names = ['exp_ospan','exp_test_day2','exp_post_survey_day2']
+#run_names = ['exp_test_day2'];
 
 
 
