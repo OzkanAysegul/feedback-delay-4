@@ -23,9 +23,15 @@ warning('off','MATLAB:datetime:AmbiguousDateString')
 temp = readtable('../start_data_exp_learn.csv');
 learnList = temp.filename;
 learnList(:,2) = temp.prolificID;
+% manually deal with date for 634e460a7da3fef3d5a9faf3
+temp.start_time(3) = temp.start_time(2);
+temp.date(3) = temp.date(2);
+% 
 [~,b,c] = ymd(temp.date);
 [d,e] = hms(temp.start_time);
 learnList(:,3) = num2cell(b*1000000 + c*10000 + d*100 + e);
+
+
 learnList = sortrows(learnList,2);
 
 % first two subjects with error in surveys
@@ -65,18 +71,19 @@ testList = temp.filename;
 testList = sortrows(testList);
 clear temp
 
-% temp = readtable('../start_data_exp_test_day2.csv');
-% testday2List = temp.filename;
-% % testday2List = sortrows(testday2List);
-% clear temp
+temp = readtable('../start_data_exp_test_day2.csv');
+testday2List = temp.filename;
+testday2List = sortrows(testday2List);
+clear temp
 
 temp = readtable('../start_data_exp_survey.csv');
 surveyList = temp.filename;
 clear temp
 
-% temp = readtable('../start_data_exp_fwdspan.csv');
-% fwdList = temp.filename;
-% clear temp
+temp = readtable('../start_data_exp_ospan.csv');
+ospanList = temp.filename;
+clear temp
+
 
 npairs = 6;
 nreps = 18;
@@ -172,24 +179,24 @@ for i = 1:size(learnList,1)
     
     
     hastestday2 = 0;
-    % for iT = 1:length(testday2List)
-    %     temp = testday2List{iT};
-    %     temp = temp(39:end-5);
-    %     if (strcmp(temp,subjid))
-    %         testday2name = testday2List{iT};
-    %         testday2name = testday2name(2:end-1);
-    %         if exist(['../exp_test_day2/' testday2name],'file')
-    %             testday2Table = readtable(['../exp_test_day2/' testday2name]);
-    %             testday2Cell = readcell(['../exp_test_day2/' testday2name]);
-    %             if size(testday2Table,1)>=47
-    %                 hastestday2 = 1;
-    %             else
-    %                 x = 1
-    %             end
-    %         end
-    %     end
-    %     clear temp
-    % end
+    for iT = 1:length(testday2List)
+        temp = testday2List{iT};
+        temp = temp(39:end-5);
+        if strcmp(temp,subjid)
+            testday2name = testday2List{iT};
+            testday2name = testday2name(2:end-1);
+            if exist(['../exp_test_day2/' testday2name],'file')
+                testday2Table = readtable(['../exp_test_day2/' testday2name]);
+                testday2Cell = readcell(['../exp_test_day2/' testday2name]);
+                if size(testday2Table,1)>=33
+                    hastestday2 = 1;
+                else
+                    x = 1
+                end
+            end
+        end
+        clear temp
+    end
     
     
     
@@ -567,7 +574,7 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%
     %%%% test %%%%
     %%%%%%%%%%%%%%
-    if hastest % && (excludelearn==0)
+    if hastest && (excludelearn==0) && hastestday2
         
         test_choice(i,12) = 0;
         test_rate(i,12) = 0;
@@ -580,7 +587,8 @@ for i = 1:size(learnList,1)
         clear filt_test_conf
         filt_test_del = filt_test(filt_test.delay == 1, :);
         filt_test_imm = filt_test(filt_test.delay == 0, :);
-        
+        filt_test = [filt_test_del; filt_test_imm];
+
         filt_test_rate = testTable(testTable.test_part == "memory_rating", :);
         
         if iscell(filt_test_rate.response(1))
@@ -616,7 +624,7 @@ for i = 1:size(learnList,1)
         % rating
         test_rate(i,1) = i;
         [r,~] = corr(filt_test_rate.response,filt_test_rate.value_true);
-        test_rate(i,2) = r;
+        test_rate(i,2) = fisherz(r);
         
         test_rate(i,3) = nanmean(filt_test_rate.response(filt_test_rate.value_true>0.5));
         test_rate(i,4) = nanmean(filt_test_rate.response(filt_test_rate.value_true<0.5));
@@ -688,15 +696,16 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%%%%%%
     %%%% test day2 %%%%
     %%%%%%%%%%%%%%%%%%%
-    if hastestday2 %&& (excludelearn==0)
+    if hastestday2 && (excludelearn==0)
         
         test_day2_choice(i,12) = 0;
         test_day2_rate(i,12) = 0;
         
         % filter
-        filt_test_day2 = testday2Table(testday2Table.block_curr == 1, :);
-        filt_test_day2_del = filt_test_day2(filt_test_day2.delay == 1, :);
-        filt_test_day2_imm = filt_test_day2(filt_test_day2.delay == 0, :);
+        filt_test_day2_all = testday2Table(testday2Table.block_curr == 1, :);
+        filt_test_day2_del = filt_test_day2_all(filt_test_day2_all.delay == 1, :);
+        filt_test_day2_imm = filt_test_day2_all(filt_test_day2_all.delay == 0, :);
+        filt_test_day2 = [filt_test_day2_del; filt_test_day2_imm];
         
         filt_test_day2_rate = testday2Table(testday2Table.block_curr == 2, :);
         filt_test_day2_rate_del = filt_test_day2_rate(filt_test_day2_rate.delay == 1, :);
@@ -714,7 +723,7 @@ for i = 1:size(learnList,1)
         % rating
         test_day2_rate(i,1) = i;
         [r,~] = corr(filt_test_day2_rate.response,filt_test_day2_rate.value_true);
-        test_day2_rate(i,2) = r;
+        test_day2_rate(i,2) = fisherz(r);
         
         test_day2_rate(i,3) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true>0.5));
         test_day2_rate(i,4) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true<0.5));
@@ -1171,6 +1180,39 @@ figure,scatter(survey_phq(:,1),learn_mood(:,3))
 % [r,p] = corr(survey_phq(:,1),learn_mood(:,12),'rows','complete')
 
 % scatter(test_rate(:,5),test_day2_rate(:,5))
+
+if 1==2
+    
+    % ratings difference initial
+    [h p ci stats] = ttest(test_rate(:,5))
+    
+    % ratings difference session2
+    [h p ci stats] = ttest(test_day2_rate(:,5))
+    
+    % decrease in ratings difference
+    [h p ci stats] = ttest(test_rate(:,5),test_day2_rate(:,5))
+    
+    % mean difference in day1 rating for those with session2
+    nanmean(test_rate(:,5))
+    
+    % mean difference in session2 rating
+    nanmean(test_day2_rate(:,5))
+    
+    [r,p] = corr(test_rate(:,5),test_day2_rate(:,5),'rows','complete')
+    
+    nanmean(test_choice(:,2))
+    nanmean(test_day2_choice(:,2))
+    [r,p] = corr(test_choice(:,2),test_day2_choice(:,2),'rows','complete')
+    
+    [h p ci stats] = ttest(test_choice(:,2),test_day2_choice(:,2))
+    
+    nanmean(test_choice(:,3)) % delay
+    nanmean(test_choice(:,4)) % imm
+    
+    nanmean(test_day2_choice(:,3)) % delay
+    nanmean(test_day2_choice(:,4)) % imm
+    
+end
 
 
 if 1==2
