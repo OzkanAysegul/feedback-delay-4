@@ -2,6 +2,26 @@
 % 
 % 
 
+% general graphics, this will apply to any figure you open
+% (groot is the default figure object).
+set(groot, ...
+    'DefaultFigureColor', 'w', ...
+    'DefaultAxesLineWidth', 1.5, ... % 0.5
+    'DefaultAxesXColor', 'k', ...
+    'DefaultAxesYColor', 'k', ...
+    'DefaultAxesFontUnits', 'points', ...
+    'DefaultAxesFontSize', 12, ...
+    'DefaultAxesFontName', 'Helvetica', ...
+    'DefaultLineLineWidth', 1.5, ...
+    'DefaultTextFontUnits', 'Points', ...
+    'DefaultTextFontSize', 12, ...
+    'DefaultTextFontName', 'Helvetica', ...
+    'DefaultAxesBox', 'off', ...
+    'DefaultAxesTickLength', [0.01 0.0125]); % [0.02 0.025]
+% set the tickdirs to go out - need this specific order
+set(groot, 'DefaultAxesTickDir', 'in'); % out
+set(groot, 'DefaultAxesTickDirMode', 'manual');
+
 
 clear
 close all
@@ -634,6 +654,8 @@ for i = 1:size(learnList,1)
         test_rate(i,7) = nanmean(filt_test_rate_del.response(filt_test_rate_del.value_true<0.5));
         test_rate(i,8) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true>0.5));
         test_rate(i,9) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true<0.5));
+        test_rate(i,10) = test_rate(i,6)-test_rate(i,7); % delay hi-low
+        test_rate(i,11) = test_rate(i,8)-test_rate(i,9); % imm hi-low
         
         
         % delay time
@@ -729,10 +751,13 @@ for i = 1:size(learnList,1)
         test_day2_rate(i,4) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true<0.5));
         test_day2_rate(i,5) = test_day2_rate(i,3)-test_day2_rate(i,4);
         
-        test_day2_rate(i,6) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true>0.5));
-        test_day2_rate(i,7) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true<0.5));
-        test_day2_rate(i,8) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true>0.5));
-        test_day2_rate(i,9) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true<0.5));
+        test_day2_rate(i,6) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true>0.5)); % delay hi
+        test_day2_rate(i,7) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true<0.5)); % delay low
+        test_day2_rate(i,8) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true>0.5)); % imm hi
+        test_day2_rate(i,9) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true<0.5)); % imm low
+        test_day2_rate(i,10) = test_day2_rate(i,6)-test_day2_rate(i,7); % delay hi-low
+        test_day2_rate(i,11) = test_day2_rate(i,8)-test_day2_rate(i,9); % imm hi-low
+        
         
         if excludelearn
             test_day2_choice(i,12) = 1;
@@ -1212,6 +1237,14 @@ if 1==2
     nanmean(test_day2_choice(:,3)) % delay
     nanmean(test_day2_choice(:,4)) % imm
     
+
+    % decay in ratings related to symptoms
+    [r,p] = corr(survey_phq(:,1),test_rate(:,5)-test_day2_rate(:,5),'rows','complete') % all ratings
+    
+    [r,p] = corr(survey_phq(:,1),test_rate(:,10)-test_day2_rate(:,10),'rows','complete') % delay ratings
+    [r,p] = corr(survey_phq(:,1),test_rate(:,11)-test_day2_rate(:,11),'rows','complete') % immediate ratings
+    
+
 end
 
 
