@@ -169,7 +169,7 @@ var instruct_images_all = [
 		'images/inst_5.png',
 		'images/inst_general_edited.png',
 		'images/inst_mood_rating.png',
-		'images/inst_demo.png',
+		'images/instruct_pract_warning.png',
 		];
 
 var pages_all = [];
@@ -317,7 +317,7 @@ var demo_instruction = {
   stimulus: `
   <div style="display: flex; align-items: center; justify-content: center; height: 80vh;">
   <div>
-          <img src="images/inst_demo.png" style="width: 80vw; height:auto;">
+          <img src="images/instruct_pract_warning.png" style="width: 80vw; height:auto;">
           <br><br>
       </div>
       <br><br>
