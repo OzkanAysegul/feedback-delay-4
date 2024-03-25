@@ -5,15 +5,9 @@
 4,4,1,4,5,15,15,5,images/choice_trial_15.png,images/choice_trial_5.png,1,0,0.428214775
 5,2,1,2,16,6,16,6,images/choice_trial_16.png,images/choice_trial_6.png,0,1,0.22725576
 6,1,1,1,1,9,9,1,images/choice_trial_9.png,images/choice_trial_1.png,1,1,0.17771008
-7,7,2,12,1,6,1,6,images/choice_trial_1.png,images/choice_trial_6.png,0,1,0.101841237
-8,10,2,45,5,3,3,5,images/choice_trial_3.png,images/choice_trial_5.png,1,0,0.854608143
+7,10,2,45,5,3,3,5,images/choice_trial_3.png,images/choice_trial_5.png,1,0,0.854608143
+8,7,2,12,1,6,1,6,images/choice_trial_1.png,images/choice_trial_6.png,0,1,0.101841237
 9,8,2,23,16,7,7,16,images/choice_trial_7.png,images/choice_trial_16.png,1,1,0.705986284
 10,11,2,56,10,4,10,4,images/choice_trial_10.png,images/choice_trial_4.png,0,0,0.982332392
 11,9,2,31,8,9,8,9,images/choice_trial_8.png,images/choice_trial_9.png,0,1,0.033392193
 12,12,2,64,13,15,15,13,images/choice_trial_15.png,images/choice_trial_13.png,1,0,0.07501517
-13,15,3,36,8,13,8,13,images/choice_trial_8.png,images/choice_trial_13.png,0,0.5,0.855759696
-14,18,3,34,7,15,15,7,images/choice_trial_15.png,images/choice_trial_7.png,1,0.5,0.928665628
-15,14,3,25,16,10,10,16,images/choice_trial_10.png,images/choice_trial_16.png,1,0.5,0.765822453
-16,17,3,26,6,4,6,4,images/choice_trial_6.png,images/choice_trial_4.png,0,0.5,0.76190461
-17,13,3,14,1,5,1,5,images/choice_trial_1.png,images/choice_trial_5.png,0,0.5,0.767575001
-18,16,3,15,9,3,3,9,images/choice_trial_3.png,images/choice_trial_9.png,1,0.5,0.441288828
