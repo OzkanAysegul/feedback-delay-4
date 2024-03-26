@@ -104,6 +104,11 @@ temp = readtable('../start_data_exp_ospan.csv');
 ospanList = temp.filename;
 clear temp
 
+temp = readtable('../start_data_exp_post_survey_day2.csv');
+postday2List = temp.filename;
+postday2List = sortrows(postday2List);
+clear temp
+
 
 npairs = 6;
 nreps = 18;
@@ -148,7 +153,7 @@ survey_pvss = NaN(size(learnList,1),2);
 
 
 
-for i = 1:size(learnList,1)
+for iSj = 1:size(learnList,1)
     
     excludelearn = 0;
     learnTable = [];
@@ -157,15 +162,15 @@ for i = 1:size(learnList,1)
     postTable = [];
     
     % read the learning csv file into a table
-    learnname = learnList{i};
+    learnname = learnList{iSj};
     if strcmp(learnname(2),'t')
         learnname = learnname(2:end-1);
     end
     
     subjid = learnname(34:end-4);
     subjtime = learnname(10:22);
-    learn_perf_name{i,1} = subjid;
-    learn_perf_name{i,2} = subjtime;
+    learn_perf_name{iSj,1} = subjid;
+    learn_perf_name{iSj,2} = subjtime;
 
     if exist(learnname,'file')
         learnTable = readtable(learnname);
@@ -182,7 +187,7 @@ for i = 1:size(learnList,1)
     hastest = 0;
     if exist(['../exp_test/' testname],'file')
         testTable = readtable(['../exp_test/' testname]);
-        test_choice(i,1) = size(testTable,1);
+        test_choice(iSj,1) = size(testTable,1);
         if size(testTable,1)>50 % test ? lines currently
             hastest = 1;
         end
@@ -193,7 +198,7 @@ for i = 1:size(learnList,1)
             testTable = readtable(testpavname);
             testTable = testTable(testTable.exp_stage == "test",:);
             hastest = 1;
-            test_choice(i,1) = size(testTable,1);
+            test_choice(iSj,1) = size(testTable,1);
         end
     end
     
@@ -207,7 +212,7 @@ for i = 1:size(learnList,1)
             testday2name = testday2name(2:end-1);
             if exist(['../exp_test_day2/' testday2name],'file')
                 testday2Table = readtable(['../exp_test_day2/' testday2name]);
-                testday2Cell = readcell(['../exp_test_day2/' testday2name]);
+                postday2Cell = readcell(['../exp_test_day2/' testday2name]);
                 if size(testday2Table,1)>=33
                     hastestday2 = 1;
                 else
@@ -242,13 +247,34 @@ for i = 1:size(learnList,1)
     postname = ['../exp_post_survey/taskdata_' subjtime '_exp_post_survey_' subjid '.csv'];
     if exist(postname,'file')
         postTable = readtable(postname);
-        if size(postTable,1)==13
+        postCell = readcell(postname);
+        if size(postTable,1)>11
             haspost = 1;
         end
     end
     
     
-    learn_perf(i,1) = size(learnTable,1);
+    haspostday2 = 0;
+    for iT = 1:length(postday2List)
+        temp = postday2List{iT};
+        temp = temp(46:end-5);
+        if strcmp(temp,subjid)
+            postday2name = postday2List{iT};
+            postday2name = postday2name(2:end-1);
+            if exist(['../exp_post_survey_day2/' postday2name],'file')
+                postday2Table = readtable(['../exp_post_survey_day2/' postday2name]);
+                postday2Cell = readcell(['../exp_post_survey_day2/' postday2name]);
+                if size(postday2Table,1)>=14
+                    haspostday2 = 1;
+                else
+                    x = 1
+                end
+            end
+        end
+        clear temp
+    end
+    
+    learn_perf(iSj,1) = size(learnTable,1);
     
 
     hasfwd = 0;
@@ -288,8 +314,8 @@ for i = 1:size(learnList,1)
     end
     
     
-    learn_perf_name{i,4} = hastestday2;
-    learn_perf_name{i,5} = hassurvey;
+    learn_perf_name{iSj,4} = hastestday2;
+    learn_perf_name{iSj,5} = hassurvey;
     %learn_perf_name{i,6} = missingsurveydata;
     %learn_perf_name{i,7} = surveyparticipated;
     
@@ -306,8 +332,8 @@ for i = 1:size(learnList,1)
             if strcmp(learnTable.test_part(iT),'break')
                 dur_break = learnTable.time_mod(iT+2)-learnTable.time_mod(iT-1);
                 learnTable.time_mod(iT:end) = learnTable.time_mod(iT:end)-dur_break;
-                learn_breakdur(i,m) = dur_break/1000;
-                learn_breakdur(i,m+6) = iT;
+                learn_breakdur(iSj,m) = dur_break/1000;
+                learn_breakdur(iSj,m+6) = iT;
                 m = m+1;
             end
         end
@@ -335,18 +361,18 @@ for i = 1:size(learnList,1)
             end
         end
         
-        learn_reptime(i,:) = learn_ind_reptime;
+        learn_reptime(iSj,:) = learn_ind_reptime;
         
         % get mood reaction time
         for iT = 1:size(filt_mood_learn,1)
             % get rid of practice phase mood rating
             if filt_mood_learn.trial_index(iT)>filt_learn.trial_index(1)
                 if isnumeric(filt_mood_learn.rt(iT))
-                    learn_mood_rt(i,iT-1) = filt_mood_learn.rt(iT)/1000;
+                    learn_mood_rt(iSj,iT-1) = filt_mood_learn.rt(iT)/1000;
                 elseif strcmp(filt_mood_learn.rt(iT),'null')
-                    learn_mood_rt(i,iT-1) = NaN;
+                    learn_mood_rt(iSj,iT-1) = NaN;
                 else
-                    learn_mood_rt(i,iT-1) = str2num(cell2mat(filt_mood_learn.rt(iT)))/1000;
+                    learn_mood_rt(iSj,iT-1) = str2num(cell2mat(filt_mood_learn.rt(iT)))/1000;
                 end
             end
         end
@@ -363,8 +389,8 @@ for i = 1:size(learnList,1)
             rtall = filt_learn.rt;
         end
         if 1==1
-            learn_responses(i,2) = sum(isnan(rtall));
-            learn_responses(i,3) = nanmean(rtall(73:end));
+            learn_responses(iSj,2) = sum(isnan(rtall));
+            learn_responses(iSj,3) = nanmean(rtall(73:end));
             %learn_responses(i,4) = nanmean(filt_learn_long.rt(37:end));
             %learn_responses(i,5) = nanmean(filt_learn_short.rt(37:end));
             
@@ -383,22 +409,22 @@ for i = 1:size(learnList,1)
         ntlast4rep = 85;
         ntlast1rep = 103;
         ntfirst10rep = 60;
-        learn_perf(i,2) = nanmean(filt_learn.response_correct);
-        learn_perf(i,3) = nanmean(filt_learn.response_correct(7:ntfirst10rep)); % first 10 repetitions
-        learn_perf(i,4) = nanmean(filt_learn.response_correct(ntlast4rep:end)); % last 4 repetitions repetition
-        learn_perf(i,5) = nanmean(filt_learn.response_correct(ntlast3rep:end)); % last 3 repetitions repetition
-        learn_perf(i,6) = nanmean(filt_learn.response_correct(ntlast1rep:end)); % last repetition
+        learn_perf(iSj,2) = nanmean(filt_learn.response_correct);
+        learn_perf(iSj,3) = nanmean(filt_learn.response_correct(7:ntfirst10rep)); % first 10 repetitions
+        learn_perf(iSj,4) = nanmean(filt_learn.response_correct(ntlast4rep:end)); % last 4 repetitions repetition
+        learn_perf(iSj,5) = nanmean(filt_learn.response_correct(ntlast3rep:end)); % last 3 repetitions repetition
+        learn_perf(iSj,6) = nanmean(filt_learn.response_correct(ntlast1rep:end)); % last repetition
         
         % last n repetitions for short, long separately
         nthalflast2rep = 43; % gets last 2 repetitions
         nthalflast3rep = 37; % gets last 3 repetitions
         nthalflast4rep = 31; % gets last 4 repetitions
-        learn_perf(i,7) = nanmean(filt_learn_long.response_correct(57:end));
-        learn_perf(i,8) = nanmean(filt_learn_short.response_correct(57:end));
-        learn_perf(i,9) = nanmean(filt_learn_long.response_correct(61:end));
-        learn_perf(i,10) = nanmean(filt_learn_short.response_correct(61:end));
-        learn_perf(i,11) = nanmean(filt_learn_long.response_correct(65:end));
-        learn_perf(i,12) = nanmean(filt_learn_short.response_correct(65:end));
+        learn_perf(iSj,7) = nanmean(filt_learn_long.response_correct(57:end));
+        learn_perf(iSj,8) = nanmean(filt_learn_short.response_correct(57:end));
+        learn_perf(iSj,9) = nanmean(filt_learn_long.response_correct(61:end));
+        learn_perf(iSj,10) = nanmean(filt_learn_short.response_correct(61:end));
+        learn_perf(iSj,11) = nanmean(filt_learn_long.response_correct(65:end));
+        learn_perf(iSj,12) = nanmean(filt_learn_short.response_correct(65:end));
         
         tstart = 1;
         tend = 24;
@@ -406,7 +432,7 @@ for i = 1:size(learnList,1)
             %if length(filt_learn.response_correct)==(ntrials-1) && (tend == ntrials)
             %    tend = ntrials-1;
             %end
-            learn_slide_perf(i,iR) = nanmean(filt_learn.response_correct(tstart:tend)); % last repetition
+            learn_slide_perf(iSj,iR) = nanmean(filt_learn.response_correct(tstart:tend)); % last repetition
             tstart = tstart+npairs;
             tend = tend+npairs;
         end
@@ -417,7 +443,7 @@ for i = 1:size(learnList,1)
             %if length(filt_learn.response_correct)==(ntrials-1) && (tend == 108)
             %    tend = ntrials-1;
             %end
-            learn_rep_perf(i,iR) = nanmean(filt_learn.response_correct(tstart:tend));
+            learn_rep_perf(iSj,iR) = nanmean(filt_learn.response_correct(tstart:tend));
             tstart = tstart+npairs;
             tend = tend+npairs;
         end
@@ -426,13 +452,13 @@ for i = 1:size(learnList,1)
         tend = npairs/2;
         for iR = 1:nreps
             
-            learn_repdel_perf(i,iR) = nanmean(filt_learn_long.response_correct(tstart:tend));
+            learn_repdel_perf(iSj,iR) = nanmean(filt_learn_long.response_correct(tstart:tend));
             
             %if length(filt_learn_short.response_correct)==71 && (tend == 72)
             %    tend = 71;
             %end
             
-            learn_repimm_perf(i,iR) = nanmean(filt_learn_short.response_correct(tstart:tend));
+            learn_repimm_perf(iSj,iR) = nanmean(filt_learn_short.response_correct(tstart:tend));
             tstart = tstart+(npairs/2);
             tend = tend+(npairs/2);
         end
@@ -442,9 +468,9 @@ for i = 1:size(learnList,1)
         tempend = npairs;
         for iR = 1:ntrials
             if size(filt_learn,1)>=tempend
-                learn_all_perf(i,iR) = nanmean(filt_learn.response_correct(tempend-tempincrement+1:tempend));
+                learn_all_perf(iSj,iR) = nanmean(filt_learn.response_correct(tempend-tempincrement+1:tempend));
             else
-                learn_all_perf(i,iR) = nanmean(filt_learn.response_correct(tempend-tempincrement+1:end));
+                learn_all_perf(iSj,iR) = nanmean(filt_learn.response_correct(tempend-tempincrement+1:end));
             end
             tempend = tempend+tempincrement;
         end
@@ -452,9 +478,9 @@ for i = 1:size(learnList,1)
         % all trials moving window mean, window 8 trials
         nwindow = 8;
         if size(filt_learn,1)==(ntrials-1)
-            learn_alltrials_perf(i,1:end-1) = movmean(filt_learn.response_correct,nwindow,'omitnan');
+            learn_alltrials_perf(iSj,1:end-1) = movmean(filt_learn.response_correct,nwindow,'omitnan');
         else
-            learn_alltrials_perf(i,:) = movmean(filt_learn.response_correct,nwindow,'omitnan');
+            learn_alltrials_perf(iSj,:) = movmean(filt_learn.response_correct,nwindow,'omitnan');
         end
         
         
@@ -502,30 +528,30 @@ for i = 1:size(learnList,1)
             if nanmean(learnlast3mod)<exclvalue
                 excludelearn = 1;
             end
-        elseif learn_responses(i,2)>ntrialsmissed % missed trial exclusion
+        elseif learn_responses(iSj,2)>ntrialsmissed % missed trial exclusion
             excludelearn = 1;
-            learn_perf(i,15:17) = NaN;
+            learn_perf(iSj,15:17) = NaN;
             excludetrialsmissed = 1
         end
         
-        learn_perf_name{i,8} = excludelearn;
+        learn_perf_name{iSj,8} = excludelearn;
         
         if excludelearn
-            learn_perf(i,15) = learn_perf(i,5);
-            learn_perf(i,16) = learn_perf(i,9);
-            learn_perf(i,17) = learn_perf(i,10);
-            learn_perf(i,2:13) = NaN;
-            learn_all_perf(i,:) = NaN;
-            learn_slide_perf(i,:) = NaN;
+            learn_perf(iSj,15) = learn_perf(iSj,5);
+            learn_perf(iSj,16) = learn_perf(iSj,9);
+            learn_perf(iSj,17) = learn_perf(iSj,10);
+            learn_perf(iSj,2:13) = NaN;
+            learn_all_perf(iSj,:) = NaN;
+            learn_slide_perf(iSj,:) = NaN;
             %learn_rep_perf(i,:) = NaN;
-            learn_repdel_perf(i,:) = NaN;
-            learn_repimm_perf(i,:) = NaN;
-            learn_alltrials_perf(i,:) = NaN;
+            learn_repdel_perf(iSj,:) = NaN;
+            learn_repimm_perf(iSj,:) = NaN;
+            learn_alltrials_perf(iSj,:) = NaN;
         end
         
-        learn_perf(i,14) = excludelearn;
+        learn_perf(iSj,14) = excludelearn;
         
-        learn_perf_name{i,3} = abs(excludelearn-1);
+        learn_perf_name{iSj,3} = abs(excludelearn-1);
         
         % mood analysis
         response_mood = [];
@@ -561,29 +587,29 @@ for i = 1:size(learnList,1)
         clear temp_mood
         
         
-        learn_mood(i,1) = NaN;
-        learn_mood(i,2) = nanmean(filt_mood_learn.response);
+        learn_mood(iSj,1) = NaN;
+        learn_mood(iSj,2) = nanmean(filt_mood_learn.response);
         
         % baseline mood
-        learn_mood(i,3) = nanmean(filt_mood_lbase.response);
+        learn_mood(iSj,3) = nanmean(filt_mood_lbase.response);
         
         [r,~] = corr(filt_learn.response_mood,filt_learn.response_rewarded,'rows','complete');
-        learn_mood(i,5) = r;
-        learn_mood(i,6) = fisherz(r);
+        learn_mood(iSj,5) = r;
+        learn_mood(iSj,6) = fisherz(r);
         
         [r,~] = corr(filt_learn.response_mood(1:72),filt_learn.response_rewarded(1:72),'rows','complete');
-        learn_mood(i,7) = r;
-        learn_mood(i,8) = fisherz(r);
+        learn_mood(iSj,7) = r;
+        learn_mood(iSj,8) = fisherz(r);
         
         % mood-outcome correlation for delay trials separate from imm trials
         [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==7000),filt_learn.response_rewarded(filt_learn.feedback_duration_times==7000),'rows','complete');
-        learn_mood(i,9) = fisherz(r);
+        learn_mood(iSj,9) = fisherz(r);
         [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==750),filt_learn.response_rewarded(filt_learn.feedback_duration_times==750),'rows','complete');
-        learn_mood(i,10) = fisherz(r);
+        learn_mood(iSj,10) = fisherz(r);
         
         % response to reward minus baseline and miss minus baseline
-        learn_mood(i,12) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==1)) - learn_mood(i,3);
-        learn_mood(i,13) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==0)) - learn_mood(i,3);
+        learn_mood(iSj,12) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==1)) - learn_mood(iSj,3);
+        learn_mood(iSj,13) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==0)) - learn_mood(iSj,3);
         
         clear r
 
@@ -596,8 +622,8 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%
     if hastest && (excludelearn==0) && hastestday2
         
-        test_choice(i,12) = 0;
-        test_rate(i,12) = 0;
+        test_choice(iSj,12) = 0;
+        test_rate(iSj,12) = 0;
         
         % filter
         filt_test = testTable(testTable.test_part == "memory_choice", :);
@@ -633,29 +659,29 @@ for i = 1:size(learnList,1)
         
         
         % choice
-        test_choice(i,2) = nanmean(filt_test.response_correct); % all choices
-        test_choice(i,3) = nanmean(filt_test_del.response_correct); % delay choices
-        test_choice(i,4) = nanmean(filt_test_imm.response_correct); % imm choices
+        test_choice(iSj,2) = nanmean(filt_test.response_correct); % all choices
+        test_choice(iSj,3) = nanmean(filt_test_del.response_correct); % delay choices
+        test_choice(iSj,4) = nanmean(filt_test_imm.response_correct); % imm choices
         
-        test_choice(i,6) = nanmean(filt_test.confidence); % all confidence
-        test_choice(i,7) = nanmean(filt_test_del.confidence); % del confidence
-        test_choice(i,8) = nanmean(filt_test_imm.confidence); % imm confidence
+        test_choice(iSj,6) = nanmean(filt_test.confidence); % all confidence
+        test_choice(iSj,7) = nanmean(filt_test_del.confidence); % del confidence
+        test_choice(iSj,8) = nanmean(filt_test_imm.confidence); % imm confidence
         
         % rating
-        test_rate(i,1) = i;
+        test_rate(iSj,1) = iSj;
         [r,~] = corr(filt_test_rate.response,filt_test_rate.value_true);
-        test_rate(i,2) = fisherz(r);
+        test_rate(iSj,2) = fisherz(r);
         
-        test_rate(i,3) = nanmean(filt_test_rate.response(filt_test_rate.value_true>0.5));
-        test_rate(i,4) = nanmean(filt_test_rate.response(filt_test_rate.value_true<0.5));
-        test_rate(i,5) = test_rate(i,3)-test_rate(i,4);
+        test_rate(iSj,3) = nanmean(filt_test_rate.response(filt_test_rate.value_true>0.5));
+        test_rate(iSj,4) = nanmean(filt_test_rate.response(filt_test_rate.value_true<0.5));
+        test_rate(iSj,5) = test_rate(iSj,3)-test_rate(iSj,4);
         
-        test_rate(i,6) = nanmean(filt_test_rate_del.response(filt_test_rate_del.value_true>0.5));
-        test_rate(i,7) = nanmean(filt_test_rate_del.response(filt_test_rate_del.value_true<0.5));
-        test_rate(i,8) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true>0.5));
-        test_rate(i,9) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true<0.5));
-        test_rate(i,10) = test_rate(i,6)-test_rate(i,7); % delay hi-low
-        test_rate(i,11) = test_rate(i,8)-test_rate(i,9); % imm hi-low
+        test_rate(iSj,6) = nanmean(filt_test_rate_del.response(filt_test_rate_del.value_true>0.5));
+        test_rate(iSj,7) = nanmean(filt_test_rate_del.response(filt_test_rate_del.value_true<0.5));
+        test_rate(iSj,8) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true>0.5));
+        test_rate(iSj,9) = nanmean(filt_test_rate_imm.response(filt_test_rate_imm.value_true<0.5));
+        test_rate(iSj,10) = test_rate(iSj,6)-test_rate(iSj,7); % delay hi-low
+        test_rate(iSj,11) = test_rate(iSj,8)-test_rate(iSj,9); % imm hi-low
         
         
         % delay time
@@ -709,8 +735,8 @@ for i = 1:size(learnList,1)
 %         test_perf(i,14) = nanmean(filt_test_mix_lolo.response_correct);
         
     elseif excludelearn
-        test_day2_choice(i,12) = 1;
-        test_rate(i,12) = 1;
+        test_day2_choice(iSj,12) = 1;
+        test_rate(iSj,12) = 1;
     end
     
     
@@ -720,8 +746,8 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%%%%%%
     if hastestday2 && (excludelearn==0)
         
-        test_day2_choice(i,12) = 0;
-        test_day2_rate(i,12) = 0;
+        test_day2_choice(iSj,12) = 0;
+        test_day2_rate(iSj,12) = 0;
         
         % filter
         filt_test_day2_all = testday2Table(testday2Table.block_curr == 1, :);
@@ -734,43 +760,43 @@ for i = 1:size(learnList,1)
         filt_test_day2_rate_imm = filt_test_day2_rate(filt_test_day2_rate.delay == 0, :);
         
         % choice
-        test_day2_choice(i,2) = nanmean(filt_test_day2.response_acc); % all choices
-        test_day2_choice(i,3) = nanmean(filt_test_day2_del.response_acc); % delay choices
-        test_day2_choice(i,4) = nanmean(filt_test_day2_imm.response_acc); % imm choices
+        test_day2_choice(iSj,2) = nanmean(filt_test_day2.response_acc); % all choices
+        test_day2_choice(iSj,3) = nanmean(filt_test_day2_del.response_acc); % delay choices
+        test_day2_choice(iSj,4) = nanmean(filt_test_day2_imm.response_acc); % imm choices
         
-        test_day2_choice(i,6) = nanmean(filt_test_day2.confidence); % all confidence
-        test_day2_choice(i,7) = nanmean(filt_test_day2_del.confidence); % del confidence
-        test_day2_choice(i,8) = nanmean(filt_test_day2_imm.confidence); % imm confidence
+        test_day2_choice(iSj,6) = nanmean(filt_test_day2.confidence); % all confidence
+        test_day2_choice(iSj,7) = nanmean(filt_test_day2_del.confidence); % del confidence
+        test_day2_choice(iSj,8) = nanmean(filt_test_day2_imm.confidence); % imm confidence
         
         % rating
-        test_day2_rate(i,1) = i;
+        test_day2_rate(iSj,1) = iSj;
         [r,~] = corr(filt_test_day2_rate.response,filt_test_day2_rate.value_true);
-        test_day2_rate(i,2) = fisherz(r);
+        test_day2_rate(iSj,2) = fisherz(r);
         
-        test_day2_rate(i,3) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true>0.5));
-        test_day2_rate(i,4) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true<0.5));
-        test_day2_rate(i,5) = test_day2_rate(i,3)-test_day2_rate(i,4);
+        test_day2_rate(iSj,3) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true>0.5));
+        test_day2_rate(iSj,4) = nanmean(filt_test_day2_rate.response(filt_test_day2_rate.value_true<0.5));
+        test_day2_rate(iSj,5) = test_day2_rate(iSj,3)-test_day2_rate(iSj,4);
         
-        test_day2_rate(i,6) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true>0.5)); % delay hi
-        test_day2_rate(i,7) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true<0.5)); % delay low
-        test_day2_rate(i,8) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true>0.5)); % imm hi
-        test_day2_rate(i,9) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true<0.5)); % imm low
-        test_day2_rate(i,10) = test_day2_rate(i,6)-test_day2_rate(i,7); % delay hi-low
-        test_day2_rate(i,11) = test_day2_rate(i,8)-test_day2_rate(i,9); % imm hi-low
+        test_day2_rate(iSj,6) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true>0.5)); % delay hi
+        test_day2_rate(iSj,7) = nanmean(filt_test_day2_rate_del.response(filt_test_day2_rate_del.value_true<0.5)); % delay low
+        test_day2_rate(iSj,8) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true>0.5)); % imm hi
+        test_day2_rate(iSj,9) = nanmean(filt_test_day2_rate_imm.response(filt_test_day2_rate_imm.value_true<0.5)); % imm low
+        test_day2_rate(iSj,10) = test_day2_rate(iSj,6)-test_day2_rate(iSj,7); % delay hi-low
+        test_day2_rate(iSj,11) = test_day2_rate(iSj,8)-test_day2_rate(iSj,9); % imm hi-low
         
         
         if excludelearn
-            test_day2_choice(i,12) = 1;
-            test_day2_choice(i,9:11) = test_day2_choice(i,2:4);
-            test_day2_choice(i,2:8) = NaN;
-            test_day2_rate(i,12) = 1;
-            test_day2_rate(i,10:11) = test_day2_rate(i,3:4);
-            test_day2_rate(i,2:9) = NaN;
+            test_day2_choice(iSj,12) = 1;
+            test_day2_choice(iSj,9:11) = test_day2_choice(iSj,2:4);
+            test_day2_choice(iSj,2:8) = NaN;
+            test_day2_rate(iSj,12) = 1;
+            test_day2_rate(iSj,10:11) = test_day2_rate(iSj,3:4);
+            test_day2_rate(iSj,2:9) = NaN;
         end
         
     elseif excludelearn
-        test_day2_choice(i,12) = 1;
-        test_day2_rate(i,12) = 1;
+        test_day2_choice(iSj,12) = 1;
+        test_day2_rate(iSj,12) = 1;
     end
     
     
@@ -780,92 +806,130 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%%%%%
     if hasfwd %&& (excludelearn==0)
         
-        fwd_perf(i,6) = 0;
+        fwd_perf(iSj,6) = 0;
         
         
         % filter
         filt_fwd = fwdTable(fwdTable.exp_name == "fwdspan", :);
         
         % 
-        fwd_perf(i,1) = i;
-        fwd_perf(i,2) = max(filt_fwd.span.*filt_fwd.correct_full);
+        fwd_perf(iSj,1) = iSj;
+        fwd_perf(iSj,2) = max(filt_fwd.span.*filt_fwd.correct_full);
         
         if excludelearn
-            fwd_perf(i,5) = fwd_perf(i,2);
-            fwd_perf(i,2) = NaN;
+            fwd_perf(iSj,5) = fwd_perf(iSj,2);
+            fwd_perf(iSj,2) = NaN;
         end
-
+        
     elseif excludelearn
-        fwd_perf(i,6) = 1;
+        fwd_perf(iSj,6) = 1;
     end
     
-
+    
     
     %%%%%%%%%%%%%%%%
     %%%%% post %%%%%
     %%%%%%%%%%%%%%%%
     if haspost %&& (excludelearn==0)
+
+        % column number in cell needed
+        colposttype = 5;
+        colpostresp = 2; 
+        colpostindex = 3;
         
-        filt_post = postTable((postTable.exp_stage == "survey"), :);
+        trialdelpattern = 1;
+        trialstressrate = 2; % rating
+        trialsleep1 = 3;
+        trialsleep2 = 4;
+        trialsleep3 = 5;
+        trialdelaylearn = 6;
+        trialdelayfrust = 7; % rating
+        trialhappfrust = 8; % rating
+        trialengrate = 9; % rating
+        trialeliminatedist = 10;
+        trialdistcomment = 11;
+        trialcomment = 12;
         
         
         
+        filt_post = postCell(find(strcmp(postCell(:,colposttype),'survey')==1),:);
+        filt_response = filt_post(:,colpostresp);
+        filt_choiceindex = filt_post(:,colpostindex);
         
-        post_perf(i,1) = i;
-        post_perf(i,2) = str2double(postTable.response{1});
+
+        post_perf(iSj,1) = iSj;
+        
+        % noticed pattern in delays
+        a = filt_choiceindex{trialdelpattern};
+        a = a(2);
+        a = str2double(a(1));
+        post_perf(iSj,2) = a; clear a
         
         
-        a5 = filt_post.response{5};
-        a5 = a5(8:22);
-        if strcmp(a5,'Definitely noti')
-            post_perf(i,6) = 4;
-        elseif strcmp(a5,'Sometimes notic')
-            post_perf(i,6) = 3;
-        elseif strcmp(a5,'Did not notice ')
-            post_perf(i,6) = 2;
-        elseif strcmp(a5,'Definitely no p')
-            post_perf(i,6) = 1;
+        % 'Learned much better with shorter delay' = 0
+        % 'Learned much better with longer delay' = 3
+        a = filt_choiceindex{trialdelaylearn};
+        a = a(2);
+        a = str2double(a(1));
+        post_perf(iSj,3) = a; clear a
+        
+        
+        if size(filt_post,1)>11
+
+            post_perf(iSj,9) = filt_post{trialstressrate,colpostresp}; % stress rating
+
+            % sleep1
+            % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
+            a = filt_choiceindex{trialsleep1};
+            a = a(2);
+            a = str2double(a(1));
+            post_perf(iSj,10) = (abs(a-4))+1; clear a
+            
+            % sleep2
+            % options: ['Much more sleep', 'More sleep', 'Average', 'Less', 'Much less sleep']
+            a = filt_choiceindex{trialsleep2};
+            a = a(2);
+            a = str2double(a(1));
+            post_perf(iSj,11) = (abs(a-4))+1; clear a
+            
+            % sleep3
+            % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
+            a = filt_choiceindex{trialsleep3};
+            a = a(2);
+            a = str2double(a(1));
+            post_perf(iSj,12) = (abs(a-4))+1; clear a
         end
         
         
-        a6 = filt_post.response{6};
-        if length(a6)>22
-            a6 = a6(8:end-5);
-        else
-            a6 = a6(8:19);
-        end
-        %post_response{i,2} = a6;
+        post_perf(iSj,8) = filt_response{trialdelayfrust};
+        post_perf(iSj,9) = filt_response{trialhappfrust};
+        post_perf(iSj,10) = filt_response{trialhappfrust};
         
-        if strcmp(a6,'Learned much better with with longer de') || strcmp(a6,'Learned much better with longer de')
-            post_perf(i,7) = 4;
-        elseif strcmp(a6,'Longer delay')
-            post_perf(i,7) = 3;
-        elseif strcmp(a6,'Shorter dela')
-            post_perf(i,7) = 2;
-        elseif strcmp(a6,'Learned much better with with shorter de') || strcmp(a6,'Learned much better with shorter de')
-            post_perf(i,7) = 1;
-        end
+        % post_response{iSj,1} = iSj;
+        % a9 = filt_post.response{9};
+        % a9 = a9(9:end-2);
+        % a12 = filt_post.response{12};
+        % a12 = a12(9:end-2);
+        % a13 = filt_post.response{13};
+        % a13 = a13(9:end-2);
+        % post_response{iSj,2} = a9;
+        % post_response{iSj,3} = a12;
+        % post_response{iSj,4} = a13;
         
+
+        a = filt_response{trialdistcomment};
+        distcomment = a(9:end-2); clear a
+        a = filt_response{trialcomment};
+        comment = a(9:end-2); clear a
         
-        post_perf(i,8) = str2num(postTable.response{7});
-        post_perf(i,9) = str2num(postTable.response{8});
-        
-        
-        post_perf(i,10) = str2num(filt_post.response{10});
-        
-        post_response{i,1} = i;
-        a9 = filt_post.response{9};
-        a9 = a9(9:end-2);
-        a12 = filt_post.response{12};
-        a12 = a12(9:end-2);
-        a13 = filt_post.response{13};
-        a13 = a13(9:end-2);
-        post_response{i,2} = a9;
-        post_response{i,3} = a12;
-        post_response{i,4} = a13;
+        post_response{iSj,1} = iSj;
+        post_response{iSj,2} = subjid;
+        post_response{iSj,5} = distcomment;
+        post_response{iSj,6} = comment;
         
     else
-        post_response{i,1} = NaN;
+        post_response{iSj,1} = NaN;
+        post_response{iSj,2} = subjid;
     end
     
     
@@ -874,144 +938,118 @@ for i = 1:size(learnList,1)
     %%%%%%%%%%%%%%%%%%%%%
     %%%%% post day2 %%%%%
     %%%%%%%%%%%%%%%%%%%%%
-    if 1==2  %%hastestday2 %%(excludelearn==0)
+    % if 1==2
+    if hastestday2 %&& (excludelearn==0)
+
         
-        % questions 1-11
-        %'memory'
-        %'engagement1'
-        %'engagement2'
-        %'engagement3'
-        %'environment1'
-        %'comment1'
-        % mood_rating_after_questionnaires
-        %'state_stress'
-        %'sleep1'
-        %'sleep2'
-        %'sleep3'
+        % column number in cell needed
+        colpostday2type = 7;
+        colpostday2resp = 3; 
+        colpostday2index = 13;
         
-        filt_day2_post = testday2Cell(find(strcmp(testday2Cell(:,2),'survey')==1),:);
-        filt_day2_response = filt_day2_post(:,11);
-        filt_day2_choiceindex = filt_day2_post(:,35);
-        %filt_day2_post = testday2Table((testday2Table.exp_stage == "survey"), :);
+        trialday2posthapprate = 1;
+        % 2 is instr
+        % 3 is instr
+        trialday2memdiff = 4;
+        trialday2engrate = 5;
+        trialday2eliminatedist = 6;
+        trialday2distcomment = 7;
+        trialday2location = 8;
+        trialday2comment = 9;
+        % 10 is instr
+        trialday2stressrate = 11;
+        trialday2sleep1 = 12;
+        trialday2sleep2 = 13;
+        trialday2sleep3 = 14;
         
-        post_day2_perf(i,1) = i;
         
-        if strcmp(subjid,'6400c176195e0363ae8f6e1f')
-        elseif size(filt_day2_post,1)>10
-            post_day2_perf(i,3) = filt_day2_post{2,11}; % engagement rating
-            post_day2_perf(i,8) = filt_day2_post{7,11}; % mood rating after questionnaires
-            post_day2_perf(i,9) = filt_day2_post{8,11}; % stress rating
+        filt_day2_post = postday2Cell(find(strcmp(postday2Cell(:,colpostday2type),'survey')==1),:);
+        filt_day2_response = filt_day2_post(:,colpostday2resp);
+        filt_day2_choiceindex = filt_day2_post(:,colpostday2index);
+        
+        post_day2_perf(iSj,1) = iSj;
+        
+        
+        if size(filt_day2_post,1)>10
+            
+            post_day2_perf(iSj,3) = filt_day2_post{trialday2engrate,colpostday2resp}; % engagement rating
+            post_day2_perf(iSj,8) = filt_day2_post{trialday2posthapprate,colpostday2resp}; % post test happiness rating
+            post_day2_perf(iSj,9) = filt_day2_post{trialday2stressrate,colpostday2resp}; % stress rating
         end
         
         % memory
         % options: ['Very easy to remember', 'Easy', 'Average', 'Difficult', 'Very difficult to remember']
-        a1 = filt_day2_choiceindex{1};
-        a1 = a1(2);
-        a1 = str2double(a1(1));
-        post_day2_perf(i,2) = a1+1;
-%         a1 = filt_day2_response{1};
-%         %a1 = a1(8:end-2);
-%         if strcmp(a1(8:end-2),'Easy')
-%             post_day2_perf(i,2) = 2;
-%         elseif strcmp(a1(8:13),'Very e')
-%             post_day2_perf(i,2) = 1;
-%         elseif strcmp(a1(8:13),'Averag')
-%             post_day2_perf(i,2) = 3;
-%         elseif strcmp(a1(8:13),'Diffic')
-%             post_day2_perf(i,2) = 4;
-%         elseif strcmp(a1(8:13),'Very d')
-%             post_day2_perf(i,2) = 5;
-%         end
-        
+        a = filt_day2_choiceindex{trialday2memdiff};
+        a = a(2);
+        a = str2double(a(1));
+        post_day2_perf(iSj,2) = a+1; clear a
         
         
         % eliminate distractions
         % options: ['Yes', 'Somewhat', 'A little', 'No']
-        a3 = filt_day2_choiceindex{3};
-        a3 = a3(2);
-        a3 = str2double(a3(1));
-        post_day2_perf(i,4) = a3+1;
-%         a3 = filt_day2_response{3};
-%         a3 = a3(8);
-%         if strcmp(a3,'Y')
-%             post_day2_perf(i,3) = 4;
-%         elseif strcmp(a3,'S')
-%             post_day2_perf(i,3) = 3;
-%         elseif strcmp(a3,'A')
-%             post_day2_perf(i,3) = 2;
-%         elseif strcmp(a3,'N')
-%             post_day2_perf(i,3) = 1;
-%         end
+        a = filt_day2_choiceindex{trialday2eliminatedist};
+        a = a(2);
+        a = str2double(a(1));
+        post_day2_perf(iSj,4) = a+1; clear a
         
-        
-        if strcmp(subjid,'6400c176195e0363ae8f6e1f')
-        elseif size(filt_day2_post,1)>10
         
         % environment similarity
         % 'Same room/location + Same computer',
         % 'Same room/location + Different computer',
         % 'Different room/location + Same computer',
         % 'Different room/location + Different computer'
-        a5 = filt_day2_choiceindex{5};
+        a5 = filt_day2_choiceindex{trialday2location};
         a5 = a5(2);
         a5 = str2double(a5(1));
-        post_day2_perf(i,6) = a5+1;
+        post_day2_perf(iSj,6) = a5+1;
         
-        % sleep1
-        % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
-        a9 = filt_day2_choiceindex{9};
-        a9 = a9(2);
-        a9 = str2double(a9(1));
-        post_day2_perf(i,10) = (abs(a9-4))+1;
-        
-        % sleep2
-        % options: ['Much more sleep', 'More sleep', 'Average', 'Less', 'Much less sleep']
-        a10 = filt_day2_choiceindex{10};
-        a10 = a10(2);
-        a10 = str2double(a10(1));
-        post_day2_perf(i,11) = (abs(a10-4))+1;
-        
-        % sleep3
-        % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
-        a11 = filt_day2_choiceindex{11};
-        a11 = a11(2);
-        a11 = str2double(a11(1));
-        post_day2_perf(i,12) = (abs(a11-4))+1;
-        
-        
-        post_day2_response{i,1} = i;
-        a1 = filt_day2_response{1};
-        a1 = a1(8:end-2);
-        a3 = filt_day2_response{3};
-        a3 = a3(8:end-2);
-        a4 = filt_day2_response{4};
-        a4 = a4(9:end-2);
-        a5 = filt_day2_response{5};
-        a5 = a5(8:end-2);
-        a6 = filt_day2_response{6};
-        a6 = a6(9:end-2);
-        a9 = filt_day2_response{9};
-        a9 = a9(8:end-2);
-        a10 = filt_day2_response{10};
-        a10 = a10(8:end-2);
-        a11 = filt_day2_response{11};
-        a11 = a11(8:end-2);
-        
-        post_day2_response{i,2} = a1;
-        post_day2_response{i,3} = filt_day2_response{2};
-        post_day2_response{i,4} = a3;
-        post_day2_response{i,5} = a4;
-        post_day2_response{i,6} = a5;
-        post_day2_response{i,7} = a6;
-        post_day2_response{i,8} = filt_day2_response{7};
-        post_day2_response{i,9} = filt_day2_response{8};
-        post_day2_response{i,10} = a9;
-        post_day2_response{i,11} = a10;
-        post_day2_response{i,12} = a11;
-
+        if size(filt_day2_post,1)>11
+            
+            % sleep1
+            % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
+            a = filt_day2_choiceindex{trialday2sleep1};
+            a = a(2);
+            a = str2double(a(1));
+            post_day2_perf(iSj,10) = (abs(a-4))+1; clear a
+            
+            % sleep2
+            % options: ['Much more sleep', 'More sleep', 'Average', 'Less', 'Much less sleep']
+            a = filt_day2_choiceindex{trialday2sleep2};
+            a = a(2);
+            a = str2double(a(1));
+            post_day2_perf(iSj,11) = (abs(a-4))+1; clear a
+            
+            % sleep3
+            % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
+            a = filt_day2_choiceindex{trialday2sleep3};
+            a = a(2);
+            a = str2double(a(1));
+            post_day2_perf(iSj,12) = (abs(a-4))+1; clear a
         end
+
+        
+        
+        a = filt_day2_response{trialday2distcomment};
+        day2distcomment = a(9:end-2); clear a
+        a = filt_day2_response{trialday2comment};
+        day2comment = a(9:end-2); clear a
+        
+        a = filt_day2_response{trialday2location};
+        day2location = a(8:end-2); clear a
+        
+        a = filt_day2_response{trialday2memdiff};
+        day2memdiff = a(8:end-2); clear a
+        
+        post_day2_response{iSj,1} = iSj;
+        post_day2_response{iSj,2} = subjid;
+        post_day2_response{iSj,3} = day2memdiff;
+        post_day2_response{iSj,4} = day2location;
+        post_day2_response{iSj,5} = day2distcomment;
+        post_day2_response{iSj,6} = day2comment;
+        
     else
-        post_day2_response{i,1} = NaN;
+        post_day2_response{iSj,1} = NaN;
+        post_day2_response{iSj,2} = subjid;
     end
     
     
@@ -1059,13 +1097,13 @@ for i = 1:size(learnList,1)
         %        clear score_temp
         %    end
         %end
-        survey_phq(i,1) = sum(subj_phq);
+        survey_phq(iSj,1) = sum(subj_phq);
         
         % GAD
         % 7 items
         resp_gad = cell2mat(filt_gad.response_string);
         subj_gad = survey_extract(resp_gad,'GAD',7);
-        survey_gad(i,1) = sum(subj_gad);
+        survey_gad(iSj,1) = sum(subj_gad);
         
         
         % STAI
@@ -1114,7 +1152,7 @@ for i = 1:size(learnList,1)
         % ADD to score: SDS item_9
         resp_sticsa = cell2mat(filt_sticsa.response_string);
         subj_sticsa = survey_extract(resp_sticsa,'STICSA',10); % plus catch
-        survey_sticsa(i,1) = sum(subj_sticsa);
+        survey_sticsa(iSj,1) = sum(subj_sticsa);
         
         
         % PVSS
@@ -1122,7 +1160,7 @@ for i = 1:size(learnList,1)
         % catch
         resp_pvss = cell2mat(filt_pvss.response_string);
         subj_pvss = survey_extract(resp_pvss,'PVSS',21); % plus catch
-        survey_pvss(i,1) = sum(subj_pvss);
+        survey_pvss(iSj,1) = sum(subj_pvss);
         
         
         
@@ -1141,8 +1179,8 @@ for i = 1:size(learnList,1)
         
         
         if excludelearn
-            survey_phq(i,2) = survey_phq(i,1);
-            survey_gad(i,2) = survey_gad(i,1);
+            survey_phq(iSj,2) = survey_phq(iSj,1);
+            survey_gad(iSj,2) = survey_gad(iSj,1);
         end
         
     elseif excludelearn
@@ -1305,33 +1343,33 @@ end
 if 1==2
     
     
-    for i = 1:18
-        [rs_depr(1,i),ps_depr(1,i)] = corr(survey_phq(:,1),learn_rep_perf(:,i),'rows','complete');
+    for iSj = 1:18
+        [rs_depr(1,iSj),ps_depr(1,iSj)] = corr(survey_phq(:,1),learn_rep_perf(:,iSj),'rows','complete');
     end
-    for i = 1:18
-        [rs_del_depr(1,i),ps_del_depr(1,i)] = corr(survey_phq(:,1),learn_repdel_perf(:,i),'rows','complete');
+    for iSj = 1:18
+        [rs_del_depr(1,iSj),ps_del_depr(1,iSj)] = corr(survey_phq(:,1),learn_repdel_perf(:,iSj),'rows','complete');
     end
-    for i = 1:18
-        [rs_imm_depr(1,i),ps_imm_depr(1,i)] = corr(survey_phq(:,1),learn_repimm_perf(:,i),'rows','complete');
-    end
-    
-    
-    for i = 1:18
-        [rs_del_anx(1,i),ps_del_anx(1,i)] = corr(survey_gad(:,1),learn_repdel_perf(:,i),'rows','complete');
-    end
-    for i = 1:18
-        [rs_imm_anx(1,i),ps_imm_anx(1,i)] = corr(survey_gad(:,1),learn_repimm_perf(:,i),'rows','complete');
+    for iSj = 1:18
+        [rs_imm_depr(1,iSj),ps_imm_depr(1,iSj)] = corr(survey_phq(:,1),learn_repimm_perf(:,iSj),'rows','complete');
     end
     
-    for i = 1:18
-        [rs_anxdepr(1,i),ps_anxdepr(1,i)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_rep_perf(:,i),'rows','complete');
+    
+    for iSj = 1:18
+        [rs_del_anx(1,iSj),ps_del_anx(1,iSj)] = corr(survey_gad(:,1),learn_repdel_perf(:,iSj),'rows','complete');
+    end
+    for iSj = 1:18
+        [rs_imm_anx(1,iSj),ps_imm_anx(1,iSj)] = corr(survey_gad(:,1),learn_repimm_perf(:,iSj),'rows','complete');
     end
     
-    for i = 1:18
-        [rs_del_anxdepr(1,i),ps_del_anxdepr(1,i)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repdel_perf(:,i),'rows','complete');
+    for iSj = 1:18
+        [rs_anxdepr(1,iSj),ps_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_rep_perf(:,iSj),'rows','complete');
     end
-    for i = 1:18
-        [rs_imm_anxdepr(1,i),ps_imm_anxdepr(1,i)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repimm_perf(:,i),'rows','complete');
+    
+    for iSj = 1:18
+        [rs_del_anxdepr(1,iSj),ps_del_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repdel_perf(:,iSj),'rows','complete');
+    end
+    for iSj = 1:18
+        [rs_imm_anxdepr(1,iSj),ps_imm_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repimm_perf(:,iSj),'rows','complete');
     end
     figure,plot(rs_depr)
     hold on
@@ -1349,15 +1387,15 @@ if 1==2
     
     survey_comb = survey(:,1)+survey(:,2)+survey(:,9)+survey(:,10)+survey(:,11);
     
-    for i = 1:16
-        [rs_anx(1,i),ps_anx(1,i)] = corr(survey(:,2),task_slide(:,i));
+    for iSj = 1:16
+        [rs_anx(1,iSj),ps_anx(1,iSj)] = corr(survey(:,2),task_slide(:,iSj));
     end
-    for i = 1:16
-        [rs_depr(1,i),ps_depr(1,i)] = corr(survey(:,1),task_slide(:,i));
+    for iSj = 1:16
+        [rs_depr(1,iSj),ps_depr(1,iSj)] = corr(survey(:,1),task_slide(:,iSj));
     end
     
-    for i = 1:16
-        [rs_comb(1,i),ps_comb(1,i)] = corr(survey(:,3),task_slide(:,i));
+    for iSj = 1:16
+        [rs_comb(1,iSj),ps_comb(1,iSj)] = corr(survey(:,3),task_slide(:,iSj));
     end
     
     plot(nanmean(task_slide(survey(:,2)<median(survey(:,2)))))
@@ -1370,20 +1408,20 @@ if 1==2
 
     
     
-    for i = 1:18
-        [rs_sds(1,i),ps_sds(1,i)] = corr(survey(:,3),task_rep(:,i));
+    for iSj = 1:18
+        [rs_sds(1,iSj),ps_sds(1,iSj)] = corr(survey(:,3),task_rep(:,iSj));
     end
-    for i = 1:18
-        [rs_stai(1,i),ps_stai(1,i)] = corr(survey(:,4),task_rep(:,i));
+    for iSj = 1:18
+        [rs_stai(1,iSj),ps_stai(1,iSj)] = corr(survey(:,4),task_rep(:,iSj));
     end
-    for i = 1:18
-        [rs_aes(1,i),ps_aes(1,i)] = corr(survey(:,5),task_rep(:,i));
+    for iSj = 1:18
+        [rs_aes(1,iSj),ps_aes(1,iSj)] = corr(survey(:,5),task_rep(:,iSj));
     end
-    for i = 1:18
-        [rs_masq(1,i),ps_masq(1,i)] = corr(survey(:,6),task_rep(:,i));
+    for iSj = 1:18
+        [rs_masq(1,iSj),ps_masq(1,iSj)] = corr(survey(:,6),task_rep(:,iSj));
     end
-    for i = 1:18
-        [rs_sticsa(1,i),ps_sticsa(1,i)] = corr(survey(:,7),task_rep(:,i));
+    for iSj = 1:18
+        [rs_sticsa(1,iSj),ps_sticsa(1,iSj)] = corr(survey(:,7),task_rep(:,iSj));
     end
     
     [r,p] = corr(survey(:,3),task_rep(:,7))
