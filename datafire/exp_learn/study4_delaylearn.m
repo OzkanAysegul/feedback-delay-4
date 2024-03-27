@@ -115,6 +115,8 @@ nreps = 18;
 ntrials = npairs*nreps;
 
 
+subject_name = cell(size(learnList,1),8);
+
 learn_perf = NaN(size(learnList,1),18);
 learn_all_perf = NaN(size(learnList,1),18);
 learn_slide_perf = learn_perf;
@@ -122,7 +124,6 @@ learn_rep_perf = learn_perf;
 learn_repdel_perf = learn_perf;
 learn_repimm_perf = learn_perf;
 learn_alltrials_perf = NaN(size(learnList,1),ntrials);
-learn_perf_name = cell(size(learnList,1),8);
 learn_responses = learn_perf;
 learn_breakdur = NaN(size(learnList,1),12);
 learn_reptime = NaN(size(learnList,1),17);
@@ -169,8 +170,8 @@ for iSj = 1:size(learnList,1)
     
     subjid = learnname(34:end-4);
     subjtime = learnname(10:22);
-    learn_perf_name{iSj,1} = subjid;
-    learn_perf_name{iSj,2} = subjtime;
+    subject_name{iSj,1} = subjid;
+    subject_name{iSj,2} = subjtime;
 
     if exist(learnname,'file')
         learnTable = readtable(learnname);
@@ -314,8 +315,8 @@ for iSj = 1:size(learnList,1)
     end
     
     
-    learn_perf_name{iSj,4} = hastestday2;
-    learn_perf_name{iSj,5} = hassurvey;
+    subject_name{iSj,4} = hastestday2;
+    subject_name{iSj,5} = hassurvey;
     %learn_perf_name{i,6} = missingsurveydata;
     %learn_perf_name{i,7} = surveyparticipated;
     
@@ -534,7 +535,7 @@ for iSj = 1:size(learnList,1)
             excludetrialsmissed = 1
         end
         
-        learn_perf_name{iSj,8} = excludelearn;
+        subject_name{iSj,8} = excludelearn;
         
         if excludelearn
             learn_perf(iSj,15) = learn_perf(iSj,5);
@@ -551,7 +552,7 @@ for iSj = 1:size(learnList,1)
         
         learn_perf(iSj,14) = excludelearn;
         
-        learn_perf_name{iSj,3} = abs(excludelearn-1);
+        subject_name{iSj,3} = abs(excludelearn-1);
         
         % mood analysis
         response_mood = [];
@@ -620,7 +621,7 @@ for iSj = 1:size(learnList,1)
     %%%%%%%%%%%%%%
     %%%% test %%%%
     %%%%%%%%%%%%%%
-    if hastest && (excludelearn==0) && hastestday2
+    if hastest % && (excludelearn==0) && hastestday2
         
         test_choice(iSj,12) = 0;
         test_rate(iSj,12) = 0;
@@ -1220,6 +1221,16 @@ nsurvey = nansum(survey_phq(:,1)>-1)
 figure,plot(nanmean(learn_repdel_perf))
 hold on
 plot(nanmean(learn_repimm_perf))
+title('Delay Imm incl subjects')
+
+learn_repincl_perf = learn_rep_perf;
+learn_repexcl_perf = learn_rep_perf;
+learn_repincl_perf(learn_perf(:,14)==1,:) = NaN;
+learn_repexcl_perf(learn_perf(:,14)==0,:) = NaN;
+figure,plot(nanmean(learn_repincl_perf))
+hold on
+plot(nanmean(learn_repexcl_perf))
+title('Average Incl Excl')
 
 
 % learn_mood(:,2) = mean of post-feedback ratings
