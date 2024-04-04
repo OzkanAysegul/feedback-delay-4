@@ -172,41 +172,35 @@ for iSj = 1:size(learnList,1)
     subjtime = learnname(10:22);
     subject_name{iSj,1} = subjid;
     subject_name{iSj,2} = subjtime;
-    
-    haslearnpav = 0;
+
     if exist(learnname,'file')
         learnTable = readtable(learnname);
     else
-        learnpavname = ['../../data_pavlovia/raw_learn/Study5_learningdata_' subjid '.csv'];
+        learnpavname = ['../../data_Pavlovia/prereg_raw_learn_110/prereg_learningdata_' subjid '.csv'];
         if exist(learnpavname,'file')
-            haslearnpav = 1
             learnTable = readtable(learnpavname);
-            y = 1;
-        end
-        clear learnpavname
+        end 
     end
     
     
     testname = ['taskdata_' subjtime '_exp_test_' subjid '.csv'];
     
     hastest = 0;
-    hastestpav = 0;
     if exist(['../exp_test/' testname],'file')
         testTable = readtable(['../exp_test/' testname]);
         test_choice(iSj,1) = size(testTable,1);
         if size(testTable,1)>50 % test ? lines currently
             hastest = 1;
         end
-    else
-        testpavname = ['../../data_pavlovia/raw_test_and_survey/Study5_testsurveydata_' subjid '.csv'];
+    end
+    if hastest==0
+        testpavname = ['../../data_Pavlovia/prereg_raw_test_110/prereg_testdata_' subjid '.csv'];
         if exist(testpavname,'file')
-            hastestpav = 1;
-            testpostsurveyTable = readtable(testpavname);
-            testTable = testpostsurveyTable(testpostsurveyTable.exp_stage == "test",:);
+            testTable = readtable(testpavname);
+            testTable = testTable(testTable.exp_stage == "test",:);
             hastest = 1;
             test_choice(iSj,1) = size(testTable,1);
         end
-        clear testpavname
     end
     
     
@@ -234,7 +228,7 @@ for iSj = 1:size(learnList,1)
     
     
     haslearn = 0;
-    if size(learnTable,1)==660 % learn 660 lines currently
+    if size(learnTable,1)==660 % learn 645 lines currently
         haslearn = 1;
     end
     %elseif strcmp('63f8f2c2941d27adb3d9eb67',subjid) % case with last trial missing 63f8f2c2941d27adb3d9eb67
@@ -255,18 +249,6 @@ for iSj = 1:size(learnList,1)
     if exist(postname,'file')
         postTable = readtable(postname);
         postCell = readcell(postname);
-        if size(postTable,1)>11
-            haspost = 1;
-        end
-    elseif hastestpav
-        y = 1
-        rowdelaynotice = 70;
-        rowpoststart1 = 87;
-        rowpostend1 = 90;
-        rowpoststart2 = 92;
-        rowpostend2 = 98;
-        postTable = [testpostsurveyTable(rowdelaynotice, :); testpostsurveyTable(rowpoststart1:rowpostend1, :); testpostsurveyTable(rowpoststart2:rowpostend2, :)];
-        postCell = table2cell(postTable);
         if size(postTable,1)>11
             haspost = 1;
         end
@@ -316,31 +298,21 @@ for iSj = 1:size(learnList,1)
     
     
     hassurvey = 0;
-    surveyname = ['../exp_survey/taskdata_' subjtime '_exp_survey_' subjid '.csv'];
-    if exist(surveyname,'file')
-        surveyTable = readtable(surveyname);
-        if size(surveyTable,1)>19 && haslearn
-            hassurvey = 1;
+    for iT = 1:length(surveyList)
+        temp = surveyList{iT};
+        temp = temp(36:end-5);
+        if (strcmp(temp,subjid))
+            surveyname = surveyList{iT};
+            surveyname = surveyname(2:end-1);
+            if exist(['../exp_survey/' surveyname],'file')
+                surveyTable = readtable(['../exp_survey/' surveyname]);
+                if size(surveyTable,1)>19 && haslearn
+                    hassurvey = 1;
+                end
+            end
         end
-    elseif hastestpav
-        y = 1
-        surveyTable = testpostsurveyTable(testpostsurveyTable.exp_name == "survey", :);
+        clear temp
     end
-    % for iT = 1:length(surveyList)
-    %     temp = surveyList{iT};
-    %     temp = temp(36:end-5);
-    %     if (strcmp(temp,subjid))
-    %         surveyname = surveyList{iT};
-    %         surveyname = surveyname(2:end-1);
-    %         if exist(['../exp_survey/' surveyname],'file')
-    %             surveyTable = readtable(['../exp_survey/' surveyname]);
-    %             if size(surveyTable,1)>19 && haslearn
-    %                 hassurvey = 1;
-    %             end
-    %         end
-    %     end
-    %     clear temp
-    % end
     
     
     subject_name{iSj,4} = hastestday2;
@@ -649,7 +621,7 @@ for iSj = 1:size(learnList,1)
     %%%%%%%%%%%%%%
     %%%% test %%%%
     %%%%%%%%%%%%%%
-    if hastest % && (excludelearn==0) % && hastestday2
+    if hastest % && (excludelearn==0) && hastestday2
         
         test_choice(iSj,12) = 0;
         test_rate(iSj,12) = 0;
@@ -779,32 +751,29 @@ for iSj = 1:size(learnList,1)
     %%%%%%%%%%%%%%%%%%%
     %%%% test day2 %%%%
     %%%%%%%%%%%%%%%%%%%
-    if hastestday2 % && (excludelearn==0)
+    if hastestday2 && (excludelearn==0)
         
         test_day2_choice(iSj,12) = 0;
         test_day2_rate(iSj,12) = 0;
         
         % filter
-        filt_test_day2_all = testday2Table(testday2Table.block_curr==1, :);
+        filt_test_day2_all = testday2Table(testday2Table.block_curr == 1, :);
+        filt_test_day2_del = filt_test_day2_all(filt_test_day2_all.delay == 1, :);
+        filt_test_day2_imm = filt_test_day2_all(filt_test_day2_all.delay == 0, :);
+        filt_test_day2 = [filt_test_day2_del; filt_test_day2_imm];
         
-        filt_test_day2_rate = filt_test_day2_all(filt_test_day2_all.trial_type == "option-scale-rating", :);
-        % remove practice trial
-        if rem(size(filt_test_day2_rate,1),2)
-            filt_test_day2_rate = filt_test_day2_rate(2:end,:);
-        end
+        filt_test_day2_rate = testday2Table(testday2Table.block_curr == 2, :);
         filt_test_day2_rate_del = filt_test_day2_rate(filt_test_day2_rate.delay == 1, :);
         filt_test_day2_rate_imm = filt_test_day2_rate(filt_test_day2_rate.delay == 0, :);
         
-        filt_test_day2_choice = filt_test_day2_all(filt_test_day2_all.trial_type == "choice-confidence", :);
-        % remove practice trial
-        if rem(size(filt_test_day2_choice,1),2)
-            filt_test_day2_choice = filt_test_day2_choice(2:end,:);
-        end
-        filt_test_day2_del = filt_test_day2_choice(filt_test_day2_choice.delay == 1, :);
-        filt_test_day2_imm = filt_test_day2_choice(filt_test_day2_choice.delay == 0, :);
-        filt_test_day2 = [filt_test_day2_del; filt_test_day2_imm];
-        filt_test_day2_mixed = filt_test_day2_choice(filt_test_day2_choice.delay == 0.5, :);
+        % choice
+        test_day2_choice(iSj,2) = nanmean(filt_test_day2.response_acc); % all choices
+        test_day2_choice(iSj,3) = nanmean(filt_test_day2_del.response_acc); % delay choices
+        test_day2_choice(iSj,4) = nanmean(filt_test_day2_imm.response_acc); % imm choices
         
+        test_day2_choice(iSj,6) = nanmean(filt_test_day2.confidence); % all confidence
+        test_day2_choice(iSj,7) = nanmean(filt_test_day2_del.confidence); % del confidence
+        test_day2_choice(iSj,8) = nanmean(filt_test_day2_imm.confidence); % imm confidence
         
         % rating
         test_day2_rate(iSj,1) = iSj;
@@ -822,23 +791,15 @@ for iSj = 1:size(learnList,1)
         test_day2_rate(iSj,10) = test_day2_rate(iSj,6)-test_day2_rate(iSj,7); % delay hi-low
         test_day2_rate(iSj,11) = test_day2_rate(iSj,8)-test_day2_rate(iSj,9); % imm hi-low
         
-        % choice
-        test_day2_choice(iSj,2) = nanmean(filt_test_day2.response_acc); % all choices
-        test_day2_choice(iSj,3) = nanmean(filt_test_day2_del.response_acc); % delay choices
-        test_day2_choice(iSj,4) = nanmean(filt_test_day2_imm.response_acc); % imm choices
         
-        test_day2_choice(iSj,6) = nanmean(filt_test_day2.confidence); % all confidence
-        test_day2_choice(iSj,7) = nanmean(filt_test_day2_del.confidence); % del confidence
-        test_day2_choice(iSj,8) = nanmean(filt_test_day2_imm.confidence); % imm confidence
-        
-        % if excludelearn
-        %     test_day2_choice(iSj,12) = 1;
-        %     test_day2_choice(iSj,9:11) = test_day2_choice(iSj,2:4);
-        %     test_day2_choice(iSj,2:8) = NaN;
-        %     test_day2_rate(iSj,12) = 1;
-        %     test_day2_rate(iSj,10:11) = test_day2_rate(iSj,3:4);
-        %     test_day2_rate(iSj,2:9) = NaN;
-        % end
+        if excludelearn
+            test_day2_choice(iSj,12) = 1;
+            test_day2_choice(iSj,9:11) = test_day2_choice(iSj,2:4);
+            test_day2_choice(iSj,2:8) = NaN;
+            test_day2_rate(iSj,12) = 1;
+            test_day2_rate(iSj,10:11) = test_day2_rate(iSj,3:4);
+            test_day2_rate(iSj,2:9) = NaN;
+        end
         
     elseif excludelearn
         test_day2_choice(iSj,12) = 1;
@@ -879,16 +840,9 @@ for iSj = 1:size(learnList,1)
     if haspost %&& (excludelearn==0)
 
         % column number in cell needed
-        if hastestpav==0
-            colposttype = 5;
-            colpostresp = 2; 
-            colpostindex = 3;
-        else
-            colposttype = 11;
-            colpostresp = 3; 
-            colpostindex = 32;
-        end
-        
+        colposttype = 5;
+        colpostresp = 2; 
+        colpostindex = 3;
         
         trialdelpattern = 1;
         trialstressrate = 2; % rating
@@ -909,7 +863,7 @@ for iSj = 1:size(learnList,1)
         filt_response = filt_post(:,colpostresp);
         filt_choiceindex = filt_post(:,colpostindex);
         
-        
+
         post_perf(iSj,1) = iSj;
         
         % noticed pattern in delays
@@ -929,13 +883,7 @@ for iSj = 1:size(learnList,1)
         
         if size(filt_post,1)>11
 
-            temprate = filt_post{trialstressrate,colpostresp}; % stress rating
-            if ischar(temprate)
-                temprate = str2double(temprate);
-            end
-            post_perf(iSj,9) = temprate;
-            clear temprate
-
+            post_perf(iSj,9) = filt_post{trialstressrate,colpostresp}; % stress rating
 
             % sleep1
             % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
@@ -959,18 +907,11 @@ for iSj = 1:size(learnList,1)
             post_perf(iSj,12) = (abs(a-4))+1; clear a
         end
         
-        temprate = filt_response{trialdelayfrust};
-        if ischar(temprate)
-            post_perf(iSj,8) = str2double(temprate);
-            post_perf(iSj,9) = str2double(filt_response{trialhappfrust});
-            post_perf(iSj,10) = str2double(filt_response{trialhappfrust});
-            clear temprate
-        else
-            post_perf(iSj,8) = filt_response{trialdelayfrust};
-            post_perf(iSj,9) = filt_response{trialhappfrust};
-            post_perf(iSj,10) = filt_response{trialhappfrust};
-        end
-
+        
+        post_perf(iSj,8) = filt_response{trialdelayfrust};
+        post_perf(iSj,9) = filt_response{trialhappfrust};
+        post_perf(iSj,10) = filt_response{trialhappfrust};
+        
         % post_response{iSj,1} = iSj;
         % a9 = filt_post.response{9};
         % a9 = a9(9:end-2);
@@ -1399,16 +1340,14 @@ if 1==2
     nanmean(test_day2_choice(:,3)) % delay
     nanmean(test_day2_choice(:,4)) % imm
     
-    
+
     % decay in ratings related to symptoms
     [r,p] = corr(survey_phq(:,1),test_rate(:,5)-test_day2_rate(:,5),'rows','complete') % all ratings
     
     [r,p] = corr(survey_phq(:,1),test_rate(:,10)-test_day2_rate(:,10),'rows','complete') % delay ratings
     [r,p] = corr(survey_phq(:,1),test_rate(:,11)-test_day2_rate(:,11),'rows','complete') % immediate ratings
     
-    % decay in choice related to symptoms
-    [r,p] = corr(survey_phq(:,1),test_choice(:,2)-test_day2_choice(:,2),'rows','complete') % all choices
-    
+
 end
 
 
