@@ -40,19 +40,20 @@ warning('off','MATLAB:datetime:AmbiguousDateString')
 % 'taskdata_230802_235047_exp_learn_60fd310fff5b2600c9d95554.csv'
 % };
 
-temp = readtable('../start_data_exp_learn.csv');
-learnList = temp.filename;
-learnList(:,2) = temp.prolificID;
+% use test list because learn list will have partial files for those who returned study
+temp = readtable('../start_data_exp_test_study4.csv');
+subjList = temp.filename;
+subjList(:,2) = temp.prolificID;
 % manually deal with date for 634e460a7da3fef3d5a9faf3
 temp.start_time(3) = temp.start_time(2);
 temp.date(3) = temp.date(2);
 % 
 [~,b,c] = ymd(temp.date);
 [d,e] = hms(temp.start_time);
-learnList(:,3) = num2cell(b*1000000 + c*10000 + d*100 + e);
+subjList(:,3) = num2cell(b*1000000 + c*10000 + d*100 + e);
+clear temp
 
-
-learnList = sortrows(learnList,2);
+subjList = sortrows(subjList,2);
 
 % first two subjects with error in surveys
 % 5e85f667db8aa41f74436a9f
@@ -68,46 +69,46 @@ excludelist = {
 if ~isempty(excludelist)
     exclany = 0;
     for x = 1:length(excludelist)
-        if max(strcmp(learnList(:,2),excludelist{x})==1)
-            subjko = find(strcmp(learnList(:,2),excludelist{x})==1);
-            learnList{subjko,1} = NaN;
-            learnList{subjko,2} = NaN;
-            learnList{subjko,3} = NaN;
+        if max(strcmp(subjList(:,2),excludelist{x})==1)
+            subjko = find(strcmp(subjList(:,2),excludelist{x})==1);
+            subjList{subjko,1} = NaN;
+            subjList{subjko,2} = NaN;
+            subjList{subjko,3} = NaN;
             exclany = 1;
         end
     end
     if exclany
-        learnList(cellfun(@(x) any(isnan(x)),learnList)) = [];
-        learnList = reshape(learnList,length(learnList)/3,3);
+        subjList(cellfun(@(x) any(isnan(x)),subjList)) = [];
+        subjList = reshape(subjList,length(subjList)/3,3);
     end
 end
 
-% learnList{end+1} = 'taskdata_230000_000000_exp_learn_611fe0f24abe3cc63f4fd424.csv'; % example of adding data
+% subjList{end+1} = 'taskdata_230000_000000_exp_learn_611fe0f24abe3cc63f4fd424.csv'; % example of adding data
 
 
 
-temp = readtable('../start_data_exp_test.csv');
-testList = temp.filename;
-testList = sortrows(testList);
-clear temp
+% temp = readtable('../start_data_exp_test.csv');
+% subjList = temp.filename;
+% subjList = sortrows(subjList);
+% clear temp
 
 temp = readtable('../start_data_exp_test_day2.csv');
 testday2List = temp.filename;
 testday2List = sortrows(testday2List);
 clear temp
 
-temp = readtable('../start_data_exp_survey.csv');
-surveyList = temp.filename;
-clear temp
+% temp = readtable('../start_data_exp_survey.csv');
+% surveyList = temp.filename;
+% clear temp
 
-temp = readtable('../start_data_exp_ospan.csv');
-ospanList = temp.filename;
-clear temp
+% temp = readtable('../start_data_exp_ospan.csv');
+% ospanList = temp.filename;
+% clear temp
 
-temp = readtable('../start_data_exp_post_survey_day2.csv');
-postday2List = temp.filename;
-postday2List = sortrows(postday2List);
-clear temp
+% temp = readtable('../start_data_exp_post_survey_day2.csv');
+% postday2List = temp.filename;
+% postday2List = sortrows(postday2List);
+% clear temp
 
 
 npairs = 6;
@@ -115,46 +116,46 @@ nreps = 18;
 ntrials = npairs*nreps;
 
 
-subject_name = cell(size(learnList,1),8);
+subject_name = cell(size(subjList,1),8);
 
-learn_perf = NaN(size(learnList,1),18);
-learn_all_perf = NaN(size(learnList,1),18);
+learn_perf = NaN(size(subjList,1),18);
+learn_all_perf = NaN(size(subjList,1),18);
 learn_slide_perf = learn_perf;
 learn_rep_perf = learn_perf;
 learn_repdel_perf = learn_perf;
 learn_repimm_perf = learn_perf;
-learn_alltrials_perf = NaN(size(learnList,1),ntrials);
+learn_alltrials_perf = NaN(size(subjList,1),ntrials);
 learn_responses = learn_perf;
-learn_breakdur = NaN(size(learnList,1),12);
-learn_reptime = NaN(size(learnList,1),17);
-learn_mood = NaN(size(learnList,1),16);
-learn_mood_rt = NaN(size(learnList,1),32);
+learn_breakdur = NaN(size(subjList,1),12);
+learn_reptime = NaN(size(subjList,1),17);
+learn_mood = NaN(size(subjList,1),16);
+learn_mood_rt = NaN(size(subjList,1),32);
 
-test_choice = NaN(size(learnList,1),12);
-test_rate = NaN(size(learnList,1),12);
-test_time = NaN(size(learnList,1),6);
+test_choice = NaN(size(subjList,1),12);
+test_rate = NaN(size(subjList,1),12);
+test_time = NaN(size(subjList,1),6);
 
-test_day2_choice = NaN(size(learnList,1),12);
-test_day2_rate = NaN(size(learnList,1),12);
+test_day2_choice = NaN(size(subjList,1),12);
+test_day2_rate = NaN(size(subjList,1),12);
 
-% fwd_perf = NaN(size(learnList,1),6);
+% fwd_perf = NaN(size(subjList,1),6);
 
-post_perf = NaN(size(learnList,1),14);
-post_day2_perf = NaN(size(learnList,1),14);
+post_perf = NaN(size(subjList,1),14);
+post_day2_perf = NaN(size(subjList,1),14);
 
-survey_phq = NaN(size(learnList,1),2);
-survey_gad = NaN(size(learnList,1),2);
-survey_stai = NaN(size(learnList,1),2);
-survey_sds = NaN(size(learnList,1),2);
-survey_aes = NaN(size(learnList,1),2);
-survey_masq = NaN(size(learnList,1),2);
-survey_sticsa = NaN(size(learnList,1),2);
-survey_pvss = NaN(size(learnList,1),2);
+survey_phq = NaN(size(subjList,1),2);
+survey_gad = NaN(size(subjList,1),2);
+survey_stai = NaN(size(subjList,1),2);
+survey_sds = NaN(size(subjList,1),2);
+survey_aes = NaN(size(subjList,1),2);
+survey_masq = NaN(size(subjList,1),2);
+survey_sticsa = NaN(size(subjList,1),2);
+survey_pvss = NaN(size(subjList,1),2);
+
+haspavcount = 0;
 
 
-
-
-for iSj = 1:size(learnList,1)
+for iSj = 1:size(subjList,1)
     
     excludelearn = 0;
     learnTable = [];
@@ -163,8 +164,10 @@ for iSj = 1:size(learnList,1)
     postTable = [];
     
     % read the learning csv file into a table
-    learnname = learnList{iSj};
+    testname = subjList{iSj};
+    learnname = [testname(1:28) 'learn' testname(33:end)];
     if strcmp(learnname(2),'t')
+        testname =  testname(2:end-1);
         learnname = learnname(2:end-1);
     end
     
@@ -173,6 +176,7 @@ for iSj = 1:size(learnList,1)
     subject_name{iSj,1} = subjid;
     subject_name{iSj,2} = subjtime;
     
+    haslearn = 0;
     haslearnpav = 0;
     if exist(learnname,'file')
         learnTable = readtable(learnname);
@@ -180,14 +184,15 @@ for iSj = 1:size(learnList,1)
         learnpavname = ['../../data_pavlovia/raw_learn/Study5_learningdata_' subjid '.csv'];
         if exist(learnpavname,'file')
             haslearnpav = 1
+            haspavcount = haspavcount+1
             learnTable = readtable(learnpavname);
             y = 1;
         end
-        clear learnpavname
+    end
+    if size(learnTable,1)==660 % learn 660 lines currently
+        haslearn = 1;
     end
     
-    
-    testname = ['taskdata_' subjtime '_exp_test_' subjid '.csv'];
     
     hastest = 0;
     hastestpav = 0;
@@ -206,10 +211,10 @@ for iSj = 1:size(learnList,1)
             hastest = 1;
             test_choice(iSj,1) = size(testTable,1);
         end
-        clear testpavname
     end
     
-    
+
+    % find all day2 stuff (only searching datafire because that is the only data location
     hastestday2 = 0;
     for iT = 1:length(testday2List)
         temp = testday2List{iT};
@@ -217,6 +222,7 @@ for iSj = 1:size(learnList,1)
         if strcmp(temp,subjid)
             testday2name = testday2List{iT};
             testday2name = testday2name(2:end-1);
+            subjtimeday2 = testday2name(10:22);
             if exist(['../exp_test_day2/' testday2name],'file')
                 testday2Table = readtable(['../exp_test_day2/' testday2name]);
                 postday2Cell = readcell(['../exp_test_day2/' testday2name]);
@@ -230,24 +236,6 @@ for iSj = 1:size(learnList,1)
         clear temp
     end
     
-    
-    
-    
-    haslearn = 0;
-    if size(learnTable,1)==660 % learn 660 lines currently
-        haslearn = 1;
-    end
-    %elseif strcmp('63f8f2c2941d27adb3d9eb67',subjid) % case with last trial missing 63f8f2c2941d27adb3d9eb67
-    %    haslearn = 1;
-    %elseif strcmp('6018260b22d0500008f32d1f',subjid) % remove elliott data
-    %    haslearn = 0;
-    %elseif exist(['taskdata_' subjid '.csv'],'file')
-    %    learnTable = readtable(['taskdata_' subjid '.csv']);
-    %    haslearn = 1;
-    %else
-    %%% pavlovia load
-    %        filt_learn = learnTable((learnTable.test_part == "trial" & ~(learnTable.feedback_duration_times == "[3000]")), :);
-    %end
     
     
     haspost = 0;
@@ -274,20 +262,15 @@ for iSj = 1:size(learnList,1)
     
     
     haspostday2 = 0;
-    for iT = 1:length(postday2List)
-        temp = postday2List{iT};
-        temp = temp(46:end-5);
-        if strcmp(temp,subjid)
-            postday2name = postday2List{iT};
-            postday2name = postday2name(2:end-1);
-            if exist(['../exp_post_survey_day2/' postday2name],'file')
-                postday2Table = readtable(['../exp_post_survey_day2/' postday2name]);
-                postday2Cell = readcell(['../exp_post_survey_day2/' postday2name]);
-                if size(postday2Table,1)>=14
-                    haspostday2 = 1;
-                else
-                    x = 1
-                end
+    if hastestday2
+        postday2name = ['taskdata_' subjtimeday2 '_exp_post_survey_day2_' subjid '.csv'];
+        if exist(['../exp_post_survey_day2/' postday2name],'file')
+            postday2Table = readtable(['../exp_post_survey_day2/' postday2name]);
+            postday2Cell = readcell(['../exp_post_survey_day2/' postday2name]);
+            if size(postday2Table,1)>=14
+                haspostday2 = 1;
+            else
+                x = 1
             end
         end
         clear temp
@@ -295,27 +278,22 @@ for iSj = 1:size(learnList,1)
     
     learn_perf(iSj,1) = size(learnTable,1);
     
-
-    hasfwd = 0;
-    % fwdname = ['../exp_fwdspan/taskdata_' subjtime '_exp_fwdspan_' subjid '.csv'];
-    % for iT = 1:length(fwdList)
-    %     temp = fwdList{iT};
-    %     temp = temp(37:end-5);
-    %     if (strcmp(temp,subjid))
-    %         surveyname = fwdList{iT};
-    %         surveyname = surveyname(2:end-1);
-    %         if exist(['../exp_fwdspan/' surveyname],'file')
-    %             fwdTable = readtable(['../exp_fwdspan/' surveyname]);
-    %             if size(fwdTable,1)>19
-    %                 hasfwd = 1;
-    %             end
-    %         end
-    %     end
-    %     clear temp
-    % end
+    
+    hasospan = 0;
+    if hastestday2
+        ospanname = ['taskdata_' subjtimeday2 '_exp_ospan_' subjid '.csv'];
+        if exist(['../exp_ospan/' ospanname],'file')
+            ospanTable = readtable(['../exp_ospan/' ospanname]);
+            if size(ospanTable,1)>100
+                hasospan = 1;
+            end
+        end
+        clear temp
+    end
     
     
     hassurvey = 0;
+    surveyTable = [];
     surveyname = ['../exp_survey/taskdata_' subjtime '_exp_survey_' subjid '.csv'];
     if exist(surveyname,'file')
         surveyTable = readtable(surveyname);
@@ -325,22 +303,10 @@ for iSj = 1:size(learnList,1)
     elseif hastestpav
         y = 1
         surveyTable = testpostsurveyTable(testpostsurveyTable.exp_name == "survey", :);
+        if size(surveyTable,1)>19 && haslearn
+            hassurvey = 1;
+        end
     end
-    % for iT = 1:length(surveyList)
-    %     temp = surveyList{iT};
-    %     temp = temp(36:end-5);
-    %     if (strcmp(temp,subjid))
-    %         surveyname = surveyList{iT};
-    %         surveyname = surveyname(2:end-1);
-    %         if exist(['../exp_survey/' surveyname],'file')
-    %             surveyTable = readtable(['../exp_survey/' surveyname]);
-    %             if size(surveyTable,1)>19 && haslearn
-    %                 hassurvey = 1;
-    %             end
-    %         end
-    %     end
-    %     clear temp
-    % end
     
     
     subject_name{iSj,4} = hastestday2;
@@ -848,27 +814,27 @@ for iSj = 1:size(learnList,1)
     
     
     %%%%%%%%%%%%%%%%%%
-    %%%% fwdspan %%%%
+    %%%% ospan %%%%
     %%%%%%%%%%%%%%%%%%
-    if hasfwd %&& (excludelearn==0)
+    if hasospan %&& (excludelearn==0)
         
-        fwd_perf(iSj,6) = 0;
+        ospan_perf(iSj,6) = 0;
         
         
         % filter
-        filt_fwd = fwdTable(fwdTable.exp_name == "fwdspan", :);
-        
+        % filt_ospan = ospanTable(ospanTable.exp_name == "ospan", :);
         % 
-        fwd_perf(iSj,1) = iSj;
-        fwd_perf(iSj,2) = max(filt_fwd.span.*filt_fwd.correct_full);
-        
-        if excludelearn
-            fwd_perf(iSj,5) = fwd_perf(iSj,2);
-            fwd_perf(iSj,2) = NaN;
-        end
+        % % 
+        % ospan_perf(iSj,1) = iSj;
+        % ospan_perf(iSj,2) = max(filt_ospan.span.*filt_ospan.correct_full);
+        % 
+        % if excludelearn
+        %     ospan_perf(iSj,5) = ospan_perf(iSj,2);
+        %     ospan_perf(iSj,2) = NaN;
+        % end
         
     elseif excludelearn
-        fwd_perf(iSj,6) = 1;
+        ospan_perf(iSj,6) = 1;
     end
     
     
@@ -891,14 +857,14 @@ for iSj = 1:size(learnList,1)
         
         
         trialdelpattern = 1;
-        trialstressrate = 2; % rating
+        trialstressrate = 2; % stress post_day2_perf col = 9
         trialsleep1 = 3;
         trialsleep2 = 4;
         trialsleep3 = 5;
         trialdelaylearn = 6;
-        trialdelayfrust = 7; % rating
-        trialhappfrust = 8; % rating
-        trialengrate = 9; % rating
+        trialdelayfrust = 7; % post_day2_perf col = 4
+        trialhappfrust = 8; % post_day2_perf col = 5
+        trialengrate = 9; % post_day2_perf col = 8
         trialeliminatedist = 10;
         trialdistcomment = 11;
         trialcomment = 12;
@@ -928,15 +894,15 @@ for iSj = 1:size(learnList,1)
         
         
         if size(filt_post,1)>11
-
+            
             temprate = filt_post{trialstressrate,colpostresp}; % stress rating
             if ischar(temprate)
                 temprate = str2double(temprate);
             end
             post_perf(iSj,9) = temprate;
             clear temprate
-
-
+            
+            
             % sleep1
             % options: ['Very good', 'Good', 'Average', 'Poor', 'Very poor']
             a = filt_choiceindex{trialsleep1};
@@ -961,15 +927,15 @@ for iSj = 1:size(learnList,1)
         
         temprate = filt_response{trialdelayfrust};
         if ischar(temprate)
-            post_perf(iSj,8) = str2double(temprate);
-            post_perf(iSj,9) = str2double(filt_response{trialhappfrust});
-            post_perf(iSj,10) = str2double(filt_response{trialhappfrust});
-            clear temprate
+            post_perf(iSj,4) = str2double(temprate);
+            post_perf(iSj,5) = str2double(filt_response{trialhappfrust});
+            post_perf(iSj,8) = str2double(filt_response{trialengrate});
         else
-            post_perf(iSj,8) = filt_response{trialdelayfrust};
-            post_perf(iSj,9) = filt_response{trialhappfrust};
-            post_perf(iSj,10) = filt_response{trialhappfrust};
+            post_perf(iSj,4) = temprate;
+            post_perf(iSj,5) = filt_response{trialhappfrust};
+            post_perf(iSj,8) = filt_response{trialengrate};
         end
+        clear temprate
 
         % post_response{iSj,1} = iSj;
         % a9 = filt_post.response{9};
@@ -982,7 +948,7 @@ for iSj = 1:size(learnList,1)
         % post_response{iSj,3} = a12;
         % post_response{iSj,4} = a13;
         
-
+        
         a = filt_response{trialdistcomment};
         distcomment = a(9:end-2); clear a
         a = filt_response{trialcomment};
@@ -1013,17 +979,17 @@ for iSj = 1:size(learnList,1)
         colpostday2resp = 3; 
         colpostday2index = 13;
         
-        trialday2posthapprate = 1;
+        trialday2posthapprate = 1; % post_day2_perf col = 7
         % 2 is instr
         % 3 is instr
         trialday2memdiff = 4;
-        trialday2engrate = 5;
+        trialday2engrate = 5; % post_day2_perf col = 8
         trialday2eliminatedist = 6;
         trialday2distcomment = 7;
         trialday2location = 8;
         trialday2comment = 9;
         % 10 is instr
-        trialday2stressrate = 11;
+        trialday2stressrate = 11; % post_day2_perf col = 9
         trialday2sleep1 = 12;
         trialday2sleep2 = 13;
         trialday2sleep3 = 14;
@@ -1035,11 +1001,9 @@ for iSj = 1:size(learnList,1)
         
         post_day2_perf(iSj,1) = iSj;
         
-        
         if size(filt_day2_post,1)>10
-            
-            post_day2_perf(iSj,3) = filt_day2_post{trialday2engrate,colpostday2resp}; % engagement rating
-            post_day2_perf(iSj,8) = filt_day2_post{trialday2posthapprate,colpostday2resp}; % post test happiness rating
+            post_day2_perf(iSj,7) = filt_day2_post{trialday2posthapprate,colpostday2resp}; % post test happiness rating
+            post_day2_perf(iSj,8) = filt_day2_post{trialday2engrate,colpostday2resp}; % engagement rating
             post_day2_perf(iSj,9) = filt_day2_post{trialday2stressrate,colpostday2resp}; % stress rating
         end
         
@@ -1367,6 +1331,9 @@ if 1==2
     p = 0.0018
 
 end
+
+
+
 
 if 1==2
     
