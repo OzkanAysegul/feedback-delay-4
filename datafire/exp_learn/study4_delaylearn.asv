@@ -666,20 +666,21 @@ for iSj = 1:size(subjList,1)
         
         [r,~] = corr(filt_learn.response_mood,filt_learn.response_rewarded,'rows','complete');
         learn_mood(iSj,colmoodcorr) = r;
-        learn_mood(iSj,colmoodzcorr) = fisherz(r);
+        learn_mood(iSj,6) = fisherz(r);
         
-        %[r,~] = corr(filt_learn.response_mood(1:72),filt_learn.response_rewarded(1:72),'rows','complete');
-        %learn_mood(iSj,7) = r;
-        %learn_mood(iSj,8) = fisherz(r);
+        [r,~] = corr(filt_learn.response_mood(1:72),filt_learn.response_rewarded(1:72),'rows','complete');
+        learn_mood(iSj,7) = r;
+        learn_mood(iSj,8) = fisherz(r);
         
         % mood-outcome correlation for delay trials separate from imm trials
         [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==7000),filt_learn.response_rewarded(filt_learn.feedback_duration_times==7000),'rows','complete');
-        learn_mood(iSj,colmoodcorrlong) = r;
-        learn_mood(iSj,colmoodzcorrlong) =fisherz(r);
+        learn_mood(iSj,9) = fisherz(r);
         [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==750),filt_learn.response_rewarded(filt_learn.feedback_duration_times==750),'rows','complete');
-        learn_mood(iSj,colmoodcorrshort) = r;
-        learn_mood(iSj,colmoodzcorrshort) = fisherz(r);
+        learn_mood(iSj,10) = fisherz(r);
         
+        % response to reward minus baseline and miss minus baseline
+        learn_mood(iSj,12) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==1)) - learn_mood(iSj,3);
+        learn_mood(iSj,13) = nanmean(filt_learn.response_mood(filt_learn.response_rewarded==0)) - learn_mood(iSj,3);
         
         clear r
 
@@ -1442,12 +1443,6 @@ learntable.perflast4repshort = learn_perf_short(:,collast4rep);
 learntable.perflast3repshort = learn_perf_short(:,collast3rep);
 learntable.perflast2repshort = learn_perf_short(:,collast2rep);
 
-learntable.moodbase = learn_mood(:,colmoodbase);
-learntable.moodmean = learn_mood(:,colmoodmean);
-
-learntable.moodrew = learn_mood(:,colmoodrew);
-learntable.moodnon = learn_mood(:,colmoodnon);
-learntable.mooddiff = learn_mood(:,colmooddiff);
 
 if 1==2
     
@@ -1460,23 +1455,6 @@ if 1==2
     
     [r, p] = corrnan(learntable.perfmean,learntable.masq)
     % r=0.1452  p=0.0847
-    
-    
-    
-    
-    [r, p] = corrnan(learntable.perfmean,learntable.moodmean)
-    
-    [r, p] = corrnan(learntable.perflast4rep,learntable.moodmean)
-    
-    
-    [r, p] = corrnan(learntable.perflast4rep,learntable.mooddiff)
-    
-    
-    [r, p] = corrnan(learntable.mooddiff,learntable.masq)
-    
-    
-    
-    
     
     
     

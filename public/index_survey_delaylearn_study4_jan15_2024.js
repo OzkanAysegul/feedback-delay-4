@@ -357,6 +357,10 @@ var AES_comb = {
 // 
 // reverse-coded items:  2, 5, 6, 11, 12, 14, 16, 17, 18, 20
 // 
+// includes original numbers [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 18, 20]
+// 0-3 scale
+// reverse-coded items based-on-survey-numbers:  1, 3, 4, 9, 10, 11, 12, 13, 14, 15
+// 
 // Problem:  original scale lowest option was 'a little'
 // var SDS_scale_original = ["A little of the time", "Some of the time", "Good part of the time", "Most of the time"];
 // Initial ADAPTED:  Add "none of the time" and drop "Good part of the time"
@@ -369,26 +373,26 @@ var SDS_scale = ["Rarely or none of the time", "Some of the time", "Good part of
 
 var zung_qn = [
 	// { prompt: "I feel down-hearted and blue.", name: 'SDS1', labels: SDS_scale}, // excluding because PHQ overlap: PHQ item_2
-	{ prompt: "Morning is when I feel the best.", name: 'SDS2', labels: SDS_scale},
+	{ prompt: "Morning is when I feel the best.", name: 'SDS2', labels: SDS_scale}, // reverse
 	{ prompt: "I have crying spells or feel like it.", name: 'SDS3', labels: SDS_scale},
 	// { prompt: "I have trouble sleeping at night.", name: 'SDS4', labels: SDS_scale}, // excluding because PHQ overlap: PHQ item_3
-	{ prompt: "I eat as much as I used to.", name: 'SDS5', labels: SDS_scale},
-	{ prompt: "I still enjoy sex.", name: 'SDS6', labels: SDS_scale},
+	{ prompt: "I eat as much as I used to.", name: 'SDS5', labels: SDS_scale}, // reverse
+	{ prompt: "I still enjoy sex.", name: 'SDS6', labels: SDS_scale}, // reverse
 	{ prompt: "I notice that I am losing weight.", name: 'SDS7', labels: SDS_scale},
 	{ prompt: "I have trouble with constipation.", name: 'SDS8', labels: SDS_scale},
 	{ prompt: "I engage in recollection about what I was doing one hundred years ago.", name: 'Catch', labels: SDS_scale}, // infrequency item / catch item (updated Nov 22 2023)
 	{ prompt: "My heart beats faster than usual.", name: 'SDS9', labels: SDS_scale},
 	{ prompt: "I get tired for no reason.", name: 'SDS10', labels: SDS_scale},
-	{ prompt: "My mind is as clear as it used to be.", name: 'SDS11', labels: SDS_scale},
-	{ prompt: "I find it easy to do the things I used to.", name: 'SDS12', labels: SDS_scale},
+	{ prompt: "My mind is as clear as it used to be.", name: 'SDS11', labels: SDS_scale}, // reverse
+	{ prompt: "I find it easy to do the things I used to.", name: 'SDS12', labels: SDS_scale}, // reverse
 	// { prompt: "I am restless and can not keep still.", name: 'SDS13', labels: SDS_scale}, // excluding because GAD overlap: GAD item_5
-	{ prompt: "I feel hopeful about the future.", name: 'SDS14', labels: SDS_scale},
+	{ prompt: "I feel hopeful about the future.", name: 'SDS14', labels: SDS_scale}, // reverse
 	// { prompt: "I am more irritable than usual.", name: 'SDS15', labels: SDS_scale}, // excluding because GAD overlap: GAD item_6
-	{ prompt: "I find it easy to make decisions.", name: 'SDS16', labels: SDS_scale},
-	{ prompt: "I feel that I am useful and needed.", name: 'SDS17', labels: SDS_scale},
-	{ prompt: "My life is pretty full.", name: 'SDS18', labels: SDS_scale},
+	{ prompt: "I find it easy to make decisions.", name: 'SDS16', labels: SDS_scale}, // reverse
+	{ prompt: "I feel that I am useful and needed.", name: 'SDS17', labels: SDS_scale}, // reverse
+	{ prompt: "My life is pretty full.", name: 'SDS18', labels: SDS_scale}, // reverse
 	// { prompt: "I feel that others would be better off if I were dead.", name: 'SDS19', labels: SDS_scale}, // excluding because PHQ overlap: PHQ item_9
-	{ prompt: "I still enjoy the things I used to do.", name: 'SDS20', labels: SDS_scale},
+	{ prompt: "I still enjoy the things I used to do.", name: 'SDS20', labels: SDS_scale}, // reverse
 ];
 
 // separate source
