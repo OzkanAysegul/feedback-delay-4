@@ -120,11 +120,13 @@ ntrials = npairs*nreps;
 subject_name = cell(size(subjList,1),8);
 
 learn_perf = NaN(size(subjList,1),18);
+learn_perf_long = NaN(size(subjList,1),18);
+learn_perf_short = NaN(size(subjList,1),18);
 learn_all_perf = NaN(size(subjList,1),18);
 learn_slide_perf = learn_perf;
 learn_rep_perf = learn_perf;
-learn_repdel_perf = learn_perf;
-learn_repimm_perf = learn_perf;
+learn_replong_perf = learn_perf;
+learn_repshort_perf = learn_perf;
 learn_alltrials_perf = NaN(size(subjList,1),ntrials);
 learn_responses = learn_perf;
 learn_breakdur = NaN(size(subjList,1),12);
@@ -155,6 +157,12 @@ survey_aes = NaN(size(subjList,1),1);
 survey_masq = NaN(size(subjList,1),1);
 survey_sticsa = NaN(size(subjList,1),1);
 survey_pvss = NaN(size(subjList,1),1);
+survey_hps = NaN(size(subjList,1),1);
+
+survey_sdscomp = NaN(size(subjList,1),1);
+survey_staicomp = NaN(size(subjList,1),1);
+survey_sticsacomp = NaN(size(subjList,1),1);
+
 
 survey_phq_excl = NaN(size(subjList,1),1);
 survey_gad_excl = NaN(size(subjList,1),1);
@@ -163,6 +171,10 @@ haspavcount = 0;
 
 
 for iSj = 1:size(subjList,1)
+    
+    if rem(iSj,20)==0
+        disp(iSj)
+    end
     
     excludelearn = 0;
     data_learn = [];
@@ -184,6 +196,7 @@ for iSj = 1:size(subjList,1)
     subject_name{iSj,2} = subjtime;
     
     prolificid = subjid;
+    
     sum_id{iSj,1} = prolificid;
     
     
@@ -224,7 +237,7 @@ for iSj = 1:size(subjList,1)
         end
     end
     
-
+    
     % find all day2 stuff (only searching datafire because that is the only data location
     hastestday2 = 0;
     for iT = 1:length(testday2List)
@@ -326,7 +339,7 @@ for iSj = 1:size(subjList,1)
     %learn_perf_name{i,7} = surveyparticipated;
     
     
-
+    
     %%%%%%%%%%%%%
     %%% learn %%%
     %%%%%%%%%%%%%
@@ -412,17 +425,15 @@ for iSj = 1:size(subjList,1)
         filt_learn_short = filt_learn((filt_learn.test_part == "trial" & filt_learn.feedback_duration_times == 750), :);
         
         colperfmean = 2;
-        colfirst10rep = 3;
-        collast4rep = 4;
-        collast3rep = 5;
-        collast2rep = 6;
-        collast1rep = 7;
-        collast4replong = 8;
-        collast4repshort = 9;
-        collast3replong = 10;
-        collast3repshort = 11;
-        collast2replong = 12;
-        collast2repshort = 13;
+        colhalf1 = 3;
+        colhalf2 = 4;
+        colthird1 = 5;
+        colthird2 = 6;
+        colthird3 = 7;
+        collast4rep = 8;
+        collast3rep = 9;
+        collast2rep = 10;
+        collast1rep = 11;
         colperfexclude = 14;
         
         % (npairs=6) 91 gets last 3 repetitions
@@ -431,24 +442,37 @@ for iSj = 1:size(subjList,1)
         ntlast3rep = 91;
         ntlast2rep = 97;
         ntlast1rep = 103;
-        ntfirst10rep = 60;
         learn_perf(iSj,colperfmean) = nanmean(filt_learn.response_correct);
-        learn_perf(iSj,colfirst10rep) = nanmean(filt_learn.response_correct(7:ntfirst10rep)); % first 10 repetitions
+        learn_perf(iSj,colhalf1) = nanmean(filt_learn.response_correct(1:ntrials/2)); % fist half
+        learn_perf(iSj,colhalf2) = nanmean(filt_learn.response_correct(ntrials/2+1:end)); % second half
+        learn_perf(iSj,colthird1) = nanmean(filt_learn.response_correct(1:ntrials/3)); % fist third
+        learn_perf(iSj,colthird2) = nanmean(filt_learn.response_correct(ntrials/3+1:(ntrials/3)*2)); % second third
+        learn_perf(iSj,colthird3) = nanmean(filt_learn.response_correct((ntrials/3)*2+1:end)); % third third
         learn_perf(iSj,collast4rep) = nanmean(filt_learn.response_correct(ntlast4rep:end)); % last 4 repetitions repetition
         learn_perf(iSj,collast3rep) = nanmean(filt_learn.response_correct(ntlast3rep:end)); % last 3 repetitions repetition
         learn_perf(iSj,collast2rep) = nanmean(filt_learn.response_correct(ntlast2rep:end)); % last 2 repetitions repetition
         learn_perf(iSj,collast1rep) = nanmean(filt_learn.response_correct(ntlast1rep:end)); % last repetition
         
         % last n repetitions for short, long separately
+        ntrialsh = ntrials/2;
         nthalflast2rep = 43; % gets last 2 repetitions
         nthalflast3rep = 37; % gets last 3 repetitions
         nthalflast4rep = 31; % gets last 4 repetitions
-        learn_perf(iSj,collast4replong) = nanmean(filt_learn_long.response_correct(nthalflast4rep:end));
-        learn_perf(iSj,collast4repshort) = nanmean(filt_learn_short.response_correct(nthalflast4rep:end));
-        learn_perf(iSj,collast3replong) = nanmean(filt_learn_long.response_correct(nthalflast3rep:end));
-        learn_perf(iSj,collast3repshort) = nanmean(filt_learn_short.response_correct(nthalflast3rep:end));
-        learn_perf(iSj,collast2replong) = nanmean(filt_learn_long.response_correct(nthalflast2rep:end));
-        learn_perf(iSj,collast2repshort) = nanmean(filt_learn_short.response_correct(nthalflast2rep:end));
+        learn_perf_long(iSj,colperfmean) = nanmean(filt_learn_long.response_correct);
+        learn_perf_long(iSj,colhalf1) = nanmean(filt_learn_long.response_correct(1:ntrialsh/2)); % fist half
+        learn_perf_long(iSj,colhalf2) = nanmean(filt_learn_long.response_correct(ntrialsh/2+1:end)); % second half
+        learn_perf_long(iSj,collast4rep) = nanmean(filt_learn_long.response_correct(nthalflast4rep:end));
+        learn_perf_long(iSj,collast3rep) = nanmean(filt_learn_long.response_correct(nthalflast3rep:end));
+        learn_perf_long(iSj,collast2rep) = nanmean(filt_learn_long.response_correct(nthalflast2rep:end));
+        learn_perf_short(iSj,colperfmean) = nanmean(filt_learn_short.response_correct);
+        learn_perf_short(iSj,colhalf1) = nanmean(filt_learn_short.response_correct(1:ntrialsh/2)); % fist half
+        learn_perf_short(iSj,colhalf2) = nanmean(filt_learn_short.response_correct(ntrialsh/2+1:end)); % second half
+        learn_perf_short(iSj,collast4rep) = nanmean(filt_learn_short.response_correct(nthalflast4rep:end));
+        learn_perf_short(iSj,collast3rep) = nanmean(filt_learn_short.response_correct(nthalflast3rep:end));
+        learn_perf_short(iSj,collast2rep) = nanmean(filt_learn_short.response_correct(nthalflast2rep:end));
+        
+        
+        
         
         tstart = 1;
         tend = 24;
@@ -476,13 +500,13 @@ for iSj = 1:size(subjList,1)
         tend = npairs/2;
         for iR = 1:nreps
             
-            learn_repdel_perf(iSj,iR) = nanmean(filt_learn_long.response_correct(tstart:tend));
+            learn_replong_perf(iSj,iR) = nanmean(filt_learn_long.response_correct(tstart:tend));
             
             %if length(filt_learn_short.response_correct)==71 && (tend == 72)
             %    tend = 71;
             %end
             
-            learn_repimm_perf(iSj,iR) = nanmean(filt_learn_short.response_correct(tstart:tend));
+            learn_repshort_perf(iSj,iR) = nanmean(filt_learn_short.response_correct(tstart:tend));
             tstart = tstart+(npairs/2);
             tend = tend+(npairs/2);
         end
@@ -554,22 +578,22 @@ for iSj = 1:size(subjList,1)
             end
         elseif learn_responses(iSj,2)>ntrialsmissed % missed trial exclusion
             excludelearn = 1;
-            learn_perf(iSj,15:17) = NaN;
+            %learn_perf(iSj,15:17) = NaN;
             excludetrialsmissed = 1
         end
         
         subject_name{iSj,8} = excludelearn;
         
         if 1==2 %excludelearn
-            learn_perf(iSj,15) = learn_perf(iSj,5);
-            learn_perf(iSj,16) = learn_perf(iSj,9);
-            learn_perf(iSj,17) = learn_perf(iSj,10);
-            learn_perf(iSj,2:13) = NaN;
+            %learn_perf(iSj,15) = learn_perf(iSj,5);
+            %learn_perf(iSj,16) = learn_perf(iSj,9);
+            %learn_perf(iSj,17) = learn_perf(iSj,10);
+            %learn_perf(iSj,2:13) = NaN;
             learn_all_perf(iSj,:) = NaN;
             learn_slide_perf(iSj,:) = NaN;
             %learn_rep_perf(i,:) = NaN;
-            learn_repdel_perf(iSj,:) = NaN;
-            learn_repimm_perf(iSj,:) = NaN;
+            learn_replong_perf(iSj,:) = NaN;
+            learn_repshort_perf(iSj,:) = NaN;
             learn_alltrials_perf(iSj,:) = NaN;
         end
         
@@ -587,6 +611,7 @@ for iSj = 1:size(subjList,1)
             end
         end
         filt_learn.response_mood = response_mood;
+        
         response_mood1 = [];
         response_mood2 = [];
         for iT = 1:size(filt_learnh1)
@@ -650,7 +675,7 @@ for iSj = 1:size(subjList,1)
         
         
         % baseline mood
-        learn_mood(iSj,colmoodmean) = nanmean(filt_mood_lbase.response);
+        learn_mood(iSj,colmoodbase) = nanmean(filt_mood_lbase.response);
         
         learn_mood(iSj,colmoodmean) = nanmean(filt_mood_learn.response);
         
@@ -673,12 +698,12 @@ for iSj = 1:size(subjList,1)
         %learn_mood(iSj,8) = fisherz(r);
         
         % mood-outcome correlation for delay trials separate from imm trials
-        [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==7000),filt_learn.response_rewarded(filt_learn.feedback_duration_times==7000),'rows','complete');
-        learn_mood(iSj,colmoodcorrlong) = r;
-        learn_mood(iSj,colmoodzcorrlong) =fisherz(r);
-        [r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==750),filt_learn.response_rewarded(filt_learn.feedback_duration_times==750),'rows','complete');
-        learn_mood(iSj,colmoodcorrshort) = r;
-        learn_mood(iSj,colmoodzcorrshort) = fisherz(r);
+        %[r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==7000),filt_learn.response_rewarded(filt_learn.feedback_duration_times==7000),'rows','complete');
+        %learn_mood(iSj,colmoodcorrlong) = r;
+        %learn_mood(iSj,colmoodzcorrlong) =fisherz(r);
+        %[r,~] = corr(filt_learn.response_mood(filt_learn.feedback_duration_times==750),filt_learn.response_rewarded(filt_learn.feedback_duration_times==750),'rows','complete');
+        %learn_mood(iSj,colmoodcorrshort) = r;
+        %learn_mood(iSj,colmoodzcorrshort) = fisherz(r);
         
         
         clear r
@@ -1183,6 +1208,8 @@ for iSj = 1:size(subjList,1)
         filt_sticsa = filt_sticsa(2,:);
         filt_pvss = surveyTable(surveyTable.exp_stage == "PVSS", :);
         filt_pvss = filt_pvss(2,:);
+        filt_hps = surveyTable(surveyTable.exp_stage == "HPS", :);
+        filt_hps = filt_hps(2,:);
         
         
         % PHQ
@@ -1190,19 +1217,9 @@ for iSj = 1:size(subjList,1)
         % catch
         resp_phq = cell2mat(filt_phq.response_string);
         subj_phq = survey_extract(resp_phq,'PHQ',9); % plus catch
-        % using survey_extract function
-        %subj_phq = [];
-        %qindex = 1;
-        %for iq = 1:size(resp_phq,2)-1
-        %    if strcmp(':',resp_phq(iq))
-        %        score_temp = resp_phq(iq+1);
-        %        score_temp = str2double(score_temp);
-        %        subj_phq(qindex,1) = score_temp;
-        %        qindex = qindex+1;
-        %        clear score_temp
-        %    end
-        %end
         survey_phq(iSj,1) = sum(subj_phq);
+        
+        
         
         % GAD
         % 7 items
@@ -1211,29 +1228,42 @@ for iSj = 1:size(subjList,1)
         survey_gad(iSj,1) = sum(subj_gad);
         
         
+        
         % STAI
         % 18 items
-        %// reverse-coded items:  1, 3, 6, 7, 10, 13, 14, 16, 19
-        % catch
-        % also has: BDI5, LOTR1, RRQ3
+        % 0-3 scale
+        % reverse-coded items:  1, 3, 6, 7, 10, 13, 14, 16, 19
+        % catch (item13, answer3)
+        % also has 3 more: BDI5, LOTR1, RRQ3
         % ADD to score: GAD item_1 + item_5 (average these scores), PHQ item_6
-        %resp_stai = cell2mat(filt_stai.response_string);
-        %subj_stai = survey_extract(resp_stai,'STAI',18); % plus catch
-        %survey_stai(i,1) = sum(subj_stai);
+        itemmax = 3;
+        resp_stai = cell2mat(filt_stai.response_string);
+        subj_stai = survey_extract(resp_stai,'STAI',18); % plus catch
+        rev_stai = [1, 2, 4, 5, 8, 11, 12, 14, 17];
+        subj_stai(rev_stai) = abs(subj_stai(rev_stai)-itemmax);
+        subj_stai_comp = [subj_stai; (subj_gad(1)+subj_gad(5))./2; subj_phq(6)];
+        survey_stai(iSj,1) = sum(subj_stai);
+        survey_staicomp(iSj,1) = sum(subj_stai_comp);
+        %survey_stai_all(iSj,1:size(subj_stai,1)) = subj_stai;
         
         
         % SDS
-        % only *15* items (subset:  because of PHQ and GAD overlap
+        % only *15* items -- subset because of PHQ and GAD overlap
         % includes original numbers [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 18, 20]
         % 0-3 scale
         % reverse-coded items incl-survey-numbers:  1, 3, 4, 9, 10, 11, 12, 13, 14, 15
         % catch (item7, answer=0)
+        % !!!
+        % ADD to score:  PHQ item_2, PHQ item_3, GAD item_5, GAD item_6, PHQ item_9
+        % !!!
         itemmax = 3;
         resp_sds = cell2mat(filt_sds.response_string);
         subj_sds = survey_extract(resp_sds,'SDS',15); % plus catch
         rev_sds = [1, 3, 4, 9, 10, 11, 12, 13, 14, 15];
         subj_sds(rev_sds) = abs(subj_sds(rev_sds)-itemmax);
+        subj_sds_comp = [subj_sds; subj_phq(2); subj_phq(3); subj_gad(5); subj_gad(5); subj_phq(9)];
         survey_sds(iSj,1) = sum(subj_sds);
+        survey_sdscomp(iSj,1) = sum(subj_sds_comp);
         %survey_sds_all(iSj,1:size(subj_sds,1)) = subj_sds;
         
         
@@ -1274,10 +1304,17 @@ for iSj = 1:size(subjList,1)
         % STICSA
         % 10 items
         % catch
-        % ADD to score: SDS item_9
+        % !!!
+        % ADD to score:  SDS item_9 (actually number 7 in this data)
+        % !!!
         resp_sticsa = cell2mat(filt_sticsa.response_string);
         subj_sticsa = survey_extract(resp_sticsa,'STICSA',10); % plus catch
+        subj_sticsa_comp = [subj_sticsa; subj_sds(7);];
         survey_sticsa(iSj,1) = sum(subj_sticsa);
+        survey_sticsacomp(iSj,1) = sum(subj_sticsa_comp);
+        %survey_sticsa_all(iSj,1:size(subj_sticsa,1)) = subj_sticsa;
+        
+        
         
         
         % PVSS
@@ -1288,8 +1325,20 @@ for iSj = 1:size(subjList,1)
         survey_pvss(iSj,1) = sum(subj_pvss);
         
         
+        % HPS
+        % 12 items
+        % 0-4 scale
+        % reverse-coded items:  2, 4, 7, 12
+        itemmax = 4;
+        resp_hps = cell2mat(filt_hps.response_string);
+        subj_hps = survey_extract(resp_hps,'HPS',12);
+        rev_hps = [2, 4, 7, 12];
+        subj_hps(rev_hps) = abs(subj_hps(rev_hps)-itemmax);
+        survey_hps(iSj,1) = sum(subj_hps);
+        %survey_hps_all(iSj,1:size(subj_hps,1)) = subj_hps;
         
         
+        clear subj_*
         
         % 
         
@@ -1343,19 +1392,25 @@ nsurvey = nansum(survey_phq(:,1)>-1)
 % [r, p ] = corr(learn_extract(:,3),post_perf(:,3),'rows','complete')
 
 
-figure,plot(nanmean(learn_repdel_perf))
-hold on
-plot(nanmean(learn_repimm_perf))
-title('Delay Imm incl subjects')
 
 learn_repincl_perf = learn_rep_perf;
 learn_repexcl_perf = learn_rep_perf;
 learn_repincl_perf(learn_perf(:,colperfexclude)==1,:) = NaN;
 learn_repexcl_perf(learn_perf(:,colperfexclude)==0,:) = NaN;
+
+
 figure,plot(nanmean(learn_repincl_perf))
 hold on
 plot(nanmean(learn_repexcl_perf))
 title('Average Incl Excl')
+
+
+if 1==2
+    figure,plot(nanmean(learn_replong_perf))
+    hold on
+    plot(nanmean(learn_repshort_perf))
+    title('Delay Imm incl subjects')
+end
 
 
 
@@ -1375,6 +1430,7 @@ subj_goodcheck3 = (learn_perf(:,colperfexclude)==1) & (test_choice(:,2)>0.72) & 
 % with median-1std, n=5 pass
 % with mean-1std, n=7 pass
 % with mean-1std and late task perf, n=5 pass
+
 if 1==2
     
     nanmean(learn_rep_perf(subj_goodcheck3,9:15)')'
@@ -1383,13 +1439,15 @@ if 1==2
 
     plot(nanmean(learn_rep_perf(subj_goodcheck3,:)))
     plot(learn_rep_perf(subj_goodcheck3,:)')
+    % learn_mood(:,2) = mean of post-feedback ratings
+
+    % learn_mood(:,3) = mean of post-learning-rest baseline ratings
+    figure,scatter(survey_phq(:,1),learn_mood(:,3))
+    [r_phq_mood,~] = corr(survey_phq(:,1),learn_mood(:,3),'rows','complete')
+    
 end
 
 
-% learn_mood(:,2) = mean of post-feedback ratings
-% learn_mood(:,3) = mean of post-learning-rest baseline ratings
-figure,scatter(survey_phq(:,1),learn_mood(:,3))
-[r_phq_mood,~] = corr(survey_phq(:,1),learn_mood(:,3),'rows','complete')
 
 % no evidence that baseline mood correlates with strength of feedback-mood
 % correlation or mood rew-mood miss
@@ -1416,28 +1474,37 @@ learntable.phq = survey_phq;
 learntable.gad = survey_gad;
 learntable.masq = survey_masq;
 learntable.aes = survey_aes;
-learntable.sds = survey_sds;
+learntable.sds = survey_sds; %% re-add PHQ and GAD ITEMS!
+learntable.sdscomp = survey_sdscomp;
+learntable.sticsa = survey_sticsa; %% re-add DASS ITEMS!
+learntable.sticsacomp = survey_sticsacomp;
+learntable.stai = survey_stai; %% re-add DASS ITEMS!
+learntable.staicomp = survey_staicomp;
 learntable.pvss = survey_pvss;
-learntable.sticsa = survey_sticsa;
+learntable.hps = survey_hps;
 
+learntable.perfexcl = learn_perf(:,colperfexclude);
 learntable.perfmean = learn_perf(:,colperfmean);
 learntable.perfhalf1 = learn_perf(:,colhalf1);
 learntable.perfhalf2 = learn_perf(:,colhalf2);
 learntable.perfthird1 = learn_perf(:,colthird1);
 learntable.perfthird2 = learn_perf(:,colthird2);
 learntable.perfthird3 = learn_perf(:,colthird3);
-learntable.perffirst10rep = learn_perf(:,colfirst10rep);
 learntable.perflast4rep = learn_perf(:,collast4rep);
 learntable.perflast3rep = learn_perf(:,collast3rep);
 learntable.perflast2rep = learn_perf(:,collast2rep);
 learntable.perflast1rep = learn_perf(:,collast1rep);
 
 learntable.perfmeanlong = learn_perf_long(:,colperfmean);
+learntable.perfhalf1long = learn_perf_long(:,colhalf1);
+learntable.perfhalf2long = learn_perf_long(:,colhalf2);
 learntable.perflast4replong = learn_perf_long(:,collast4rep);
 learntable.perflast3replong = learn_perf_long(:,collast3rep);
 learntable.perflast2replong = learn_perf_long(:,collast2rep);
 
 learntable.perfmeanshort = learn_perf_short(:,colperfmean);
+learntable.perfhalf1short = learn_perf_short(:,colhalf1);
+learntable.perfhalf2short = learn_perf_short(:,colhalf2);
 learntable.perflast4repshort = learn_perf_short(:,collast4rep);
 learntable.perflast3repshort = learn_perf_short(:,collast3rep);
 learntable.perflast2repshort = learn_perf_short(:,collast2rep);
@@ -1448,6 +1515,31 @@ learntable.moodmean = learn_mood(:,colmoodmean);
 learntable.moodrew = learn_mood(:,colmoodrew);
 learntable.moodnon = learn_mood(:,colmoodnon);
 learntable.mooddiff = learn_mood(:,colmooddiff);
+learntable.moodrewh1 = learn_mood(:,colmoodrewh1);
+learntable.moodnonh1 = learn_mood(:,colmoodnonh1);
+learntable.mooddiffh1 = learn_mood(:,colmooddiffh1);
+learntable.moodrew = learn_mood(:,colmoodrewh2);
+learntable.moodnon = learn_mood(:,colmoodnonh2);
+learntable.mooddiffh2 = learn_mood(:,colmooddiffh2);
+learntable.moodcorr = learn_mood(:,colmoodcorr);
+learntable.moodzcorr = learn_mood(:,colmoodzcorr);
+
+
+if 1==2
+    
+    learntable(learntable.perfexcl==1,:) = [];
+    
+    %%% remove NaN rows
+    learntable = rmmissing(learntable,'MinNumMissing',size(learntable,2)-4);
+    
+    %learntable{end-length(idmissing)+1:end,3:size(learntable,2)} = NaN;
+    
+    save learn_s4summary learntable
+    
+    
+end
+
+
 
 if 1==2
     
@@ -1549,56 +1641,83 @@ if 1==2
 end
 
 
+
 if 1==2
     
-    % histogram of phq scores
-    histogram(survey_phq(:,1))
-    ylim([0,20])
-    xlim([-1.5,23.5])
     
-    [r,p] = corr(survey_phq(:,1),learn_repdel_perf(:,7),'rows','complete')
+    % ccc
+    clear
+    load learn_s4summary learntable
     
-    [r,p] = corr(survey_gad(:,1),learn_repdel_perf(:,7),'rows','complete')
+    combtable = learntable;
+    
+    
+    
+    combinput = learntable.perfmean;  titletext = 'learn mean'; % null
+    combinput = learntable.perfhalf1;  titletext = 'learn mean half1'; % closest is stai+
+    combinput = learntable.perfhalf2;  titletext = 'learn mean half2'; % null
+    combinput = learntable.perfthird1;  titletext = 'learn mean first 1/3'; % null
+    combinput = learntable.perflast4rep;  titletext = 'learn mean last 4 rep'; % null
+    
+    combinput = learntable.perfmeanlong;  titletext = 'learn long mean'; % null
+    combinput = learntable.perfmeanshort;  titletext = 'learn short mean'; % null
+
+    combinput = learntable.perfhalf1long;  titletext = 'learn long mean half1'; % stai+
+    combinput = learntable.perfhalf2long;  titletext = 'learn long mean half2'; % null
+    combinput = learntable.perfhalf1short;  titletext = 'learn short mean half1'; % null
+    combinput = learntable.perfhalf2short;  titletext = 'learn short mean half2'; % null
+    
+    combinput = learntable.moodbase;  titletext = 'mood baseline';
+    
+    combinput = learntable.moodmean;  titletext = 'mood mean';
+    combinput = learntable.mooddiff;  titletext = 'mood rew-non diff'; % masq-
+    combinput = learntable.mooddiffh1;  titletext = 'mood rew-non diff half1';
+    combinput = learntable.mooddiffh2;  titletext = 'mood rew-non diff half2'; % masq r=-0.228
+    combinput = learntable.moodzcorr;  titletext = 'mood zcorrel';
+    
+    
+    
+    
+    corrtype = 'Pearson'
+    %corrtype = 'Spearman'
+    [rphq, pphq] = corr(combinput,combtable.phq,'rows','complete','type',corrtype);
+    [rgad, pgad] = corr(combinput,combtable.gad,'rows','complete','type',corrtype);
+    [raes, paes] = corr(combinput,combtable.aes,'rows','complete','type',corrtype);
+    [rmasq, pmasq] = corr(combinput,combtable.masq,'rows','complete','type',corrtype);
+    [rsds, psds] = corr(combinput,combtable.sdscomp,'rows','complete','type',corrtype);  % sds 'complete'
+    [rstai, pstai] = corr(combinput,combtable.staicomp,'rows','complete','type',corrtype); % stai 'complete'
+    [rsticsa, psticsa] = corr(combinput,combtable.sticsacomp,'rows','complete','type',corrtype); % sticsa 'complete'
+    [rpvss, ppvss] = corr(combinput,combtable.pvss,'rows','complete','type',corrtype);
+    [rhps, phps] = corr(combinput,combtable.hps,'rows','complete','type',corrtype);
+    %[rospan, pospan] = corr(combinput,combtable.ospan,'rows','complete','type',corrtype);
+    %[rage, page] = corr(combinput,combtable.age,'rows','complete','type',corrtype);
+    %[rsex, psex] = corr(combinput,combtable.sex,'rows','complete','type',corrtype);
+    rdata = [rphq raes rmasq rsds rgad rstai rsticsa rpvss rhps];
+    
+    figure,plot(rdata)
+    xlim([1 length(rdata)]);
+    xticks(1:length(rdata))
+    nsubj = sum(~isnan(combtable.sds)) %#ok<NOPTS>
+    if strcmp(corrtype,'Spearman'); titletext = [titletext ' (rank) ']; end %#ok<UNRCH>
+    if exist('titletext','var'); title([titletext ' (n=' num2str(nsubj) ')']); end
+    labels = {'phq','aes','masq','sds','gad','stai','sticsa','pvss','hps'}; % age sex span
+    xticklabels(labels)
+    %ylim([-.3 .3]);
+    pdata = [pphq paes pmasq psds pgad pstai psticsa ppvss phps];
+    rsig = find(abs(pdata)<0.05);
+    labels(rsig) %#ok<NOPTS>
+    rdata(rsig)
+    pdata(rsig)
+    if nsubj>99; ylinesig = 0.195; elseif nsubj>75; ylinesig = 0.217; else; ylinesig = 0.25; end
+    yline(ylinesig,'--');
+    yline(-ylinesig,'--');
+    
+    
+    
+    
+    
+    
 end
-
-% study1
-% mean n = 11 with 'very frustrated' 
-%  0.6724    0.6193    0.7258  (10.65% diff)
-% mean n = 58 other
-%  0.7857    0.7673    0.8040  (3.67% diff)
-
-% study1
-% some weak correlation between mood rating frustration and poor performance
-if 1==2
-    
-    [h p ci stats] = ttest(sum(learn_repdel_perf(:,10:18),2),sum(learn_repimm_perf(:,10:18),2))
-    
-    [r_rate_rateday2,p] = corr(test_rate(:,5),test_day2_rate(:,5),'rows','complete');
-    r_rate_rateday2
-    
-    [r, p ] = corr(learn_extract(:,1),post_perf(:,4),'rows','complete')
-    % r = -0.242, p = 0.042
-    % 
-    learnexl = (learn_all_perf(learn_perf(:,colperfexclude)==1,:));
-    learnx = nanmean(learnexl(:,16:18)')';
-    learnx(:,2) = nanmean(learnexl(:,15:18)')';
-    learnx(:,3) = nanmean(learnexl(:,colperfexclude:18)')';
-    learnx(:,4) = nanmean(learnexl(:,13:18)')';
-    plot(learn_all_perf')
-
-
-    plot(learn_all_perf(learn_perf(:,colperfexclude)==1,:)')
-end
-
-
-% study1
-% correlation between self-rated engagement and performance
-if 1==2
-    [r, p ] = corr(learn_extract(:,1),post_perf(:,6),'rows','complete')
-    % r=0.33, p=0.005
-    [r, p ] = corr(test_extract(:,1),post_perf(:,6),'rows','complete')
-end
-
 
 
 
@@ -1611,10 +1730,10 @@ if 1==2
         [rs_depr(1,iSj),ps_depr(1,iSj)] = corr(survey_phq(:,1),learn_rep_perf(:,iSj),'rows','complete');
     end
     for iSj = 1:18
-        [rs_del_depr(1,iSj),ps_del_depr(1,iSj)] = corr(survey_phq(:,1),learn_repdel_perf(:,iSj),'rows','complete');
+        [rs_del_depr(1,iSj),ps_del_depr(1,iSj)] = corr(survey_phq(:,1),learn_replong_perf(:,iSj),'rows','complete');
     end
     for iSj = 1:18
-        [rs_imm_depr(1,iSj),ps_imm_depr(1,iSj)] = corr(survey_phq(:,1),learn_repimm_perf(:,iSj),'rows','complete');
+        [rs_imm_depr(1,iSj),ps_imm_depr(1,iSj)] = corr(survey_phq(:,1),learn_repshort_perf(:,iSj),'rows','complete');
     end
     
     % anxiety gad
@@ -1622,10 +1741,10 @@ if 1==2
         [rs_anx(1,iSj),ps_anx(1,iSj)] = corr(survey_gad(:,1),learn_rep_perf(:,iSj),'rows','complete');
     end
     for iSj = 1:18
-        [rs_del_anx(1,iSj),ps_del_anx(1,iSj)] = corr(survey_gad(:,1),learn_repdel_perf(:,iSj),'rows','complete');
+        [rs_del_anx(1,iSj),ps_del_anx(1,iSj)] = corr(survey_gad(:,1),learn_replong_perf(:,iSj),'rows','complete');
     end
     for iSj = 1:18
-        [rs_imm_anx(1,iSj),ps_imm_anx(1,iSj)] = corr(survey_gad(:,1),learn_repimm_perf(:,iSj),'rows','complete');
+        [rs_imm_anx(1,iSj),ps_imm_anx(1,iSj)] = corr(survey_gad(:,1),learn_repshort_perf(:,iSj),'rows','complete');
     end
     
 
@@ -1634,10 +1753,10 @@ if 1==2
     end
     
     for iSj = 1:18
-        [rs_del_anxdepr(1,iSj),ps_del_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repdel_perf(:,iSj),'rows','complete');
+        [rs_del_anxdepr(1,iSj),ps_del_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_replong_perf(:,iSj),'rows','complete');
     end
     for iSj = 1:18
-        [rs_imm_anxdepr(1,iSj),ps_imm_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repimm_perf(:,iSj),'rows','complete');
+        [rs_imm_anxdepr(1,iSj),ps_imm_anxdepr(1,iSj)] = corr(survey_phq(:,1)+survey_gad(:,1),learn_repshort_perf(:,iSj),'rows','complete');
     end
     figure,plot(rs_depr)
     hold on
@@ -1649,9 +1768,9 @@ if 1==2
     plot(rs_del_anxdepr)
     plot(rs_imm_anxdepr)
     
-    [rs_delh2_depr,ps_delh2_depr] = corr(survey_phq(:,1),sum(learn_repdel_perf(:,10:18),2),'rows','complete')
+    [rs_delh2_depr,ps_delh2_depr] = corr(survey_phq(:,1),sum(learn_replong_perf(:,10:18),2),'rows','complete')
     
-    [rs_immh2_depr,ps_immh2_depr] = corr(survey_phq(:,1),sum(learn_repimm_perf(:,10:18),2),'rows','complete')
+    [rs_immh2_depr,ps_immh2_depr] = corr(survey_phq(:,1),sum(learn_repshort_perf(:,10:18),2),'rows','complete')
     
     survey_comb = survey(:,1)+survey(:,2)+survey(:,9)+survey(:,10)+survey(:,11);
     
